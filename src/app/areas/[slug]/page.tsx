@@ -8,6 +8,7 @@ import { areas } from "@/config/areas";
 import { services } from "@/config/services";
 import { siteConfig } from "@/config/site";
 import { buildMetadata } from "@/lib/seo/metadata";
+import { generateAreaSchema, generateBreadcrumbSchema } from "@/lib/seo/schema";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -46,21 +47,46 @@ export default async function AreaPage({
     .filter((a) => a.slug !== slug && a.group === area.group)
     .slice(0, 6);
 
+  const areaUrl = `${siteConfig.url}/areas/${slug}`;
+
+  const areaSchema = generateAreaSchema(
+    area.name,
+    area.description || area.metaDescription,
+    areaUrl
+  );
+
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: "الرئيسية", url: siteConfig.url },
+    { name: "مناطق الخدمة", url: `${siteConfig.url}/areas` },
+    { name: area.name, url: areaUrl },
+  ]);
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(areaSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+
       {/* Breadcrumb */}
       <div className="bg-[#F5F2EC] border-b border-[#E5E1DA]">
         <div className="container-custom py-3">
-          <nav className="flex items-center gap-2 text-sm text-[#6B6B6B]">
+          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-[#6B6B6B]">
             <Link href="/" className="hover:text-[#3F4F44] transition-colors">
               الرئيسية
             </Link>
-            <ChevronLeft className="w-4 h-4" />
+            <ChevronLeft className="w-4 h-4" aria-hidden="true" />
             <Link href="/areas" className="hover:text-[#3F4F44] transition-colors">
               مناطق الخدمة
             </Link>
-            <ChevronLeft className="w-4 h-4" />
-            <span className="text-[#1C1C1C] font-semibold">{area.name}</span>
+            <ChevronLeft className="w-4 h-4" aria-hidden="true" />
+            <span className="text-[#1C1C1C] font-semibold" aria-current="page">
+              {area.name}
+            </span>
           </nav>
         </div>
       </div>

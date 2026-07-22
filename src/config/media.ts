@@ -1,11 +1,4 @@
-// data/media.ts
-import { StaticImageData } from 'next/image';
-
-// ============================
-// 📸 GALLERY IMAGES
-// ============================
 export const gallery = [
-
   {
     id: 2,
     src: "/images/gallery/taghleef.webp",
@@ -14,46 +7,6 @@ export const gallery = [
     width: 800,
     height: 600,
   },
-  // {
-  //   id: 3,
-  //   src: "/images/gallery/fak-tarkeeb.webp",
-  //   alt: "فك وتركيب غرف النوم",
-  //   category: "فك وتركيب",
-  //   width: 800,
-  //   height: 600,
-  // },
-  // {
-  //   id: 4,
-  //   src: "/images/gallery/ostol-naql.webp",
-  //   alt: "سيارات نقل مجهزة",
-  //   category: "أسطول النقل",
-  //   width: 800,
-  //   height: 600,
-  // },
-  // {
-  //   id: 5,
-  //   src: "/images/gallery/naql-fakher.webp",
-  //   alt: "نقل أثاث فاخر",
-  //   category: "نقل فاخر",
-  //   width: 800,
-  //   height: 600,
-  // },
-    // {
-    //   id: 4,
-    //   src: "/images/gallery/ostol-naql.webp",
-    //   alt: "سيارات نقل مجهزة",
-    //   category: "أسطول النقل",
-    //   width: 800,
-    //   height: 600,
-    // },
-    // {
-    //   id: 5,
-    //   src: "/images/gallery/naql-fakher.webp",
-    //   alt: "نقل أثاث فاخر",
-    //   category: "نقل فاخر",
-    //   width: 800,
-    //   height: 600,
-    // },
   {
     id: 6,
     src: "/images/gallery/fareq-3amal.webp",
@@ -70,19 +23,8 @@ export const gallery = [
     width: 800,
     height: 600,
   },
-  // {
-  //   id: 8,
-  //   src: "/images/gallery/moqtaniat-hassasa.webp",
-  //   alt: "نقل آمن للمقتنيات الحساسة",
-  //   category: "مقتنيات حساسة",
-  //   width: 800,
-  //   height: 600,
-  // },
 ];
 
-// ============================
-// 🎥 VIDEOS
-// ============================
 export const videos = [
   {
     id: 1,
@@ -113,19 +55,13 @@ export const videos = [
   },
 ];
 
-// ============================
-// 🖼️ HERO IMAGE
-// ============================
 export const heroImage = {
-  src: "/images/hero/hero-main.webp",
-  alt: "شركة البركة لنقل العفش",
+  src: "/herosection.jpeg",
+  alt: "خطوة لنقل الأثاث",
   width: 1920,
   height: 1080,
 };
 
-// ============================
-// 🎨 SERVICE BACKGROUNDS
-// ============================
 export const serviceBackgrounds: Record<string, {
   src: string;
   alt: string;
@@ -133,77 +69,39 @@ export const serviceBackgrounds: Record<string, {
   height: number;
 }> = {
   "naql-athath": {
-    src: "/images/services/bg-naql-athath.webp",
-    alt: "خلفية خدمة نقل الأثاث",
+    src: "/images/services/bg-naql-athath.png",
+    alt: "خدمة نقل الأثاث",
     width: 1200,
     height: 800,
   },
   "fak-tarkeeb-athath": {
-    src: "/images/services/bg-fak-tarkeeb.webp",
-    alt: "خلفية خدمة فك وتركيب الأثاث",
+    src: "/images/services/bg-fak-tarkeeb.png",
+    alt: "خدمة فك وتركيب الأثاث",
     width: 1200,
     height: 800,
   },
   "fak-tarkeeb-takyifat": {
-    src: "/images/services/bg-takyifat.webp",
-    alt: "خلفية خدمة فك وتركيب التكييفات",
+    src: "/images/services/bg-takyifat.png",
+    alt: "خدمة فك وتركيب التكييفات",
     width: 1200,
     height: 800,
   },
   "taghleef-athath": {
-    src: "/images/services/bg-taghleef.webp",
-    alt: "خلفية خدمة تغليف الأثاث",
+    src: "/images/services/bg-taghleef.png",
+    alt: "خدمة تغليف الأثاث",
     width: 1200,
     height: 800,
   },
   "wensh-raf3-athath": {
-    src: "/images/services/bg-wensh-raf3.webp",
-    alt: "خلفية خدمة ونش رفع الأثاث",
+    src: "/images/services/bg-wensh-raf3.png",
+    alt: "خدمة ونش رفع الأثاث",
     width: 1200,
     height: 800,
   },
   "naql-moqtaniat-hassasa": {
-    src: "/images/services/bg-moqtaniat.webp",
-    alt: "خلفية خدمة نقل المقتنيات الحساسة",
+    src: "/images/services/bg-moqtaniat.png",
+    alt: "خدمة نقل المقتنيات الحساسة",
     width: 1200,
     height: 800,
   },
 };
-
-// ============================
-// 📁 FOLDER STRUCTURE
-// ============================
-/*
-public/
-├── images/
-│   ├── gallery/
-│   │   ├── naql-manazil.webp
-│   │   ├── taghleef.webp
-│   │   ├── fak-tarkeeb.webp
-│   │   ├── ostol-naql.webp
-│   │   ├── naql-fakher.webp
-│   │   ├── fareq-3amal.webp
-│   │   ├── tarkeeb.webp
-│   │   └── moqtaniat-hassasa.webp
-│   │
-│   ├── video-thumbnails/
-│   │   ├── naql-kamil-thumb.webp
-│   │   ├── taghleef-thumb.webp
-│   │   └── fak-tarkeeb-thumb.webp
-│   │
-│   ├── hero/
-│   │   └── hero-main.webp
-│   │
-│   └── services/
-│       ├── bg-naql-athath.webp
-│       ├── bg-fak-tarkeeb.webp
-│       ├── bg-takyifat.webp
-│       ├── bg-taghleef.webp
-│       ├── bg-wensh-raf3.webp
-│       └── bg-moqtaniat.webp
-│
-└── videos/
-    ├── naql-athath-kamil.mp4
-    ├── taghleef-e7terafi.mp4
-    └── fak-tarkeeb.mp4
-*/

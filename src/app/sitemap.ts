@@ -5,35 +5,85 @@ import { areas, vipAreas } from "@/config/areas";
 import { blogPosts } from "@/config/blog";
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const currentDate = new Date();
+
+  // Static Pages - أولوية عالية
   const staticPages: MetadataRoute.Sitemap = [
-    { url: siteConfig.url, lastModified: new Date(), changeFrequency: "weekly", priority: 1 },
-    { url: `${siteConfig.url}/about`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
-    { url: `${siteConfig.url}/services`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
-    { url: `${siteConfig.url}/areas`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.95 },
-    { url: `${siteConfig.url}/blog`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
-    { url: `${siteConfig.url}/faq`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
-    { url: `${siteConfig.url}/contact`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
-    { url: `${siteConfig.url}/privacy`, lastModified: new Date(), changeFrequency: "yearly", priority: 0.3 },
-    { url: `${siteConfig.url}/terms`, lastModified: new Date(), changeFrequency: "yearly", priority: 0.3 },
+    {
+      url: siteConfig.url,
+      lastModified: currentDate,
+      changeFrequency: "daily",
+      priority: 1.0,
+    },
+    {
+      url: `${siteConfig.url}/services`,
+      lastModified: currentDate,
+      changeFrequency: "weekly",
+      priority: 0.95,
+    },
+    {
+      url: `${siteConfig.url}/areas`,
+      lastModified: currentDate,
+      changeFrequency: "weekly",
+      priority: 0.95,
+    },
+    {
+      url: `${siteConfig.url}/contact`,
+      lastModified: currentDate,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
+      url: `${siteConfig.url}/about`,
+      lastModified: currentDate,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${siteConfig.url}/blog`,
+      lastModified: currentDate,
+      changeFrequency: "weekly",
+      priority: 0.85,
+    },
+    {
+      url: `${siteConfig.url}/faq`,
+      lastModified: currentDate,
+      changeFrequency: "monthly",
+      priority: 0.75,
+    },
+    {
+      url: `${siteConfig.url}/privacy`,
+      lastModified: currentDate,
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
+    {
+      url: `${siteConfig.url}/terms`,
+      lastModified: currentDate,
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
   ];
 
-  const servicePages = services.map((s) => ({
+  // Service Pages - أولوية عالية جداً
+  const servicePages: MetadataRoute.Sitemap = services.map((s) => ({
     url: `${siteConfig.url}/services/${s.slug}`,
-    lastModified: new Date(),
-    changeFrequency: "monthly" as const,
-    priority: 0.85,
+    lastModified: currentDate,
+    changeFrequency: "weekly" as const,
+    priority: 0.9,
   }));
 
+  // Area Pages - VIP لها أولوية أعلى
   const vipSlugs = vipAreas.map((a) => a.slug);
-
-  const areaPages = areas.map((a) => ({
+  const areaPages: MetadataRoute.Sitemap = areas.map((a) => ({
     url: `${siteConfig.url}/areas/${a.slug}`,
-    lastModified: new Date(),
-    changeFrequency: "monthly" as const,
-    priority: vipSlugs.includes(a.slug) ? 0.95 : 0.75,
+    lastModified: currentDate,
+    changeFrequency: "weekly" as const,
+    priority: vipSlugs.includes(a.slug) ? 0.95 : 0.8,
   }));
 
-  const blogPages = blogPosts.map((post) => ({
+  // Blog Posts
+  const blogPages: MetadataRoute.Sitemap = blogPosts.map((post) => ({
     url: `${siteConfig.url}/blog/${post.slug}`,
     lastModified: new Date(post.publishedAt),
     changeFrequency: "monthly" as const,
