@@ -39,11 +39,11 @@ interface ArticleSchemaInput {
   author: string;
 }
 
-const sameAs = [
+const sameAs: string[] = [
   siteConfig.socialMedia.facebook,
   siteConfig.socialMedia.instagram,
   siteConfig.socialMedia.tiktok,
-].filter((item): item is string => Boolean(item) && item.length > 0);
+].filter((item): item is string => typeof item === "string" && item.length > 0);
 
 export function generateOrganizationSchema(): SchemaObject {
   return {
@@ -79,7 +79,7 @@ export function generateLocalBusinessSchema(): SchemaObject {
     "@id": `${siteConfig.url}/#business`,
     name: siteConfig.name,
     alternateName: siteConfig.englishName,
-    image: `${siteConfig.url}/herosection.jpeg`,
+    image: `${siteConfig.url}/logo.jpeg`,
     logo: `${siteConfig.url}/logo.jpeg`,
     url: siteConfig.url,
     telephone: `+2${siteConfig.phone}`,
