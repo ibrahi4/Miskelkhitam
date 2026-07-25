@@ -1,50 +1,53 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
 
-type BuildMetadataProps = {
+interface PageMetadataInput {
   title: string;
   description: string;
-  path?: string;
+  path: string;
   image?: string;
-};
+}
 
-export function buildMetadata({
+export function generatePageMetadata({
   title,
   description,
-  path = "",
-  image = "/logo.jpeg",
-}: BuildMetadataProps): Metadata {
+  path,
+  image,
+}: PageMetadataInput): Metadata {
   const url = `${siteConfig.url}${path}`;
+  const ogImage = image ?? "/herosection.jpeg";
+
   return {
     title,
     description,
-    metadataBase: new URL(siteConfig.url),
-    alternates: { canonical: url },
+    alternates: {
+      canonical: url,
+    },
     openGraph: {
-      title,
+      title: `${title} | ${siteConfig.shortName}`,
       description,
       url,
       siteName: siteConfig.name,
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
       locale: "ar_EG",
       type: "website",
-      images: [{ url: image, width: 1200, height: 630, alt: title }],
     },
     twitter: {
       card: "summary_large_image",
-      title,
+      title: `${title} | ${siteConfig.shortName}`,
       description,
-      images: [image],
-    },
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        "max-video-preview": -1,
-        "max-image-preview": "large",
-        "max-snippet": -1,
-      },
+      images: [ogImage],
     },
   };
+}
+
+export function buildMetadata(input: PageMetadataInput): Metadata {
+  return generatePageMetadata(input);
 }

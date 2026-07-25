@@ -1,343 +1,352 @@
-export type Area = {
+export interface AreaFaqItem {
+  question: string;
+  answer: string;
+}
+
+export interface Area {
+  id: string;
   slug: string;
   name: string;
-  group: "cairo" | "giza" | "new-cities";
-  isVip?: boolean;
-  metaTitle: string;
-  metaDescription: string;
-  description?: string;
-  compounds?: string[];
-  neighborhoods?: string[];
-};
+  title: string;
+  shortTitle: string;
+  description: string;
+  longDescription: string;
+  heroTitle: string;
+  heroDescription: string;
+  seoTitle: string;
+  seoDescription: string;
+  image: string;
+  popular: boolean;
+  featured: boolean;
+  compounds: string[];
+  highlights: string[];
+  benefits: string[];
+  faqs: AreaFaqItem[];
+}
+
+export interface AreaGroup {
+  id: string;
+  title: string;
+  description: string;
+  areas: Area[];
+}
 
 export const areas: Area[] = [
-  // ========== القاهرة ==========
   {
-    slug: "nasr-city",
-    name: "مدينة نصر",
-    group: "cairo",
-    metaTitle: "نقل أثاث مدينة نصر | خطوة - فرق متخصصة",
-    metaDescription:
-      "خطوة لنقل الأثاث في مدينة نصر. خدمة احترافية في جميع أحياء مدينة نصر.",
-    description: "نخدم جميع أحياء مدينة نصر بفرق متخصصة وسيارات مجهزة.",
-    neighborhoods: [
-      "الحي السابع",
-      "الحي العاشر",
-      "الحي الثامن",
-      "عباس العقاد",
-      "مكرم عبيد",
-      "طيبة",
-    ],
-  },
-  {
-    slug: "heliopolis",
-    name: "مصر الجديدة",
-    group: "cairo",
-    metaTitle: "نقل أثاث مصر الجديدة | خطوة - خدمة راقية",
-    metaDescription:
-      "خطوة لنقل الأثاث في مصر الجديدة وهليوبوليس. خبرة في الفلل والشقق الفاخرة.",
-    description: "متخصصون في نقل الأثاث الفاخر في مصر الجديدة وهليوبوليس.",
-    neighborhoods: ["روكسي", "ميدان التحرير", "الوايلي", "الأمريكان", "قبة الهواء"],
-  },
-  {
-    slug: "maadi",
-    name: "المعادي",
-    group: "cairo",
-    metaTitle: "نقل أثاث المعادي | خطوة - خبراء المنطقة",
-    metaDescription:
-      "خطوة لنقل الأثاث في المعادي. متخصصون في فلل وشقق المعادي.",
-    description: "خبرة واسعة في نقل الأثاث الفاخر في المعادي.",
-    neighborhoods: [
-      "المعادي الجديدة",
-      "دجلة",
-      "المعادي القديمة",
-      "كورنيش المعادي",
-    ],
-  },
-  {
-    slug: "zamalek",
-    name: "الزمالك",
-    group: "cairo",
-    metaTitle: "نقل أثاث الزمالك | خطوة - خدمة فاخرة",
-    metaDescription:
-      "خطوة لنقل الأثاث في الزمالك. متخصصون في الشقق والفلل الفاخرة.",
-    description: "خبرة في نقل الأثاث الفاخر والأنتيك في أرقى أحياء القاهرة.",
-    neighborhoods: [
-      "شارع 26 يوليو",
-      "حسن صبري",
-      "إسماعيل محمد",
-      "جزيرة الزمالك",
-    ],
-  },
-  {
-    slug: "moqattam",
-    name: "المقطم",
-    group: "cairo",
-    metaTitle: "نقل أثاث المقطم | خطوة - ونش وسيارات مجهزة",
-    metaDescription:
-      "خطوة لنقل الأثاث في المقطم. متخصصون في الونش ورفع الأثاث للأدوار العالية.",
-    description: "متخصصون في ونش الأثاث للأدوار العالية في المقطم.",
-    neighborhoods: ["المقطم الأول", "المقطم الثاني", "المقطم الثالث"],
-  },
-  {
-    slug: "katameya",
-    name: "قطامية",
-    group: "cairo",
-    isVip: true,
-    metaTitle: "نقل أثاث قطامية | خطوة - خدمة VIP للكمبوندات",
-    metaDescription:
-      "خطوة لنقل الأثاث في قطامية. متخصصون في كمبوندات قطامية الفاخرة.",
-    description: "متخصصون في خدمة كمبوندات قطامية الفاخرة.",
-    neighborhoods: ["قطامية هايتس", "قطامية الأشجار"],
-    compounds: [
-      "Hyde Park",
-      "Katameya Heights",
-      "Katameya Dunes",
-      "Mountain View Katameya",
-    ],
-  },
-
-  // ========== الجيزة ==========
-  {
-    slug: "mohandessin",
-    name: "المهندسين",
-    group: "giza",
-    metaTitle: "نقل أثاث المهندسين | خطوة - خدمة راقية",
-    metaDescription:
-      "خطوة لنقل الأثاث في المهندسين. متخصصون في شقق وفلل المهندسين الفاخرة.",
-    description: "خبرة في نقل الأثاث الفاخر في المهندسين.",
-    neighborhoods: [
-      "شارع جامعة الدول",
-      "شارع لبنان",
-      "ميدان المهندسين",
-    ],
-  },
-  {
-    slug: "dokki",
-    name: "الدقي",
-    group: "giza",
-    metaTitle: "نقل أثاث الدقي | خطوة - فرق متخصصة",
-    metaDescription:
-      "خطوة لنقل الأثاث في الدقي. خدمة احترافية بفرق مدربة وسيارات مجهزة.",
-    description: "نقل أثاث احترافي في الدقي وما حولها.",
-    neighborhoods: ["شارع التحرير", "ميدان الدقي", "الجيزة", "أورمان"],
-  },
-  {
-    slug: "agouza",
-    name: "العجوزة",
-    group: "giza",
-    metaTitle: "نقل أثاث العجوزة | خطوة",
-    metaDescription:
-      "خطوة لنقل الأثاث في العجوزة. فرق مدربة وخدمة سريعة.",
-    description: "نقل أثاث سريع واحترافي في العجوزة.",
-    neighborhoods: ["شارع النيل", "ميدان العجوزة", "كورنيش النيل"],
-  },
-  {
-    slug: "haram",
-    name: "الهرم",
-    group: "giza",
-    metaTitle: "نقل أثاث الهرم | خطوة - تغطية كاملة",
-    metaDescription:
-      "خطوة لنقل الأثاث في منطقة الهرم. تغطية كاملة لجميع أحياء الهرم.",
-    description: "تغطية كاملة لجميع أحياء ومناطق الهرم.",
-    neighborhoods: ["شارع الهرم", "المريوطية", "البراجيل"],
-  },
-
-  // ========== المدن الجديدة (VIP) ==========
-  {
-    slug: "sheikh-zayed",
-    name: "الشيخ زايد",
-    group: "new-cities",
-    isVip: true,
-    metaTitle: "نقل أثاث الشيخ زايد | خطوة - خدمة VIP فاخرة",
-    metaDescription:
-      "خطوة لنقل الأثاث في الشيخ زايد. خدمة احترافية للفلل والكمبوندات.",
-    description:
-      "متخصصون في خدمة كمبوندات وفلل الشيخ زايد الفاخرة بأعلى معايير الاحترافية.",
-    compounds: [
-      "Beverly Hills",
-      "Allegria",
-      "Westown Residence",
-      "Zed Towers",
-      "Etapa",
-      "The Estates",
-      "Palm Hills Zayed",
-    ],
-    neighborhoods: ["الحي الأول", "الحي الثاني", "الحي الثالث"],
-  },
-  {
-    slug: "6-october",
-    name: "6 أكتوبر",
-    group: "new-cities",
-    isVip: true,
-    metaTitle: "نقل أثاث 6 أكتوبر | خطوة - تغطية كاملة",
-    metaDescription:
-      "خطوة لنقل الأثاث في 6 أكتوبر. خدمة احترافية في جميع أحياء وكمبوندات 6 أكتوبر.",
-    description: "تغطية شاملة لجميع أحياء وكمبوندات مدينة 6 أكتوبر.",
-    compounds: [
-      "Palm Hills October",
-      "Mountain View iCity",
-      "O West",
-      "Badya",
-      "New Giza",
-      "Sodic West",
-    ],
-    neighborhoods: ["الحي الأول", "الحي الثالث", "الحي السادس", "المحور المركزي"],
-  },
-  {
-    slug: "tagamoa-khames",
+    id: "tagamoa",
+    slug: "tagamoa",
     name: "التجمع الخامس",
-    group: "new-cities",
-    isVip: true,
-    metaTitle: "نقل أثاث التجمع الخامس | خطوة - خدمة راقية",
-    metaDescription:
-      "خطوة لنقل الأثاث في التجمع الخامس. متخصصون في كمبوندات التجمع الفاخرة.",
-    description:
-      "متخصصون في نقل الأثاث الفاخر داخل كمبوندات التجمع الخامس.",
-    compounds: [
-      "Mivida",
-      "Villette",
-      "Hyde Park",
-      "Palm Hills New Cairo",
-      "Eastown",
-      "Stone Residence",
-      "Lake View Residence",
+    title: "نقل أثاث في التجمع الخامس",
+    shortTitle: "التجمع الخامس",
+    description: "خدمة نقل أثاث متميزة في التجمع الخامس وجميع الكمبوندات المحيطة.",
+    longDescription:
+      "نقدم خدمة نقل أثاث احترافية في التجمع الخامس مع فريق يعرف المنطقة والكمبوندات والشوارع الرئيسية بشكل ممتاز، مما يساعد على تنفيذ النقلة بسرعة ودقة وأمان كامل.",
+    heroTitle: "شركة نقل أثاث في التجمع الخامس",
+    heroDescription:
+      "فريق محترف، تغليف آمن، سيارات مجهزة، وخدمة سريعة داخل التجمع الخامس وجميع الكمبوندات.",
+    seoTitle: "نقل أثاث التجمع الخامس | شركة البحرين لنقل الأثاث",
+    seoDescription:
+      "أفضل شركة نقل أثاث في التجمع الخامس. نقل، تغليف، فك وتركيب، ونش رفع، وخدمة سريعة وآمنة.",
+    image: "/images/services/hero-main.webp",
+    popular: true,
+    featured: true,
+    compounds: ["ماونتن فيو", "بالم هيلز", "ليك فيو", "هايد بارك", "ميفيدا"],
+    highlights: [
+      "تغطية جميع كمبوندات التجمع",
+      "فريق متخصص بمداخل الكمبوندات",
+      "التزام كامل بالمواعيد",
     ],
-    neighborhoods: [
-      "التجمع الأول",
-      "التجمع الثالث",
-      "المنطقة المركزية",
-      "النرجس",
-      "البنفسج",
-      "القرنفل",
+    benefits: [
+      "معرفة دقيقة بالمنطقة",
+      "سرعة في الوصول والتنفيذ",
+      "خدمة مناسبة للشقق والفيلات",
+    ],
+    faqs: [
+      {
+        question: "هل توفرون خدمة نقل داخل التجمع الخامس فقط؟",
+        answer: "نعم، نوفر النقل داخل التجمع الخامس وكذلك من وإلى جميع المناطق الأخرى.",
+      },
+      {
+        question: "هل يمكن توفير ونش رفع داخل الكمبوندات؟",
+        answer: "نعم، نوفر ونش رفع أثاث عند الحاجة مع التنسيق المسبق حسب طبيعة المكان.",
+      },
     ],
   },
   {
+    id: "new-cairo",
     slug: "new-cairo",
     name: "القاهرة الجديدة",
-    group: "new-cities",
-    isVip: true,
-    metaTitle: "نقل أثاث القاهرة الجديدة | خطوة - خدمة VIP",
-    metaDescription:
-      "خطوة لنقل الأثاث في القاهرة الجديدة. متخصصون في الكمبوندات والفلل.",
-    description:
-      "خبرة واسعة في نقل الأثاث داخل كمبوندات القاهرة الجديدة الفاخرة.",
-    compounds: [
-      "Mountain View 1",
-      "Mountain View 2",
-      "Sarai",
-      "Taj City",
-      "Waterway",
+    title: "نقل أثاث في القاهرة الجديدة",
+    shortTitle: "القاهرة الجديدة",
+    description: "نقل أثاث في جميع مناطق القاهرة الجديدة بأعلى معايير الجودة والأمان.",
+    longDescription:
+      "خدمة متكاملة لنقل الأثاث داخل القاهرة الجديدة تشمل التجمعات السكنية والأحياء الراقية والمناطق الإدارية مع فرق مدربة وسيارات نقل مجهزة.",
+    heroTitle: "شركة نقل أثاث في القاهرة الجديدة",
+    heroDescription:
+      "خدمة احترافية في القاهرة الجديدة تشمل التغليف والفك والتركيب والنقل الآمن.",
+    seoTitle: "نقل أثاث القاهرة الجديدة | شركة البحرين لنقل الأثاث",
+    seoDescription:
+      "شركة نقل أثاث موثوقة في القاهرة الجديدة مع خدمة احترافية وأسعار مناسبة.",
+    image: "/images/services/hero-main.webp",
+    popular: true,
+    featured: true,
+    compounds: ["التجمع الأول", "التجمع الثالث", "التجمع الخامس", "الأندلس", "النرجس"],
+    highlights: [
+      "تغطية كاملة للقاهرة الجديدة",
+      "سرعة في التنفيذ",
+      "خدمة مناسبة للمناطق السكنية الراقية",
     ],
-    neighborhoods: ["التجمع الأول", "التجمع الثاني", "المعراج", "اللوتس", "الياسمين"],
+    benefits: [
+      "فريق محترف ومدرب",
+      "عناية فائقة بالأثاث",
+      "حلول مرنة لكل أنواع النقل",
+    ],
+    faqs: [
+      {
+        question: "هل تغطون جميع مناطق القاهرة الجديدة؟",
+        answer: "نعم، نغطي جميع مناطق القاهرة الجديدة والتجمعات السكنية المحيطة.",
+      },
+      {
+        question: "هل الخدمة تشمل التغليف؟",
+        answer: "نعم، يمكن إضافة التغليف الاحترافي كجزء أساسي من الخدمة.",
+      },
+    ],
   },
   {
+    id: "madinaty",
     slug: "madinaty",
     name: "مدينتي",
-    group: "new-cities",
-    isVip: true,
-    metaTitle: "نقل أثاث مدينتي | خطوة - خبراء المدن الجديدة",
-    metaDescription:
-      "خطوة لنقل الأثاث في مدينتي. خبرة في كمبوندات مدينتي.",
-    description:
-      "خبرة متميزة في نقل الأثاث داخل مجتمع مدينتي السكني المتكامل.",
-    compounds: [
-      "Madinaty Villas",
-      "Madinaty Apartments",
-      "Madinaty B1",
-      "Madinaty B2",
+    title: "نقل أثاث في مدينتي",
+    shortTitle: "مدينتي",
+    description: "خدمة نقل أثاث متخصصة لسكان مدينتي مع معرفة كاملة بالمدينة.",
+    longDescription:
+      "نقدم خدمة نقل أثاث مخصصة لسكان مدينتي مع خبرة في التعامل مع المداخل وإجراءات الأمن والتنقل داخل المدينة بشكل منظم وسريع.",
+    heroTitle: "شركة نقل أثاث في مدينتي",
+    heroDescription:
+      "نقل آمن وسريع داخل مدينتي مع فريق يعرف كل مراحل ومداخل المدينة.",
+    seoTitle: "نقل أثاث مدينتي | شركة البحرين لنقل الأثاث",
+    seoDescription:
+      "أفضل خدمة نقل أثاث في مدينتي مع تغليف احترافي وفك وتركيب وونش رفع عند الحاجة.",
+    image: "/images/services/hero-main.webp",
+    popular: true,
+    featured: true,
+    compounds: ["B1", "B2", "B3", "Villas", "Craft Zone"],
+    highlights: [
+      "خبرة بمداخل وإجراءات مدينتي",
+      "تنسيق مع الأمن",
+      "خدمة منظمة وسريعة",
     ],
-    neighborhoods: ["الحرف A", "الحرف B", "الحرف C", "الحرف G", "المنطقة التجارية"],
+    benefits: [
+      "التزام بالمواعيد",
+      "فريق مناسب للنقل داخل الكمبوندات",
+      "خدمة احترافية للشقق والفيلات",
+    ],
+    faqs: [
+      {
+        question: "هل لديكم خبرة بالنقل داخل مدينتي؟",
+        answer: "نعم، لدينا خبرة كبيرة في العمل داخل مدينتي والتعامل مع إجراءات الدخول والخروج.",
+      },
+      {
+        question: "هل يمكن نقل شقة كاملة في يوم واحد؟",
+        answer: "في أغلب الحالات نعم، حسب حجم الأثاث والخدمات المطلوبة.",
+      },
+    ],
   },
   {
+    id: "sheikh-zayed",
+    slug: "sheikh-zayed",
+    name: "الشيخ زايد",
+    title: "نقل أثاث في الشيخ زايد",
+    shortTitle: "الشيخ زايد",
+    description: "نقل أثاث احترافي في الشيخ زايد وجميع الكمبوندات والأحياء.",
+    longDescription:
+      "نوفر خدمة نقل أثاث في الشيخ زايد بأعلى مستوى من الاحترافية مع تغطية شاملة للكمبوندات والمناطق السكنية المختلفة.",
+    heroTitle: "شركة نقل أثاث في الشيخ زايد",
+    heroDescription:
+      "خدمة نقل أثاث آمنة وسريعة في الشيخ زايد مع فريق محترف وتجهيزات كاملة.",
+    seoTitle: "نقل أثاث الشيخ زايد | شركة البحرين لنقل الأثاث",
+    seoDescription:
+      "خدمة نقل أثاث احترافية في الشيخ زايد تشمل النقل والتغليف والفك والتركيب.",
+    image: "/images/services/hero-main.webp",
+    popular: true,
+    featured: true,
+    compounds: ["بيفرلي هيلز", "الربوة", "أليجريا", "زايد ديونز", "ويست تاون"],
+    highlights: [
+      "تغطية كاملة للشيخ زايد",
+      "أسعار تنافسية",
+      "خدمة مناسبة للفيلات والشقق",
+    ],
+    benefits: [
+      "سرعة في التنفيذ",
+      "عناية خاصة بالأثاث الكبير",
+      "تنظيم كامل لعملية النقل",
+    ],
+    faqs: [
+      {
+        question: "هل توفرون خدمة ونش رفع في الشيخ زايد؟",
+        answer: "نعم، نوفر ونش رفع عند الحاجة خاصة في الفيلات أو العقارات ذات المداخل الضيقة.",
+      },
+      {
+        question: "هل النقل يشمل الفك والتركيب؟",
+        answer: "نعم، يمكن تنفيذ الفك والتركيب ضمن باقة الخدمة.",
+      },
+    ],
+  },
+  {
+    id: "october",
+    slug: "october",
+    name: "6 أكتوبر",
+    title: "نقل أثاث في 6 أكتوبر",
+    shortTitle: "6 أكتوبر",
+    description: "خدمة نقل أثاث في مدينة 6 أكتوبر بجميع أحيائها ومناطقها.",
+    longDescription:
+      "نغطي جميع أحياء 6 أكتوبر والكمبوندات المحيطة بخدمة نقل أثاث شاملة تشمل التغليف والفك والتركيب والنقل الآمن.",
+    heroTitle: "شركة نقل أثاث في 6 أكتوبر",
+    heroDescription:
+      "خدمة نقل متكاملة داخل 6 أكتوبر مع فريق مدرب وسيارات مجهزة للنقل الآمن.",
+    seoTitle: "نقل أثاث 6 أكتوبر | شركة البحرين لنقل الأثاث",
+    seoDescription:
+      "أفضل شركة نقل أثاث في 6 أكتوبر بأسعار مناسبة وخدمة احترافية.",
+    image: "/images/services/hero-main.webp",
+    popular: true,
+    featured: false,
+    compounds: ["الحي الأول", "الحي السابع", "الحي المتميز", "أكتوبر جاردنز", "بالم هيلز"],
+    highlights: [
+      "تغطية جميع أحياء أكتوبر",
+      "خدمة سريعة",
+      "أسعار مناسبة",
+    ],
+    benefits: [
+      "خدمة للشقق والفيلات",
+      "تغليف احترافي",
+      "تنفيذ منظم للنقلة",
+    ],
+    faqs: [
+      {
+        question: "هل تعملون في جميع أحياء 6 أكتوبر؟",
+        answer: "نعم، نغطي معظم أحياء ومناطق 6 أكتوبر والكمبوندات المحيطة.",
+      },
+      {
+        question: "هل يمكن الحجز في نفس اليوم؟",
+        answer: "حسب المواعيد المتاحة، ونحاول دائمًا توفير أسرع موعد ممكن.",
+      },
+    ],
+  },
+  {
+    id: "rehab",
     slug: "rehab",
     name: "الرحاب",
-    group: "new-cities",
-    isVip: true,
-    metaTitle: "نقل أثاث الرحاب | خطوة - خبراء المنطقة",
-    metaDescription:
-      "خطوة لنقل الأثاث في الرحاب. خبرة في جميع مراحل الرحاب.",
-    description: "خبرة عميقة في نقل الأثاث داخل مدينة الرحاب بجميع مراحلها.",
-    compounds: ["Rehab 1", "Rehab 2", "Rehab City"],
-    neighborhoods: [
-      "المرحلة الأولى",
-      "المرحلة الثانية",
-      "المرحلة الثالثة",
-      "المرحلة الرابعة",
+    title: "نقل أثاث في الرحاب",
+    shortTitle: "الرحاب",
+    description: "نقل أثاث لسكان مدينة الرحاب مع خبرة كاملة بالمدينة وإجراءاتها.",
+    longDescription:
+      "خدمة نقل أثاث متخصصة لسكان الرحاب مع معرفة بمراحل المدينة وإجراءات الأمن والتنقل الداخلي بما يضمن سرعة وسهولة التنفيذ.",
+    heroTitle: "شركة نقل أثاث في الرحاب",
+    heroDescription:
+      "خدمة منظمة وسريعة لسكان الرحاب مع عناية كاملة بالأثاث أثناء النقل.",
+    seoTitle: "نقل أثاث الرحاب | شركة البحرين لنقل الأثاث",
+    seoDescription:
+      "شركة نقل أثاث موثوقة في الرحاب مع تغليف وفك وتركيب ونقل آمن.",
+    image: "/images/services/hero-main.webp",
+    popular: false,
+    featured: false,
+    compounds: ["المرحلة الأولى", "المرحلة الثانية", "المرحلة السابعة", "الفلل", "الشقق"],
+    highlights: [
+      "معرفة بإجراءات الرحاب",
+      "تنسيق منظم",
+      "سرعة في التنفيذ",
+    ],
+    benefits: [
+      "خبرة بالنقل داخل المدن المغلقة",
+      "خدمة مناسبة للعائلات",
+      "اهتمام كامل بالتفاصيل",
+    ],
+    faqs: [
+      {
+        question: "هل لديكم خبرة بالعمل في الرحاب؟",
+        answer: "نعم، لدينا خبرة جيدة بالتعامل مع الرحاب وإجراءاتها المختلفة.",
+      },
+      {
+        question: "هل الخدمة مناسبة للشقق الصغيرة والكبيرة؟",
+        answer: "نعم، نوفر حلولًا مرنة تناسب جميع أحجام النقل.",
+      },
     ],
   },
   {
-    slug: "shorouk",
-    name: "مدينة الشروق",
-    group: "new-cities",
-    isVip: true,
-    metaTitle: "نقل أثاث مدينة الشروق | خطوة",
-    metaDescription:
-      "خطوة لنقل الأثاث في مدينة الشروق. فرق مدربة وسيارات مجهزة.",
-    description: "نقل أثاث احترافي في جميع أحياء مدينة الشروق.",
-    neighborhoods: ["الحي الأول", "الحي الثاني", "الحي الثالث", "حي الأندلس"],
-  },
-  {
+    id: "new-capital",
     slug: "new-capital",
     name: "العاصمة الإدارية",
-    group: "new-cities",
-    isVip: true,
-    metaTitle: "نقل أثاث العاصمة الإدارية | خطوة",
-    metaDescription:
-      "خطوة لنقل الأثاث للعاصمة الإدارية الجديدة. خبراء في النقل للمدن الجديدة.",
-    description:
-      "متخصصون في نقل الأثاث للعاصمة الإدارية الجديدة من جميع مناطق القاهرة.",
-    compounds: [
-      "Midtown Condo",
-      "IL Bosco",
-      "Haptown",
-      "Taj Tower",
-      "Scenario",
+    title: "نقل أثاث في العاصمة الإدارية",
+    shortTitle: "العاصمة الإدارية",
+    description: "خدمة نقل أثاث للعاصمة الإدارية الجديدة مع تغطية كاملة لجميع الأحياء.",
+    longDescription:
+      "نوفر خدمة نقل أثاث من وإلى العاصمة الإدارية الجديدة بسيارات مجهزة للمسافات الطويلة وخدمة آمنة تناسب النقل السكني والإداري.",
+    heroTitle: "شركة نقل أثاث في العاصمة الإدارية",
+    heroDescription:
+      "نقل أثاث آمن وسريع من وإلى العاصمة الإدارية الجديدة مع فريق محترف.",
+    seoTitle: "نقل أثاث العاصمة الإدارية | شركة البحرين لنقل الأثاث",
+    seoDescription:
+      "خدمة نقل أثاث احترافية للعاصمة الإدارية تشمل التغليف والنقل والفك والتركيب.",
+    image: "/images/services/hero-main.webp",
+    popular: false,
+    featured: false,
+    compounds: ["R7", "R8", "MU23", "الحي الحكومي", "الداون تاون"],
+    highlights: [
+      "سيارات مجهزة للمسافات",
+      "تغطية جميع الأحياء",
+      "خدمة مناسبة للنقل السكني والإداري",
     ],
-    neighborhoods: [
-      "الحي السكني R1",
-      "الحي السكني R2",
-      "الحي السكني R3",
+    benefits: [
+      "جاهزية للمسافات الطويلة",
+      "تنظيم دقيق لعملية النقل",
+      "أسعار عادلة",
     ],
+    faqs: [
+      {
+        question: "هل النقل للعاصمة الإدارية متاح بشكل يومي؟",
+        answer: "نعم، الخدمة متاحة بشكل مستمر حسب جدول الحجز.",
+      },
+      {
+        question: "هل تنفذون نقل مكاتب أيضًا؟",
+        answer: "نعم، نوفر نقل أثاث للمنازل والمكاتب والشركات.",
+      },
+    ],
+  },
+];
+
+export const vipAreas: Area[] = areas.filter((area) => area.featured);
+
+export const areaGroups: AreaGroup[] = [
+  {
+    id: "new-cities",
+    title: "المدن الجديدة",
+    description: "أهم المدن الجديدة التي نخدمها يوميًا بخدمة سريعة ومنظمة.",
+    areas: areas.filter((area) =>
+      ["tagamoa", "new-cairo", "madinaty", "new-capital"].includes(area.slug)
+    ),
   },
   {
-    slug: "mostakbal-city",
-    name: "مدينة المستقبل",
-    group: "new-cities",
-    isVip: true,
-    metaTitle: "نقل أثاث مدينة المستقبل | خطوة",
-    metaDescription:
-      "خطوة لنقل الأثاث في مدينة المستقبل. خبراء في الكمبوندات الجديدة.",
-    description: "نقل أثاث احترافي في كمبوندات مدينة المستقبل الحديثة.",
-    compounds: ["Aria", "Bloom Fields", "La Verde", "Aliva", "Creek Town"],
-    neighborhoods: ["المنطقة الأولى", "المنطقة الثانية"],
+    id: "west-cairo",
+    title: "غرب القاهرة",
+    description: "خدمات متكاملة لنقل الأثاث في مدن غرب القاهرة والكمبوندات.",
+    areas: areas.filter((area) =>
+      ["sheikh-zayed", "october"].includes(area.slug)
+    ),
+  },
+  {
+    id: "gated-communities",
+    title: "المدن السكنية المغلقة",
+    description: "خبرة خاصة في التعامل مع الكمبوندات والمدن ذات الإجراءات المنظمة.",
+    areas: areas.filter((area) =>
+      ["rehab", "madinaty", "tagamoa", "sheikh-zayed"].includes(area.slug)
+    ),
   },
 ];
 
-export const areaGroups = {
-  cairo: {
-    label: "القاهرة",
-    areas: areas.filter((a) => a.group === "cairo"),
-  },
-  giza: {
-    label: "الجيزة",
-    areas: areas.filter((a) => a.group === "giza"),
-  },
-  "new-cities": {
-    label: "المدن الجديدة",
-    areas: areas.filter((a) => a.group === "new-cities"),
-  },
-};
+export function getAreaBySlug(slug: string): Area | undefined {
+  return areas.find((area) => area.slug === slug);
+}
 
-export const vipAreas = areas.filter((a) => a.isVip);
-
-const featuredSlugs = [
-  "sheikh-zayed",
-  "tagamoa-khames",
-  "madinaty",
-  "6-october",
-  "new-capital",
-  "new-cairo",
-];
-
-export const featuredAreas = areas.filter((a) => featuredSlugs.includes(a.slug));
+export function getRelatedAreas(slug: string, limit = 3): Area[] {
+  return areas.filter((area) => area.slug !== slug).slice(0, limit);
+}

@@ -1,407 +1,291 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
-import dynamic from "next/dynamic";
-import { useState, useEffect } from "react";
+import Link from "next/link";
+import { motion } from "framer-motion";
 import {
-  Phone, MessageCircle, ArrowLeft, CheckCircle2, Shield,
-  Clock, Users, Truck, MapPin, Star, Award, Sparkles,
-  Wrench, Wind, Box, ArrowUpToLine, Gem, Crown
+  Phone,
+  MessageCircle,
+  Star,
+  Shield,
+  Clock,
+  Users,
+  ArrowLeft,
+  MapPin,
+  Truck,
+  Award,
+  Send,
+  ThumbsUp,
+  Zap,
 } from "lucide-react";
-import { services } from "@/config/services";
-import { featuredAreas } from "@/config/areas";
-import { siteConfig } from "@/config/site";
-import { serviceBackgrounds } from "@/config/media";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { siteConfig } from "@/config/site";
+import { services } from "@/config/services";
+import { areas } from "@/config/areas";
+import { GallerySection } from "@/components/features/GallerySection";
+import { VideosSection } from "@/components/features/VideosSection";
+import { TestimonialsSection } from "@/components/features/TestimonialsSection";
+import { QuoteDialog } from "@/components/shared/QuoteDialog";
+import { StatsBar } from "@/components/shared/StatsBar";
+import { TrustBadges } from "@/components/shared/TrustBadges";
 
-const GallerySection = dynamic(
-  () => import("@/components/features/GallerySection").then(m => ({ default: m.GallerySection })),
-  { loading: () => <div className="h-96 bg-[#F5F2EC] animate-pulse" /> }
-);
+const trustBadges = [
+  { icon: Shield, label: "ضمان شامل على الأثاث" },
+  { icon: Clock, label: "متاحين 24/7" },
+  { icon: Users, label: `${siteConfig.completedMoves} نقلة ناجحة` },
+  { icon: Award, label: `${siteConfig.yearsOfExperience} سنوات خبرة` },
+];
 
-const VideosSection = dynamic(
-  () => import("@/components/features/VideosSection").then(m => ({ default: m.VideosSection })),
-  { loading: () => <div className="h-96 bg-white animate-pulse" /> }
-);
+const whyUs = [
+  { icon: Shield, title: "أثاثك مؤمن", desc: "تأمين شامل من لحظة الشيل لحد التسليم. لو حصل أي حاجة، إحنا مسؤولين." },
+  { icon: Users, title: "فريق متمرس", desc: "فريقنا مش عمال عاديين - دول متخصصين بيتدربوا بشكل مستمر." },
+  { icon: Truck, title: "سيارات مجهزة", desc: "أسطول سيارات مغلقة بأنظمة تثبيت داخلية تحمي أثاثك من أي حركة." },
+  { icon: Clock, title: "في الموعد بالظبط", desc: "بنحترم وقتك ومواعيدنا. لو قلنا الساعة 8 الصبح، هنكون عندك." },
+  { icon: ThumbsUp, title: "سعر واضح", desc: "السعر اللي بنتفق عليه هو اللي هتدفعه. مفيش مفاجآت ولا رسوم خفية." },
+  { icon: Zap, title: "خبرة بالكمبوندات", desc: "بنعرف إجراءات كل كمبوند ومدينة سكنية. مفيش تأخير ولا مشاكل." },
+];
 
-const TestimonialsSection = dynamic(
-  () => import("@/components/features/TestimonialsSection").then(m => ({ default: m.TestimonialsSection })),
-  { loading: () => <div className="h-96 bg-[#F5F2EC] animate-pulse" /> }
-);
-
-const serviceIcons: Record<string, React.ElementType> = {
-  "naql-athath": Truck,
-  "fak-tarkeeb-athath": Wrench,
-  "fak-tarkeeb-takyifat": Wind,
-  "taghleef-athath": Box,
-  "wensh-raf3-athath": ArrowUpToLine,
-  "naql-moqtaniat-hassasa": Gem,
+const fadeUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.1, duration: 0.5 },
+  }),
 };
 
 export default function HomeContent() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   return (
     <>
-      {/* HERO SECTION */}
-      <section className="relative bg-[#1C1C1C] text-white overflow-hidden min-h-[92vh] flex items-center">
-        <div className="absolute inset-0">
-          <Image
-            src="/herosection.jpeg"
-            alt="خطوة لنقل الأثاث"
-            fill
-            priority
-            quality={90}
-            className="object-cover object-center"
-            sizes="100vw"
-          />
-          <div className="absolute inset-0 bg-gradient-to-l from-[#1C1C1C]/95 via-[#1C1C1C]/70 to-[#1C1C1C]/40" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#1C1C1C] via-transparent to-transparent" />
+      {/* ===== HERO ===== */}
+      <section className="relative min-h-[85vh] flex items-center overflow-hidden bg-gradient-to-bl from-sky-950 via-sky-900 to-sky-800">
+        {/* Decorative background */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-sky-500 rounded-full blur-[120px] animate-pulse" />
+          <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-sky-400 rounded-full blur-[120px] animate-pulse" />
+          <div className="absolute top-1/2 left-1/3 w-[400px] h-[400px] bg-cyan-500 rounded-full blur-[100px]" />
         </div>
 
-        <div className="relative container-custom py-16 md:py-20 lg:py-24 w-full">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/5 backdrop-blur-md border border-white/10 px-4 py-1.5 mb-6">
-              <span className="relative flex h-2 w-2">
-                {mounted && (
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#E8E3D9] opacity-75" />
-                )}
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-[#E8E3D9]" />
-              </span>
-              <span className="text-xs font-semibold text-white/90 tracking-wide">
-                خدمة متاحة الآن في التجمع ومدينتي
-              </span>
-            </div>
+        {/* Grid pattern overlay */}
+        <div
+          className="absolute inset-0 opacity-10"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)",
+            backgroundSize: "50px 50px",
+          }}
+        />
 
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[1.1] mb-6 tracking-tight">
-              انتقل لبيتك الجديد
+        <div className="container-custom relative z-10 py-20">
+          <div className="max-w-2xl space-y-6">
+            <Badge className="bg-sky-500/20 text-sky-200 border-sky-400/30 text-sm px-4 py-1.5 backdrop-blur-sm">
+              <Star className="w-3.5 h-3.5 fill-sky-300 text-sky-300 mr-1.5" />
+              +{siteConfig.completedMoves} نقلة ناجحة في القاهرة الكبرى
+            </Badge>
+
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight drop-shadow-lg">
+              أثاثك أمانة
               <br />
-              <span className="text-[#E8E3D9]">بخطوة واحدة</span>
+              <span className="text-sky-400">وإحنا أهل الأمانة</span>
             </h1>
 
-            <p className="text-base md:text-lg text-white/70 leading-relaxed mb-8 max-w-xl">
-              خدمة نقل أثاث احترافية تليق بمنزلك، بفريق مدرب ومعدات حديثة.
+            <p className="text-base md:text-lg text-sky-100/90 leading-relaxed max-w-xl">
+              فريق متمرس، تغليف بخامات عالمية، سيارات مجهزة، وضمان كامل.
+              بنخدم التجمع الخامس، مدينتي، الشيخ زايد، وكل المدن الجديدة
+              بمستوى يليق بأثاثك.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-3 mb-12">
-              <Button asChild size="lg" className="bg-[#E8E3D9] hover:bg-[#D4CCB8] text-[#1C1C1C] font-bold h-14 px-8 text-base shadow-2xl">
+            <div className="flex flex-wrap gap-3">
+              <Button size="lg" className="bg-sky-500 hover:bg-sky-600 text-white gap-2 text-base shadow-lg shadow-sky-500/40" asChild>
                 <a href={`tel:${siteConfig.phone}`}>
-                  <Phone className="w-4 h-4 ml-2" />
-                  احجز موعدك الآن
+                  <Phone className="w-5 h-5" />
+                  اتصل دلوقتي
                 </a>
               </Button>
 
-              <Button asChild size="lg" variant="outline" className="bg-white/5 hover:bg-white/10 border-white/20 text-white hover:text-white h-14 px-8 text-base backdrop-blur-md">
+              <Button size="lg" className="bg-green-500 hover:bg-green-600 text-white gap-2 text-base shadow-lg shadow-green-500/40" asChild>
                 <a href={`https://wa.me/${siteConfig.whatsapp}`} target="_blank" rel="noopener noreferrer">
-                  <MessageCircle className="w-4 h-4 ml-2" />
-                  تواصل عبر واتساب
+                  <MessageCircle className="w-5 h-5" />
+                  كلمنا واتساب
                 </a>
               </Button>
+
+              <QuoteDialog
+                trigger={
+                  <div className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border-2 border-white/40 bg-white/10 backdrop-blur-sm px-6 text-base font-medium text-white transition-colors hover:bg-white/20 cursor-pointer">
+                    <Send className="w-5 h-5" />
+                    عرض سعر مجاني
+                  </div>
+                }
+              />
             </div>
 
-            <div className="grid grid-cols-3 gap-6 pt-8 border-t border-white/10 max-w-lg">
-              {[
-                { value: "+10", label: "سنوات خبرة" },
-                { value: "500+", label: "عميل راضٍ" },
-                { value: "24/7", label: "خدمة مستمرة" },
-              ].map((stat, i) => (
-                <div key={i}>
-                  <div className="text-2xl md:text-3xl font-black text-[#E8E3D9] mb-1">{stat.value}</div>
-                  <div className="text-xs text-white/50 font-medium">{stat.label}</div>
-                </div>
-              ))}
+            <div className="flex flex-wrap gap-4 pt-4">
+              {trustBadges.map((b, i) => {
+                const Icon = b.icon;
+                return (
+                  <div key={i} className="flex items-center gap-2 text-sky-200/80 text-sm">
+                    <Icon className="w-4 h-4 text-sky-400" />
+                    <span>{b.label}</span>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
+
+        {/* Bottom gradient fade */}
+        <div className="absolute bottom-0 inset-x-0 h-24 bg-gradient-to-t from-white/5 to-transparent" />
       </section>
 
-      {/* FEATURES BAR */}
-      <section className="bg-[#F5F2EC] border-b border-[#E5E1DA]">
-        <div className="container-custom py-10 md:py-12">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
-            {[
-              { icon: Shield, title: "ضمان كامل", desc: "على جميع المقتنيات" },
-              { icon: Clock, title: "خدمة 24/7", desc: "متاحون طوال الأسبوع" },
-              { icon: Users, title: "فرق مدربة", desc: "متخصصون محترفون" },
-              { icon: Crown, title: "خدمة VIP", desc: "للكمبوندات والفلل" },
-            ].map((f, i) => (
-              <div key={i} className="flex items-center gap-3 md:gap-4 bg-white p-4 md:p-5 rounded-2xl border border-[#E5E1DA] hover:border-[#3F4F44] hover:shadow-lg transition-all duration-300 group">
-                <div className="w-11 h-11 md:w-12 md:h-12 bg-[#3F4F44]/10 group-hover:bg-[#3F4F44] text-[#3F4F44] group-hover:text-white rounded-xl flex items-center justify-center shrink-0 transition-all duration-300">
-                  <f.icon className="w-5 h-5 md:w-6 md:h-6" />
-                </div>
-                <div className="min-w-0">
-                  <div className="font-bold text-[#1C1C1C] text-sm md:text-base">{f.title}</div>
-                  <div className="text-xs md:text-sm text-[#6B6B6B]">{f.desc}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <TrustBadges />
 
-      {/* SERVICES SECTION WITH IMAGES */}
+      {/* ===== SERVICES ===== */}
       <section className="section-padding bg-white">
         <div className="container-custom">
-          <div className="text-center max-w-2xl mx-auto mb-12 md:mb-16">
-            <Badge variant="outline" className="border-[#3F4F44] text-[#3F4F44] mb-4 px-3 py-1">
-              <Sparkles className="w-3 h-3 ml-1.5" />
-              خدماتنا
-            </Badge>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-[#1C1C1C] mb-4 tracking-tight">
-              حلول متكاملة
-              <br />
-              <span className="text-[#3F4F44]">لنقل الأثاث</span>
-            </h2>
-            <p className="text-base text-[#6B6B6B] leading-relaxed">
-              باقة شاملة من الخدمات الاحترافية تغطي جميع احتياجاتك
-            </p>
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 bg-sky-50 text-sky-600 px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
+              <Truck className="w-4 h-4" />
+              إيه اللي بنعمله؟
+            </div>
+            <h2 className="text-2xl md:text-3xl font-bold text-sky-950 mb-3">كل اللي أثاثك محتاجه في مكان واحد</h2>
+            <p className="text-slate-500 max-w-lg mx-auto">من لحظة ما بنشيل لحد ما نركب ونسلم - كل حاجة علينا</p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
-            {services.map((s, i) => {
-              const Icon = serviceIcons[s.slug] || Truck;
-              const bg = serviceBackgrounds[s.slug];
-
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {services.map((service, i) => {
+              const Icon = service.icon;
               return (
-                <Link key={s.slug} href={`/services/${s.slug}`} className="block group">
-                  <div className="relative h-[440px] rounded-3xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500 bg-[#1C1C1C]">
-
-                    {bg && (
-                      <Image
-                        src={bg.src}
-                        alt={bg.alt}
-                        fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-700"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        loading={i < 3 ? "eager" : "lazy"}
-                        quality={80}
-                      />
-                    )}
-
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#1C1C1C] via-[#1C1C1C]/60 to-[#1C1C1C]/20 group-hover:from-[#1C1C1C] group-hover:via-[#1C1C1C]/50 transition-all duration-500" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#3F4F44]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                    <div className="absolute top-5 left-5 z-10">
-                      <div className="w-12 h-12 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl flex items-center justify-center">
-                        <span className="text-white font-black text-base">0{i + 1}</span>
-                      </div>
-                    </div>
-
-                    <div className="absolute top-5 right-5 z-10">
-                      <div className="w-14 h-14 bg-[#E8E3D9] group-hover:bg-white rounded-2xl flex items-center justify-center shadow-2xl transition-all duration-500">
-                        <Icon className="w-6 h-6 text-[#1C1C1C]" />
-                      </div>
-                    </div>
-
-                    <div className="absolute bottom-0 right-0 left-0 p-6 md:p-7 z-10">
-                      <div className="w-12 h-0.5 bg-[#E8E3D9] mb-4 group-hover:w-24 transition-all duration-500" />
-
-                      <h3 className="text-2xl md:text-3xl font-black text-white mb-3 leading-tight group-hover:text-[#E8E3D9] transition-colors duration-500 tracking-tight">
-                        {s.name}
-                      </h3>
-
-                      <p className="text-white/80 text-sm leading-relaxed mb-5 line-clamp-2">
-                        {s.shortDescription}
-                      </p>
-
-                      <div className="flex items-center justify-between pt-4 border-t border-white/20">
-                        <span className="text-white font-bold text-sm flex items-center gap-2 group-hover:text-[#E8E3D9] transition-colors">
-                          اكتشف الخدمة
-                          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-2 transition-transform duration-300" />
-                        </span>
-
-                        <div className="flex items-center gap-1 text-xs text-white/70">
-                          <Star className="w-3 h-3 fill-[#E8E3D9] text-[#E8E3D9]" />
-                          <span>خدمة مميزة</span>
+                <motion.div key={service.id} custom={i} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
+                  <Link href={`/services/${service.slug}`}>
+                    <Card className="group h-full overflow-hidden border-sky-100 hover:shadow-lg hover:border-sky-200 transition-all cursor-pointer">
+                      <div className="relative h-44 overflow-hidden">
+                        <Image src={service.image} alt={service.title} fill className="object-cover transition-transform duration-500 group-hover:scale-110" sizes="(max-width: 768px) 100vw, 33vw" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-sky-950/60 to-transparent" />
+                        <div className="absolute bottom-3 right-3 w-10 h-10 bg-sky-500 text-white rounded-xl flex items-center justify-center shadow-lg">
+                          <Icon className="w-5 h-5" />
                         </div>
                       </div>
-                    </div>
-
-                    <div className="absolute inset-0 rounded-3xl ring-2 ring-[#E8E3D9]/0 group-hover:ring-[#E8E3D9]/40 transition-all duration-500 pointer-events-none" />
-                  </div>
-                </Link>
+                      <CardContent className="p-5">
+                        <h3 className="font-bold text-sky-950 text-lg mb-2 group-hover:text-sky-600 transition-colors">{service.shortTitle}</h3>
+                        <p className="text-sm text-slate-500 line-clamp-2 leading-relaxed">{service.description}</p>
+                        <div className="flex items-center gap-1 text-sky-500 text-sm font-medium mt-3 group-hover:gap-2 transition-all">
+                          <span>اعرف أكتر</span>
+                          <ArrowLeft className="w-4 h-4" />
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                </motion.div>
               );
             })}
           </div>
         </div>
       </section>
 
-      {/* Gallery */}
-      <GallerySection />
+      <StatsBar />
 
-      {/* WHY US */}
-      <section className="section-padding bg-[#F5F2EC]">
+      {/* ===== WHY US ===== */}
+      <section className="section-padding bg-sky-50/50">
         <div className="container-custom">
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-            <div>
-              <Badge variant="outline" className="border-[#3F4F44] text-[#3F4F44] mb-4">
-                لماذا خطوة
-              </Badge>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-[#1C1C1C] mb-5 leading-tight tracking-tight">
-                خبرة تصنع
-                <br />
-                <span className="text-[#3F4F44]">الفارق</span>
-              </h2>
-              <p className="text-base text-[#6B6B6B] leading-relaxed mb-8">
-                نؤمن أن كل قطعة أثاث تحمل ذكريات وقيمة، لذلك نتعامل مع مقتنياتكم بالعناية التي تستحقها.
-              </p>
-
-              <div className="space-y-3">
-                {[
-                  { title: "فرق مدربة على أعلى مستوى", desc: "خبراء في فك وتركيب جميع أنواع الأثاث" },
-                  { title: "تغليف احترافي بمواد عالية الجودة", desc: "حماية كاملة للأثاث والمقتنيات" },
-                  { title: "أسطول حديث من السيارات المجهزة", desc: "نقل آمن وسريع" },
-                  { title: "أسعار شفافة ومنافسة", desc: "بدون رسوم خفية أو مفاجآت" },
-                ].map((item, i) => (
-                  <div key={i} className="flex gap-3 bg-white p-4 md:p-5 rounded-2xl border border-[#E5E1DA] hover:border-[#3F4F44] hover:shadow-md transition-all duration-300">
-                    <div className="w-10 h-10 bg-[#3F4F44]/10 text-[#3F4F44] rounded-xl flex items-center justify-center shrink-0">
-                      <CheckCircle2 className="w-5 h-5" />
-                    </div>
-                    <div className="min-w-0">
-                      <h4 className="font-bold text-[#1C1C1C] text-sm md:text-base mb-1">{item.title}</h4>
-                      <p className="text-xs md:text-sm text-[#6B6B6B]">{item.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 bg-sky-100 text-sky-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
+              <Award className="w-4 h-4" />
+              ليه البحرين؟
             </div>
+            <h2 className="text-2xl md:text-3xl font-bold text-sky-950 mb-3">6 أسباب تخليك تختارنا</h2>
+          </div>
 
-            <div className="lg:sticky lg:top-28">
-              <Card className="bg-[#1C1C1C] border-0 text-white overflow-hidden relative">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-[#3F4F44]/20 rounded-full blur-3xl" />
-
-                <CardContent className="p-8 md:p-10 relative">
-                  <Award className="w-12 h-12 text-[#E8E3D9] mb-4" />
-                  <div className="text-6xl md:text-8xl font-black text-[#E8E3D9] mb-3 tracking-tight">+10</div>
-                  <div className="text-xl md:text-2xl font-bold mb-2">سنوات من التميز</div>
-                  <p className="text-white/60 text-sm md:text-base mb-8 leading-relaxed">
-                    رحلة طويلة من الالتزام والاحترافية في خدمة آلاف العملاء
-                  </p>
-
-                  <div className="grid grid-cols-2 gap-3 mb-6">
-                    <div className="bg-white/5 backdrop-blur border border-white/10 p-4 rounded-2xl">
-                      <div className="text-2xl md:text-3xl font-black text-[#E8E3D9] mb-1">500+</div>
-                      <div className="text-xs md:text-sm text-white/60">عميل راضٍ</div>
-                    </div>
-                    <div className="bg-white/5 backdrop-blur border border-white/10 p-4 rounded-2xl">
-                      <div className="text-2xl md:text-3xl font-black text-[#E8E3D9] mb-1">98%</div>
-                      <div className="text-xs md:text-sm text-white/60">معدل الرضا</div>
-                    </div>
-                  </div>
-
-                  <div className="pt-6 border-t border-white/10 flex items-center gap-2">
-                    {[1, 2, 3, 4, 5].map((i) => (
-                      <Star key={i} className="w-4 h-4 fill-[#E8E3D9] text-[#E8E3D9]" />
-                    ))}
-                    <span className="text-sm text-white/60 mr-2">تقييم 4.9 من 5</span>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {whyUs.map((item, i) => {
+              const Icon = item.icon;
+              return (
+                <motion.div key={i} custom={i} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
+                  <Card className="h-full border-sky-100 hover:shadow-md transition-shadow text-center">
+                    <CardContent className="p-6 space-y-3">
+                      <div className="w-14 h-14 bg-sky-100 text-sky-600 rounded-2xl flex items-center justify-center mx-auto">
+                        <Icon className="w-7 h-7" />
+                      </div>
+                      <h3 className="font-bold text-sky-950">{item.title}</h3>
+                      <p className="text-sm text-slate-500">{item.desc}</p>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* Testimonials */}
-      <TestimonialsSection />
-
-      {/* Videos */}
-      <VideosSection />
-
-      {/* AREAS */}
+      {/* ===== AREAS ===== */}
       <section className="section-padding bg-white">
         <div className="container-custom">
-          <div className="text-center max-w-2xl mx-auto mb-12 md:mb-16">
-            <Badge variant="outline" className="border-[#3F4F44] text-[#3F4F44] mb-4">
-              مناطق الخدمة
-            </Badge>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-[#1C1C1C] mb-4 tracking-tight">
-              متخصصون في
-              <br />
-              <span className="text-[#3F4F44]">الكمبوندات الراقية</span>
-            </h2>
-            <p className="text-base text-[#6B6B6B] leading-relaxed">
-              فرقنا المتخصصة تخدم الكمبوندات والفلل في التجمع ومدينتي والشيخ زايد
-            </p>
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 bg-sky-50 text-sky-600 px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
+              <MapPin className="w-4 h-4" />
+              وصلنا فين؟
+            </div>
+            <h2 className="text-2xl md:text-3xl font-bold text-sky-950 mb-3">في منطقتك وجاهزين</h2>
+            <p className="text-slate-500 max-w-lg mx-auto">بنغطي أهم المدن الجديدة والكمبوندات في القاهرة الكبرى</p>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
-            {featuredAreas.map((area) => (
-              <Link key={area.slug} href={`/areas/${area.slug}`}>
-                <Card className="hover:border-[#3F4F44] hover:shadow-lg transition-all duration-300 group cursor-pointer border-[#E5E1DA] relative overflow-hidden bg-[#F5F2EC] hover:bg-white">
-                  <Badge className="absolute top-2 left-2 bg-[#1C1C1C] text-[#E8E3D9] border-0 text-[10px] z-10">
-                    <Crown className="w-2.5 h-2.5 ml-0.5" />
-                    VIP
-                  </Badge>
-                  <CardContent className="p-5 md:p-6 text-center">
-                    <div className="w-12 h-12 md:w-14 md:h-14 bg-[#3F4F44]/10 group-hover:bg-[#3F4F44] text-[#3F4F44] group-hover:text-white rounded-2xl flex items-center justify-center mx-auto mb-3 transition-all duration-300">
-                      <MapPin className="w-5 h-5 md:w-6 md:h-6" />
-                    </div>
-                    <div className="font-bold text-sm md:text-base text-[#1C1C1C] group-hover:text-[#3F4F44] transition-colors">
-                      {area.name}
-                    </div>
-                    <div className="text-[10px] md:text-xs text-[#6B6B6B] mt-1">خدمة VIP</div>
-                  </CardContent>
-                </Card>
-              </Link>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            {areas.map((area, i) => (
+              <motion.div key={area.id} custom={i} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
+                <Link href={`/areas/${area.slug}`}>
+                  <Card className="group h-full border-sky-100 hover:shadow-md hover:border-sky-200 transition-all cursor-pointer">
+                    <CardContent className="p-4 text-center space-y-2">
+                      <div className="w-11 h-11 bg-sky-50 text-sky-500 rounded-xl flex items-center justify-center mx-auto group-hover:bg-sky-500 group-hover:text-white transition-colors">
+                        <MapPin className="w-5 h-5" />
+                      </div>
+                      <h3 className="font-bold text-sky-950 text-sm group-hover:text-sky-600 transition-colors">{area.name}</h3>
+                    </CardContent>
+                  </Card>
+                </Link>
+              </motion.div>
             ))}
           </div>
 
-          <div className="text-center mt-10 md:mt-12">
-            <Button asChild className="bg-[#1C1C1C] hover:bg-[#2A2A2A] text-white h-12 px-8">
+          <div className="text-center mt-8">
+            <Button variant="outline" className="border-sky-200 text-sky-700 hover:bg-sky-50 gap-2" asChild>
               <Link href="/areas">
-                عرض جميع المناطق
-                <ArrowLeft className="w-4 h-4 mr-2" />
+                كل المناطق
+                <ArrowLeft className="w-4 h-4" />
               </Link>
             </Button>
           </div>
         </div>
       </section>
 
-      {/* FINAL CTA */}
-      <section className="relative bg-[#1C1C1C] text-white overflow-hidden">
-        <div className="absolute inset-0 opacity-10" aria-hidden="true">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#3F4F44] rounded-full blur-3xl" />
+      <GallerySection />
+      <VideosSection />
+      <TestimonialsSection />
+
+      {/* ===== FINAL CTA ===== */}
+      <section className="section-padding bg-gradient-to-bl from-sky-600 via-sky-500 to-sky-700 text-white relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl" />
         </div>
-
-        <div className="relative container-custom py-16 md:py-24">
-          <div className="max-w-3xl mx-auto text-center">
-            <Badge className="bg-white/5 text-[#E8E3D9] border border-white/10 mb-6 px-4 py-1.5">
-              <Sparkles className="w-3 h-3 ml-1.5" />
-              ابدأ معنا اليوم
-            </Badge>
-
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight tracking-tight">
-              جاهزون لخدمتك
-              <br />
-              <span className="text-[#E8E3D9]">في أي وقت</span>
-            </h2>
-            <p className="text-base md:text-lg text-white/60 mb-10 max-w-2xl mx-auto leading-relaxed">
-              تواصل معنا الآن للحصول على معاينة مجانية وعرض سعر شفاف
-            </p>
-
-            <div className="flex flex-col sm:flex-row justify-center gap-3">
-              <Button asChild size="lg" className="bg-[#E8E3D9] hover:bg-[#D4CCB8] text-[#1C1C1C] font-bold h-14 px-8 shadow-2xl text-base">
-                <a href={`tel:${siteConfig.phone}`}>
-                  <Phone className="w-4 h-4 ml-2" />
-                  اتصل الآن
-                </a>
-              </Button>
-
-              <Button asChild size="lg" variant="outline" className="bg-white/5 hover:bg-white/10 border-white/20 text-white hover:text-white h-14 px-8 backdrop-blur text-base">
-                <a href={`https://wa.me/${siteConfig.whatsapp}`} target="_blank" rel="noopener noreferrer">
-                  <MessageCircle className="w-4 h-4 ml-2" />
-                  تواصل واتساب
-                </a>
-              </Button>
-            </div>
+        <div className="container-custom text-center space-y-6 relative">
+          <h2 className="text-2xl md:text-4xl font-bold">جاهز تنقل؟ يلا نتكلم!</h2>
+          <p className="text-sky-100 max-w-md mx-auto md:text-lg">كلمنا دلوقتي واحنا هنرتب كل حاجة من أولها لآخرها. عرض السعر مجاني والمعاينة ببلاش.</p>
+          <div className="flex flex-wrap justify-center gap-3">
+            <Button size="lg" className="bg-white text-sky-700 hover:bg-sky-50 gap-2 text-base shadow-lg" asChild>
+              <a href={`tel:${siteConfig.phone}`}><Phone className="w-5 h-5" />اتصل دلوقتي</a>
+            </Button>
+            <Button size="lg" className="bg-green-500 hover:bg-green-600 text-white gap-2 text-base shadow-lg" asChild>
+              <a href={`https://wa.me/${siteConfig.whatsapp}`} target="_blank" rel="noopener noreferrer"><MessageCircle className="w-5 h-5" />كلمنا واتساب</a>
+            </Button>
+            <QuoteDialog
+              trigger={
+                <div className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border-2 border-white/40 bg-white/10 px-6 text-base font-medium text-white transition-colors hover:bg-white/20 cursor-pointer">
+                  <Send className="w-5 h-5" />
+                  طلب عرض سعر
+                </div>
+              }
+            />
           </div>
         </div>
       </section>

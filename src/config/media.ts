@@ -1,107 +1,119 @@
-export const gallery = [
-  {
-    id: 2,
-    src: "/images/gallery/taghleef.webp",
-    alt: "تغليف احترافي للأثاث",
-    category: "تغليف",
-    width: 800,
-    height: 600,
-  },
-  {
-    id: 6,
-    src: "/images/gallery/fareq-3amal.webp",
-    alt: "فريق عمل محترف",
-    category: "فرق العمل",
-    width: 800,
-    height: 600,
-  },
-  {
-    id: 7,
-    src: "/images/gallery/tarkeeb.webp",
-    alt: "تجهيز المنزل الجديد",
-    category: "تركيب",
-    width: 800,
-    height: 600,
-  },
-];
-
-export const videos = [
-  {
-    id: 1,
-    src: "/videos/naql-athath-kamil.mp4",
-    thumbnail: "/images/video-thumbnails/naql-kamil-thumb.webp",
-    title: "عملية نقل أثاث كاملة",
-    description: "مشاهدة كيفية تنفيذنا لعملية نقل احترافية من البداية للنهاية",
-    width: 1280,
-    height: 720,
-  },
-  {
-    id: 2,
-    src: "/videos/taghleef-e7terafi.mp4",
-    thumbnail: "/images/video-thumbnails/taghleef-thumb.webp",
-    title: "تغليف احترافي للأثاث",
-    description: "خبراؤنا في تغليف الأثاث بمواد عالية الجودة",
-    width: 1280,
-    height: 720,
-  },
-  {
-    id: 3,
-    src: "/videos/fak-tarkeeb.mp4",
-    thumbnail: "/images/video-thumbnails/fak-tarkeeb-thumb.webp",
-    title: "فك وتركيب الأثاث",
-    description: "فنيون متخصصون في فك وتركيب جميع أنواع الأثاث",
-    width: 1280,
-    height: 720,
-  },
-];
-
-export const heroImage = {
-  src: "/herosection.jpeg",
-  alt: "خطوة لنقل الأثاث",
-  width: 1920,
-  height: 1080,
-};
-
-export const serviceBackgrounds: Record<string, {
+export interface GalleryImage {
+  id: string;
   src: string;
   alt: string;
-  width: number;
-  height: number;
-}> = {
-  "naql-athath": {
-    src: "/images/services/bg-naql-athath.png",
-    alt: "خدمة نقل الأثاث",
-    width: 1200,
-    height: 800,
+  category: string;
+}
+
+export interface VideoItem {
+  id: string;
+  src: string;
+  poster?: string;
+  title: string;
+  description: string;
+}
+
+export interface Testimonial {
+  id: string;
+  name: string;
+  location: string;
+  rating: number;
+  text: string;
+  date: string;
+  service: string;
+}
+
+export const galleryImages: GalleryImage[] = [
+  {
+    id: "g1",
+    src: "/images/gallery/fareq-3amal.webp",
+    alt: "فريق البحرين أثناء تجهيز نقلة في التجمع الخامس",
+    category: "فريق العمل",
   },
-  "fak-tarkeeb-athath": {
-    src: "/images/services/bg-fak-tarkeeb.png",
-    alt: "خدمة فك وتركيب الأثاث",
-    width: 1200,
-    height: 800,
+  {
+    id: "g2",
+    src: "/images/gallery/Crane_lifting_furniture.jpeg",
+    alt: "ونش رفع أثاث لدور عالي",
+    category: "ونش رفع",
   },
-  "fak-tarkeeb-takyifat": {
-    src: "/images/services/bg-takyifat.png",
-    alt: "خدمة فك وتركيب التكييفات",
-    width: 1200,
-    height: 800,
+  {
+    id: "g3",
+    src: "/images/gallery/taghleef.jpeg",
+    alt: "تغليف أثاث بالاسترتش فيلم والفقاعات الهوائية",
+    category: "تغليف",
   },
-  "taghleef-athath": {
-    src: "/images/services/bg-taghleef.png",
-    alt: "خدمة تغليف الأثاث",
-    width: 1200,
-    height: 800,
+  {
+    id: "g4",
+    src: "/images/gallery/tarkeeb.jpeg",
+    alt: "تركيب غرفة نوم مودرن بعد النقل",
+    category: "فك وتركيب",
   },
-  "wensh-raf3-athath": {
-    src: "/images/services/bg-wensh-raf3.png",
-    alt: "خدمة ونش رفع الأثاث",
-    width: 1200,
-    height: 800,
+];
+
+export const videos: VideoItem[] = [];
+
+export const testimonials: Testimonial[] = [
+  {
+    id: "t1",
+    name: "م. أحمد جمال",
+    location: "التجمع الخامس",
+    rating: 5,
+    text: "نقلت فيلا كاملة مع البحرين. الشباب كانوا منظمين جدًا والأثاث وصل بدون أي مشكلة. أحسن قرار أخدته.",
+    date: "2025-06",
+    service: "نقل فيلا",
   },
-  "naql-moqtaniat-hassasa": {
-    src: "/images/services/bg-moqtaniat.png",
-    alt: "خدمة نقل المقتنيات الحساسة",
-    width: 1200,
-    height: 800,
+  {
+    id: "t2",
+    name: "د. سارة المنشاوي",
+    location: "مدينتي",
+    rating: 5,
+    text: "كنت مرعوبة من النقل بس الحمدلله البحرين ريحوني من كل حاجة. من التغليف للتركيب كان كل حاجة تمام.",
+    date: "2025-05",
+    service: "نقل وتغليف شامل",
   },
-};
+  {
+    id: "t3",
+    name: "عمرو حسني",
+    location: "الشيخ زايد",
+    rating: 5,
+    text: "سعرهم كان أحسن سعر لقيته والخدمة كانت 10/10. فكوا المطبخ وركبوه تاني في ساعتين.",
+    date: "2025-04",
+    service: "فك وتركيب مطبخ",
+  },
+  {
+    id: "t4",
+    name: "هند عبدالرحمن",
+    location: "القاهرة الجديدة",
+    rating: 5,
+    text: "الونش كان ضروري عشان غرفة النوم كبيرة. الشغل تم بسرعة واحترافية. شكرًا يا بحرين!",
+    date: "2025-03",
+    service: "ونش رفع",
+  },
+  {
+    id: "t5",
+    name: "أ. خالد سعيد",
+    location: "6 أكتوبر",
+    rating: 5,
+    text: "نقلت مكتبي بالكامل معاهم. كل حاجة اتغلفت كويس ومفيش ورقة واحدة ضاعت. ناس محترمة.",
+    date: "2025-02",
+    service: "نقل مكتبي",
+  },
+  {
+    id: "t6",
+    name: "نرمين فؤاد",
+    location: "الرحاب",
+    rating: 5,
+    text: "عندي نجفة كريستال غالية جدًا وكنت خايفة عليها. البحرين غلفوها قطعة قطعة ووصلت سليمة. ربنا يوفقهم.",
+    date: "2025-01",
+    service: "نقل أنتيكات",
+  },
+];
+
+export const serviceBackgrounds = {
+  "furniture-moving": "/images/services/bg-naql-athath.webp",
+  "disassembly-assembly": "/images/services/bg-fak-tarkeeb.webp",
+  "professional-packing": "/images/services/bg-taghleef.webp",
+  "furniture-crane": "/images/services/bg-wensh-raf3.webp",
+  "ac-services": "/images/services/bg-takyifat.webp",
+  "fragile-items": "/images/services/bg-moqtaniat.webp",
+} as const;

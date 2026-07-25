@@ -1,0 +1,896 @@
+
+====================================================================================================
+PROJECT PATH
+====================================================================================================
+C:\Projects\AlBahrain\Albahrain-Moving
+
+====================================================================================================
+ROOT ITEMS
+====================================================================================================
+[FILE] .env.example
+[FILE] .env.local
+[FILE] .gitignore
+[FILE] AGENTS.md
+[FILE] CLAUDE.md
+[FILE] components.json
+[FILE] eslint.config.mjs
+[FILE] next-env.d.ts
+[FILE] next.config.ts
+[FILE] package-lock.json
+[FILE] package.json
+[FILE] postcss.config.mjs
+[DIR]  public
+[FILE] README.md
+[DIR]  src
+[FILE] tsconfig.json
+
+====================================================================================================
+SOURCE TREE (ALL FILES)
+====================================================================================================
+.env.example
+.env.local
+.gitignore
+AGENTS.md
+CLAUDE.md
+components.json
+eslint.config.mjs
+next-env.d.ts
+next.config.ts
+package-lock.json
+package.json
+postcss.config.mjs
+public\apple-icon.png
+public\ChatGPT Image 21 يوليو 2026، 07_28_12 م.png
+public\favicon.ico
+public\herosection.jpeg
+public\icon-192.png
+public\icon-512.png
+public\icon.png
+public\images\gallery\fareq-3amal.webp
+public\images\gallery\Movers_carrying_sofa_in_apartment_202607221358.jpeg
+public\images\gallery\taghleef.webp
+public\images\gallery\tarkeeb.webp
+public\images\services\bg-fak-tarkeeb.png
+public\images\services\bg-moqtaniat.png
+public\images\services\bg-naql-athath.png
+public\images\services\bg-taghleef.png
+public\images\services\bg-takyifat.png
+public\images\services\bg-wensh-raf3.png
+public\images\services\hero-main.webp
+public\Khotwa_Brand_Icons\apple-icon.png
+public\Khotwa_Brand_Icons\favicon.ico
+public\Khotwa_Brand_Icons\icon-192.png
+public\Khotwa_Brand_Icons\icon-512.png
+public\Khotwa_Brand_Icons\icon.png
+public\Khotwa_Brand_Identity_Pack.pdf
+public\logo.jpeg
+public\videos\taghleef-e7terafi.mp4
+README.md
+src\app\about\page.tsx
+src\app\areas\[slug]\page.tsx
+src\app\areas\Content.tsx
+src\app\areas\page.tsx
+src\app\blog\[slug]\page.tsx
+src\app\blog\page.tsx
+src\app\contact\Content.tsx
+src\app\contact\page.tsx
+src\app\faq\page.tsx
+src\app\globals.css
+src\app\HomeContent.tsx
+src\app\layout.tsx
+src\app\loading.tsx
+src\app\manifest.ts
+src\app\not-found.tsx
+src\app\page.tsx
+src\app\privacy\page.tsx
+src\app\robots.ts
+src\app\services\[slug]\page.tsx
+src\app\services\page.tsx
+src\app\sitemap.ts
+src\app\terms\page.tsx
+src\app\thank-you\page.tsx
+src\components\analytics\GoogleAnalytics.tsx
+src\components\features\GallerySection.tsx
+src\components\features\TestimonialsSection.tsx
+src\components\features\VideosSection.tsx
+src\components\layout\AnnouncementBar.tsx
+src\components\layout\FloatingActions.tsx
+src\components\layout\Footer.tsx
+src\components\layout\Header.tsx
+src\components\layout\MobileStickyBar.tsx
+src\components\shared\Logo.tsx
+src\components\shared\QuoteDialog.tsx
+src\components\shared\WhatsAppWidget.tsx
+src\components\ui\accordion.tsx
+src\components\ui\avatar.tsx
+src\components\ui\badge.tsx
+src\components\ui\button.tsx
+src\components\ui\card.tsx
+src\components\ui\dialog.tsx
+src\components\ui\dropdown-menu.tsx
+src\components\ui\input.tsx
+src\components\ui\label.tsx
+src\components\ui\navigation-menu.tsx
+src\components\ui\optimized-image.tsx
+src\components\ui\select.tsx
+src\components\ui\separator.tsx
+src\components\ui\sheet.tsx
+src\components\ui\skeleton.tsx
+src\components\ui\tabs.tsx
+src\components\ui\textarea.tsx
+src\components\ui\tooltip.tsx
+src\config\areas.ts
+src\config\blog.ts
+src\config\media.ts
+src\config\navigation.ts
+src\config\services.ts
+src\config\site.ts
+src\lib\analytics\events.ts
+src\lib\seo\metadata.ts
+src\lib\seo\schema.ts
+src\lib\utils.ts
+src\types\index.ts
+tsconfig.json
+
+====================================================================================================
+package.json
+====================================================================================================
+{
+  "name": "khotwa-trans",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@base-ui/react": "^1.5.0",
+    "@hookform/resolvers": "^5.4.0",
+    "@mdx-js/loader": "^3.1.1",
+    "@mdx-js/react": "^3.1.1",
+    "@next/mdx": "^16.2.6",
+    "@radix-ui/react-accordion": "^1.2.12",
+    "@radix-ui/react-slot": "^1.2.4",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "critters": "^0.0.23",
+    "embla-carousel-autoplay": "^8.6.0",
+    "embla-carousel-react": "^8.6.0",
+    "framer-motion": "^12.40.0",
+    "gray-matter": "^4.0.3",
+    "lucide-react": "^1.17.0",
+    "next": "16.2.6",
+    "next-themes": "^0.4.6",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "react-hook-form": "^7.76.1",
+    "react-hot-toast": "^2.6.0",
+    "react-intersection-observer": "^10.0.3",
+    "rehype-autolink-headings": "^7.1.0",
+    "rehype-slug": "^6.0.0",
+    "remark-gfm": "^4.0.1",
+    "schema-dts": "^2.0.0",
+    "shadcn": "^4.8.2",
+    "sharp": "^0.34.5",
+    "sonner": "^2.0.7",
+    "tailwind-merge": "^3.6.0",
+    "tw-animate-css": "^1.4.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.6",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
+
+
+====================================================================================================
+components.json
+====================================================================================================
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "base-nova",
+  "rsc": true,
+  "tsx": true,
+  "tailwind": {
+    "config": "",
+    "css": "src/app/globals.css",
+    "baseColor": "neutral",
+    "cssVariables": true,
+    "prefix": ""
+  },
+  "iconLibrary": "lucide",
+  "rtl": false,
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib/utils",
+    "ui": "@/components/ui",
+    "lib": "@/lib",
+    "hooks": "@/hooks"
+  },
+  "menuColor": "default",
+  "menuAccent": "subtle",
+  "registries": {}
+}
+
+
+====================================================================================================
+tsconfig.json
+====================================================================================================
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    "**/*.mts"
+  ],
+  "exclude": ["node_modules"]
+}
+
+
+====================================================================================================
+next.config.ts
+====================================================================================================
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  // Image Optimization
+  images: {
+    qualities: [50, 60, 70, 75, 80, 85, 90, 95, 100],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+    ],
+    formats: ["image/avif", "image/webp"],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 60 * 60 * 24 * 30,
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+  },
+
+  // Compression
+  compress: true,
+
+  // Powered By Header
+  poweredByHeader: false,
+
+  // React Strict Mode
+  reactStrictMode: true,
+
+  // Experimental
+  experimental: {
+    optimizePackageImports: [
+      "lucide-react",
+      "framer-motion",
+      "sonner",
+    ],
+  },
+
+  // Headers for SEO & Security
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "X-DNS-Prefetch-Control",
+            value: "on",
+          },
+          {
+            key: "X-Frame-Options",
+            value: "SAMEORIGIN",
+          },
+          {
+            key: "X-Content-Type-Options",
+            value: "nosniff",
+          },
+          {
+            key: "Referrer-Policy",
+            value: "strict-origin-when-cross-origin",
+          },
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=(self)",
+          },
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=63072000; includeSubDomains; preload",
+          },
+        ],
+      },
+      {
+        source: "/images/(.*)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
+        source: "/videos/(.*)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
+        source: "/(favicon.ico|logo.jpeg|apple-icon.png|icon.png|icon-192.png|icon-512.png)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+    ];
+  },
+
+  // Redirects for SEO
+  async redirects() {
+    return [
+      {
+        source: "/home",
+        destination: "/",
+        permanent: true,
+      },
+      {
+        source: "/service",
+        destination: "/services",
+        permanent: true,
+      },
+      {
+        source: "/area",
+        destination: "/areas",
+        permanent: true,
+      },
+    ];
+  },
+};
+
+export default nextConfig;
+
+====================================================================================================
+postcss.config.mjs
+====================================================================================================
+const config = {
+  plugins: {
+    "@tailwindcss/postcss": {},
+  },
+};
+
+export default config;
+
+
+====================================================================================================
+eslint.config.mjs
+====================================================================================================
+import { defineConfig, globalIgnores } from "eslint/config";
+import nextVitals from "eslint-config-next/core-web-vitals";
+import nextTs from "eslint-config-next/typescript";
+
+const eslintConfig = defineConfig([
+  ...nextVitals,
+  ...nextTs,
+  // Override default ignores of eslint-config-next.
+  globalIgnores([
+    // Default ignores of eslint-config-next:
+    ".next/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+  ]),
+]);
+
+export default eslintConfig;
+
+
+====================================================================================================
+src\app\layout.tsx
+====================================================================================================
+import type { Metadata, Viewport } from "next";
+import { Cairo } from "next/font/google";
+import "./globals.css";
+import { siteConfig } from "@/config/site";
+import {
+  generateLocalBusinessSchema,
+  generateWebsiteSchema,
+} from "@/lib/seo/schema";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+import { FloatingActions } from "@/components/layout/FloatingActions";
+import { MobileStickyBar } from "@/components/layout/MobileStickyBar";
+import { GoogleAnalytics, GoogleTagManager } from "@/components/analytics/GoogleAnalytics";
+
+const cairo = Cairo({
+  subsets: ["arabic", "latin"],
+  display: "swap",
+  preload: true,
+  weight: ["400", "500", "600", "700", "800", "900"],
+  variable: "--font-cairo",
+  fallback: ["system-ui", "Arial", "sans-serif"],
+  adjustFontFallback: true,
+});
+
+export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: `${siteConfig.name} | أفضل شركة نقل أثاث في التجمع الخامس ومدينتي والشيخ زايد`,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
+  keywords: [
+    // Primary Keywords
+    "شركة نقل أثاث",
+    "نقل عفش",
+    "شركة نقل عفش",
+    "خطوة لنقل الأثاث",
+    "شركة خطوة",
+
+    // Location-based Keywords
+    "نقل أثاث القاهرة",
+    "نقل أثاث الجيزة",
+    "نقل أثاث التجمع الخامس",
+    "نقل أثاث التجمع",
+    "نقل أثاث مدينتي",
+    "نقل أثاث الشيخ زايد",
+    "نقل أثاث 6 أكتوبر",
+    "نقل أثاث القاهرة الجديدة",
+    "نقل أثاث العاصمة الإدارية",
+    "نقل أثاث الرحاب",
+    "نقل عفش التجمع",
+    "نقل عفش مدينتي",
+    "نقل عفش القاهرة",
+
+    // Service Keywords
+    "فك وتركيب أثاث",
+    "فك وتركيب تكييفات",
+    "فك وتركيب غرف نوم",
+    "تغليف أثاث",
+    "تغليف عفش",
+    "ونش رفع أثاث",
+    "ونش عفش",
+    "نقل مقتنيات حساسة",
+    "نقل زجاج",
+    "نقل نجف",
+    "نقل تحف",
+
+    // Long-tail Keywords
+    "افضل شركة نقل اثاث في مصر",
+    "افضل شركة نقل اثاث في التجمع",
+    "افضل شركة نقل اثاث في مدينتي",
+    "شركة نقل اثاث كمبوندات",
+    "نقل اثاث فلل",
+    "نقل اثاث شقق",
+    "اسعار نقل الاثاث",
+    "شركة نقل اثاث 24 ساعة",
+    "شركة نقل اثاث موثوقة",
+    "شركة نقل اثاث بضمان",
+
+    // Brand Keywords
+    "خطوة نقل أثاث",
+    "شركة خطوة للنقل",
+    "Khotwa Moving",
+    "Khotwa Trans",
+  ],
+  authors: [{ name: siteConfig.name, url: siteConfig.url }],
+  creator: siteConfig.name,
+  publisher: siteConfig.name,
+  applicationName: siteConfig.name,
+  category: "Business",
+  classification: "Moving Services",
+  formatDetection: { email: false, address: false, telephone: false },
+  alternates: {
+    canonical: siteConfig.url,
+    languages: {
+      "ar-EG": siteConfig.url,
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "ar_EG",
+    url: siteConfig.url,
+    siteName: siteConfig.name,
+    title: `${siteConfig.name} | خدمة نقل أثاث احترافية في مصر`,
+    description: siteConfig.description,
+    images: [
+      {
+        url: "/logo.jpeg",
+        width: 1200,
+        height: 630,
+        alt: siteConfig.name,
+        type: "image/jpeg",
+      },
+      {
+        url: "/herosection.jpeg",
+        width: 1200,
+        height: 630,
+        alt: "خطوة لنقل الأثاث - خدمة فاخرة",
+        type: "image/jpeg",
+      },
+    ],
+    countryName: "Egypt",
+    emails: ["info@khotwa-trans.com"],
+    phoneNumbers: [siteConfig.phone],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.name,
+    description: siteConfig.description,
+    images: ["/logo.jpeg"],
+    creator: "@khotwa_trans",
+    site: "@khotwa_trans",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+      noimageindex: false,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION || "",
+    yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION || "",
+    other: {
+      "msvalidate.01": process.env.NEXT_PUBLIC_BING_VERIFICATION || "",
+    },
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.png", type: "image/png", sizes: "32x32" },
+      { url: "/icon-192.png", type: "image/png", sizes: "192x192" },
+      { url: "/icon-512.png", type: "image/png", sizes: "512x512" },
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+    shortcut: "/favicon.ico",
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: siteConfig.shortName,
+  },
+  other: {
+    "geo.region": "EG-C",
+    "geo.placename": "Cairo",
+    "geo.position": "30.0131;31.4961",
+    ICBM: "30.0131, 31.4961",
+    "revisit-after": "3 days",
+    rating: "General",
+    distribution: "Global",
+    "language": "Arabic",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#F0ECE1" },
+    { media: "(prefers-color-scheme: dark)", color: "#1C1C1C" },
+  ],
+  colorScheme: "light",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const businessSchema = generateLocalBusinessSchema();
+  const websiteSchema = generateWebsiteSchema();
+
+  return (
+    <html lang="ar" dir="rtl" className={cairo.variable}>
+      <head>
+        {/* Structured Data - Business */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(businessSchema),
+          }}
+        />
+
+        {/* Structured Data - Website */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteSchema),
+          }}
+        />
+
+        {/* Preload Critical Resources */}
+        <link
+          rel="preload"
+          as="image"
+          href="/herosection.jpeg"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          as="image"
+          href="/logo.jpeg"
+          fetchPriority="high"
+        />
+
+        {/* DNS Prefetch */}
+        <link rel="dns-prefetch" href="https://wa.me" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+
+        {/* Preconnect */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+
+        {/* PWA Meta */}
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="خطوة" />
+
+        {/* Geo Tags for Local SEO */}
+        <meta name="geo.region" content="EG-C" />
+        <meta name="geo.placename" content="Cairo, Egypt" />
+        <meta name="geo.position" content="30.0131;31.4961" />
+        <meta name="ICBM" content="30.0131, 31.4961" />
+
+        {/* Content Language */}
+        <meta httpEquiv="content-language" content="ar-EG" />
+
+        <GoogleTagManager />
+      </head>
+      <body className={cairo.className} suppressHydrationWarning>
+        <GoogleAnalytics />
+        <Header />
+        <main>{children}</main>
+        <Footer />
+        <FloatingActions />
+        <MobileStickyBar />
+      </body>
+    </html>
+  );
+}
+
+====================================================================================================
+src\app\page.tsx
+====================================================================================================
+import HomeContent from "./HomeContent";
+
+export default function HomePage() {
+  return <HomeContent />;
+}
+
+====================================================================================================
+src\app\globals.css
+====================================================================================================
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap");
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-charcoal: #1C1C1C;
+  --color-charcoal-dark: #111111;
+  --color-charcoal-light: #2A2A2A;
+  --color-sand: #E8E3D9;
+  --color-sand-dark: #D4CCB8;
+  --color-sand-light: #F5F2EC;
+  --color-olive: #3F4F44;
+  --color-olive-dark: #2E3B32;
+  --color-olive-light: #5A6E5F;
+
+  --font-sans: "Cairo", sans-serif;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0.75rem;
+  --background: #FFFFFF;
+  --foreground: #1C1C1C;
+  --card: #FFFFFF;
+  --card-foreground: #1C1C1C;
+  --popover: #FFFFFF;
+  --popover-foreground: #1C1C1C;
+  --primary: #1C1C1C;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F5F2EC;
+  --secondary-foreground: #1C1C1C;
+  --muted: #F0EDE8;
+  --muted-foreground: #6B6B6B;
+  --accent: #3F4F44;
+  --accent-foreground: #FFFFFF;
+  --destructive: #DC2626;
+  --border: #E5E1DA;
+  --input: #E5E1DA;
+  --ring: #3F4F44;
+}
+
+* { border-color: var(--border); }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  direction: rtl;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+button { font-family: inherit; cursor: pointer; }
+
+::selection { background: var(--accent); color: white; }
+::-moz-selection { background: var(--accent); color: white; }
+
+.container-custom {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .container-custom { padding-left: 1.5rem; padding-right: 1.5rem; }
+}
+
+@media (min-width: 1024px) {
+  .container-custom { padding-left: 2rem; padding-right: 2rem; max-width: 1280px; }
+}
+
+.section-padding { padding-top: 3rem; padding-bottom: 3rem; }
+
+@media (min-width: 768px) {
+  .section-padding { padding-top: 5rem; padding-bottom: 5rem; }
+}
+
+@media (min-width: 1024px) {
+  .section-padding { padding-top: 6rem; padding-bottom: 6rem; }
+}
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: #F5F2EC; }
+::-webkit-scrollbar-thumb { background: #3F4F44; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #2E3B32; }
+
+.line-clamp-1 { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+.line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.line-clamp-5 { display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; }
+
+*:focus-visible { outline: 2px solid #3F4F44; outline-offset: 2px; border-radius: 4px; }
+
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}
+
+@media print {
+  header, footer, .no-print { display: none !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+====================================================================================================
+src\lib\utils.ts
+====================================================================================================
+import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+
+
+====================================================================================================
+src\config\site.ts
+====================================================================================================
+export const siteConfig = {
+  name: "خطوة لنقل الأثاث",
+  shortName: "خطوة",
+  description:
+    "خطوة لنقل الأثاث - أفضل شركة نقل أثاث في مصر متخصصة في التجمع الخامس، مدينتي، الشيخ زايد، 6 أكتوبر، والقاهرة الجديدة. خدمة احترافية 24/7 مع فرق مدربة، تغليف احترافي، ونش رفع، وضمان كامل على المقتنيات. اتصل الآن للحصول على عرض سعر مجاني.",
+  url: "https://khotwa-trans.com",
+  phone: "01091857418",
+  whatsapp: "201091857418",
+  address: "التجمع الخامس - القاهرة الجديدة - مصر",
+  country: "مصر",
+  serviceArea: "جميع محافظات مصر",
+  yearsOfExperience: 10,
+  foundingYear: 2014,
+  socialMedia: {
+    facebook: "",
+    instagram: "",
+  },
+} as const;

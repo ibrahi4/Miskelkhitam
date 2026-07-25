@@ -1,378 +1,167 @@
-import Link from "next/link";
+import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
-import {
-  Calendar, Clock, ArrowLeft, ArrowRight, ChevronLeft,
-  Phone, MessageCircle, User, BookOpen,
-} from "lucide-react";
-import { blogPosts, blogCategories } from "@/config/blog";
-import { siteConfig } from "@/config/site";
-import { buildMetadata } from "@/lib/seo/metadata";
-import { generateBlogPostSchema, generateBreadcrumbSchema } from "@/lib/seo/schema";
+import { Clock, Tag, User, Phone, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Breadcrumb } from "@/components/shared/Breadcrumb";
+import { blogPosts, getRelatedPosts } from "@/config/blog";
+import { siteConfig } from "@/config/site";
+import {
+  generateArticleSchema,
+  generateBreadcrumbSchema,
+} from "@/lib/seo/schema";
+
+interface PageProps {
+  params: Promise<{ slug: string }>;
+}
 
 export async function generateStaticParams() {
-  return blogPosts.map((post) => ({ slug: post.slug }));
+  return blogPosts.map((p) => ({ slug: p.slug }));
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const post = blogPosts.find((p) => p.slug === slug);
-  if (!post) return {};
-
-  return buildMetadata({
-    title: post.metaTitle,
-    description: post.metaDescription,
-    path: `/blog/${slug}`,
-    image: post.image,
-  });
+  if (!post) return { title: "غير موجود" };
+  return {
+    title: post.title,
+    description: post.excerpt,
+    alternates: {
+      canonical: `${siteConfig.url}/blog/${post.slug}`,
+    },
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      url: `${siteConfig.url}/blog/${post.slug}`,
+      type: "article",
+      publishedTime: post.date,
+      authors: [post.author],
+      images: [{ url: post.image, width: 1200, height: 630, alt: post.title }],
+    },
+  };
 }
 
-export default async function BlogPostPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export default async function BlogPostPage({ params }: PageProps) {
   const { slug } = await params;
   const post = blogPosts.find((p) => p.slug === slug);
-
   if (!post) notFound();
 
-  const category = blogCategories.find((c) => c.slug === post.category);
-  const currentIndex = blogPosts.findIndex((p) => p.slug === slug);
-  const prevPost = currentIndex > 0 ? blogPosts[currentIndex - 1] : null;
-  const nextPost =
-    currentIndex < blogPosts.length - 1 ? blogPosts[currentIndex + 1] : null;
-  const relatedPosts = blogPosts
-    .filter((p) => p.slug !== slug && p.category === post.category)
-    .slice(0, 3);
+  const related = getRelatedPosts(slug, 3);
 
-  const blogSchema = generateBlogPostSchema({
+  const articleSchema = generateArticleSchema({
     title: post.title,
-    description: post.metaDescription,
-    image: post.image,
-    publishedAt: post.publishedAt,
-    author: post.author,
+    description: post.excerpt,
     slug: post.slug,
+    image: post.image,
+    datePublished: post.date,
+    author: post.author,
   });
 
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: "الرئيسية", url: siteConfig.url },
     { name: "المدونة", url: `${siteConfig.url}/blog` },
-    { name: post.title, url: `${siteConfig.url}/blog/${slug}` },
+    { name: post.title, url: `${siteConfig.url}/blog/${post.slug}` },
   ]);
 
-  const renderContent = (content: string) => {
-    const lines = content.split("\n");
-    const elements: React.ReactNode[] = [];
-    let key = 0;
-
-    lines.forEach((line) => {
+  const contentHtml = post.content
+    .split("\n")
+    .map((line) => {
       const trimmed = line.trim();
-      if (!trimmed) return;
-
-      if (trimmed.startsWith("## ")) {
-        elements.push(
-          <h2
-            key={key++}
-            className="text-2xl md:text-3xl font-black text-[#1C1C1C] mt-10 mb-4 tracking-tight"
-          >
-            {trimmed.replace("## ", "")}
-          </h2>
-        );
-      } else if (trimmed.startsWith("### ")) {
-        elements.push(
-          <h3
-            key={key++}
-            className="text-xl md:text-2xl font-bold text-[#1C1C1C] mt-8 mb-3 tracking-tight"
-          >
-            {trimmed.replace("### ", "")}
-          </h3>
-        );
-      } else if (trimmed.startsWith("- ") || trimmed.startsWith("• ")) {
-        elements.push(
-          <li key={key++} className="text-[#1C1C1C]/80 leading-relaxed mr-6 mb-2">
-            {trimmed.replace(/^[-•]\s/, "")}
-          </li>
-        );
-      } else if (/^\d+\.\s/.test(trimmed)) {
-        elements.push(
-          <li key={key++} className="text-[#1C1C1C]/80 leading-relaxed mr-6 mb-2 list-decimal">
-            {trimmed.replace(/^\d+\.\s/, "")}
-          </li>
-        );
-      } else {
-        elements.push(
-          <p key={key++} className="text-[#1C1C1C]/80 leading-relaxed mb-4">
-            {trimmed}
-          </p>
-        );
-      }
-    });
-
-    return elements;
-  };
+      if (trimmed.startsWith("### ")) return `<h3 class="text-lg font-bold text-sky-950 mt-6 mb-2">${trimmed.slice(4)}</h3>`;
+      if (trimmed.startsWith("## ")) return `<h2 class="text-xl font-bold text-sky-950 mt-8 mb-3">${trimmed.slice(3)}</h2>`;
+      if (trimmed === "") return "";
+      return `<p class="text-slate-600 leading-relaxed mb-3">${trimmed}</p>`;
+    })
+    .join("\n");
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
-      {/* Breadcrumb */}
-      <div className="bg-[#F5F2EC] border-b border-[#E5E1DA]">
-        <div className="container-custom py-3">
-          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-[#6B6B6B]">
-            <Link href="/" className="hover:text-[#3F4F44] transition-colors">
-              الرئيسية
-            </Link>
-            <ChevronLeft className="w-4 h-4" aria-hidden="true" />
-            <Link href="/blog" className="hover:text-[#3F4F44] transition-colors">
-              المدونة
-            </Link>
-            <ChevronLeft className="w-4 h-4" aria-hidden="true" />
-            <span className="text-[#1C1C1C] font-semibold line-clamp-1" aria-current="page">
-              {post.title}
-            </span>
-          </nav>
+      <section className="bg-gradient-to-b from-sky-50 via-white to-white">
+        <div className="container-custom py-16 md:py-20">
+          <div className="max-w-3xl mx-auto">
+            <div className="mb-6">
+              <Breadcrumb
+                items={[
+                  { label: "المدونة", href: "/blog" },
+                  { label: post.title },
+                ]}
+              />
+            </div>
+
+            <Badge className="bg-sky-100 text-sky-700 mb-4">{post.category}</Badge>
+            <h1 className="text-3xl md:text-4xl font-black text-sky-950 mb-4">{post.title}</h1>
+            <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500">
+              <div className="flex items-center gap-1"><User className="h-4 w-4" />{post.author}</div>
+              <div className="flex items-center gap-1"><Tag className="h-4 w-4" />{post.date}</div>
+              <div className="flex items-center gap-1"><Clock className="h-4 w-4" />{post.readTime}</div>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
 
-      {/* Hero */}
-      <article>
-        <header>
-          <section className="relative bg-[#1C1C1C] text-white overflow-hidden">
-            <div className="absolute inset-0 opacity-10" aria-hidden="true">
-              <div className="absolute top-0 right-0 w-96 h-96 bg-[#3F4F44] rounded-full blur-3xl" />
-            </div>
-
-            <div className="relative container-custom py-12 md:py-16">
-              <div className="max-w-4xl mx-auto">
-                <Badge className="bg-[#3F4F44] text-white border-0 mb-5">
-                  {category?.name}
-                </Badge>
-
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-black mb-6 tracking-tight leading-tight">
-                  {post.title}
-                </h1>
-
-                <p className="text-base md:text-lg text-white/70 leading-relaxed mb-6">
-                  {post.excerpt}
-                </p>
-
-                <div className="flex flex-wrap items-center gap-5 text-sm text-white/60">
-                  <span className="flex items-center gap-2">
-                    <User className="w-4 h-4 text-[#E8E3D9]" />
-                    <span>{post.author}</span>
-                  </span>
-                  <time
-                    dateTime={post.publishedAt}
-                    className="flex items-center gap-2"
-                  >
-                    <Calendar className="w-4 h-4 text-[#E8E3D9]" />
-                    {new Date(post.publishedAt).toLocaleDateString("ar-EG", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                  </time>
-                  <span className="flex items-center gap-2">
-                    <Clock className="w-4 h-4 text-[#E8E3D9]" />
-                    {post.readTime} دقائق قراءة
-                  </span>
-                </div>
+      <section className="section-padding bg-white">
+        <div className="container-custom">
+          <div className="grid lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2">
+              <div className="relative aspect-video rounded-2xl overflow-hidden mb-8">
+                <Image src={post.image} alt={post.title} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 66vw" priority />
+              </div>
+              <article className="prose-custom" dangerouslySetInnerHTML={{ __html: contentHtml }} />
+              <div className="flex flex-wrap gap-2 mt-8">
+                {post.tags.map((tag) => (
+                  <Badge key={tag} variant="secondary">{tag}</Badge>
+                ))}
               </div>
             </div>
-          </section>
 
-          {/* Featured Image */}
-          <section className="bg-[#F5F2EC] pb-0">
-            <div className="container-custom">
-              <div className="max-w-4xl mx-auto">
-                <figure className="relative aspect-video rounded-3xl overflow-hidden shadow-2xl -mt-8 md:-mt-12 border border-[#E5E1DA]">
-                  <Image
-                    src={post.image}
-                    alt={post.title}
-                    fill
-                    priority
-                    className="object-cover"
-                    sizes="(max-width: 1024px) 100vw, 900px"
-                  />
-                </figure>
-              </div>
-            </div>
-          </section>
-        </header>
-
-        {/* Content */}
-        <section className="section-padding bg-[#F5F2EC]">
-          <div className="container-custom">
-            <div className="max-w-4xl mx-auto">
-              <Card className="border-[#E5E1DA] bg-white shadow-sm">
-                <CardContent className="p-6 md:p-10 lg:p-14">
-                  <div className="prose prose-lg max-w-none">
-                    {renderContent(post.content)}
-                  </div>
-
-                  {post.keywords && post.keywords.length > 0 && (
-                    <footer className="mt-10 pt-8 border-t border-[#E5E1DA]">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className="text-sm font-bold text-[#1C1C1C] ml-2">
-                          الكلمات المفتاحية:
-                        </span>
-                        {post.keywords.map((kw) => (
-                          <Badge
-                            key={kw}
-                            variant="outline"
-                            className="border-[#E5E1DA] text-[#6B6B6B]"
-                          >
-                            {kw}
-                          </Badge>
-                        ))}
-                      </div>
-                    </footer>
-                  )}
+            <div className="space-y-6">
+              <Card className="border-sky-100 bg-sky-50/60">
+                <CardContent className="p-6 text-center space-y-4">
+                  <h3 className="font-bold text-sky-950">محتاج خدمة نقل؟</h3>
+                  <p className="text-sm text-slate-500">كلمنا واحصل على عرض سعر مجاني</p>
+                  <Button className="w-full bg-sky-500 hover:bg-sky-600 text-white" asChild>
+                    <a href={`tel:${siteConfig.phone}`}><Phone className="h-4 w-4" />اتصل دلوقتي</a>
+                  </Button>
+                  <Button className="w-full bg-green-500 hover:bg-green-600 text-white" asChild>
+                    <a href={`https://wa.me/${siteConfig.whatsapp}`} target="_blank" rel="noopener noreferrer"><MessageCircle className="h-4 w-4" />واتساب</a>
+                  </Button>
                 </CardContent>
               </Card>
 
-              {/* Prev/Next */}
-              <nav aria-label="Blog navigation" className="grid md:grid-cols-2 gap-4 mt-8">
-                {prevPost ? (
-                  <Link href={`/blog/${prevPost.slug}`}>
-                    <Card className="hover:border-[#3F4F44] hover:shadow-md transition-all cursor-pointer border-[#E5E1DA] h-full bg-white">
-                      <CardContent className="p-5">
-                        <div className="flex items-center gap-2 text-xs text-[#6B6B6B] mb-2">
-                          <ArrowRight className="w-3 h-3" />
-                          <span>المقال السابق</span>
-                        </div>
-                        <h4 className="font-bold text-[#1C1C1C] line-clamp-2 text-sm">
-                          {prevPost.title}
-                        </h4>
-                      </CardContent>
-                    </Card>
-                  </Link>
-                ) : (
-                  <div />
-                )}
-
-                {nextPost && (
-                  <Link href={`/blog/${nextPost.slug}`}>
-                    <Card className="hover:border-[#3F4F44] hover:shadow-md transition-all cursor-pointer border-[#E5E1DA] h-full bg-white">
-                      <CardContent className="p-5 text-left">
-                        <div className="flex items-center justify-end gap-2 text-xs text-[#6B6B6B] mb-2">
-                          <span>المقال التالي</span>
-                          <ArrowLeft className="w-3 h-3" />
-                        </div>
-                        <h4 className="font-bold text-[#1C1C1C] line-clamp-2 text-sm">
-                          {nextPost.title}
-                        </h4>
-                      </CardContent>
-                    </Card>
-                  </Link>
-                )}
-              </nav>
+              {related.length > 0 && (
+                <div>
+                  <h3 className="font-bold text-sky-950 mb-4">مقالات تانية</h3>
+                  {related.map((r) => (
+                    <Link key={r.id} href={`/blog/${r.slug}`}>
+                      <Card className="border-sky-100 hover:shadow-md transition-shadow cursor-pointer mb-3">
+                        <CardContent className="flex items-center gap-3 p-4">
+                          <div className="relative w-16 h-16 rounded-xl overflow-hidden shrink-0">
+                            <Image src={r.image} alt={r.title} fill className="object-cover" sizes="64px" />
+                          </div>
+                          <div className="flex-1">
+                            <div className="font-bold text-sky-950 text-sm line-clamp-2">{r.title}</div>
+                            <div className="text-xs text-slate-400 mt-1">{r.readTime}</div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
-        </section>
-      </article>
-
-      {/* Related Posts */}
-      {relatedPosts.length > 0 && (
-        <aside className="section-padding bg-white">
-          <div className="container-custom">
-            <div className="text-center max-w-2xl mx-auto mb-12">
-              <Badge variant="outline" className="border-[#3F4F44] text-[#3F4F44] mb-4">
-                <BookOpen className="w-3 h-3 ml-1.5" />
-                مقالات ذات صلة
-              </Badge>
-              <h2 className="text-3xl md:text-4xl font-black text-[#1C1C1C] tracking-tight">
-                اقرأ أيضاً
-              </h2>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {relatedPosts.map((p) => (
-                <Link key={p.slug} href={`/blog/${p.slug}`}>
-                  <Card className="h-full overflow-hidden hover:shadow-lg hover:border-[#3F4F44] transition-all duration-300 group cursor-pointer border-[#E5E1DA]">
-                    <div className="relative aspect-video overflow-hidden bg-[#F5F2EC]">
-                      <Image
-                        src={p.image}
-                        alt={p.title}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      />
-                    </div>
-                    <CardContent className="p-5">
-                      <div className="flex items-center gap-3 text-xs text-[#6B6B6B] mb-2">
-                        <span className="flex items-center gap-1">
-                          <Clock className="w-3 h-3" />
-                          {p.readTime} د
-                        </span>
-                      </div>
-                      <h3 className="text-base font-bold text-[#1C1C1C] leading-tight group-hover:text-[#3F4F44] transition-colors line-clamp-2">
-                        {p.title}
-                      </h3>
-                    </CardContent>
-                  </Card>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </aside>
-      )}
-
-      {/* CTA */}
-      <section className="bg-[#F5F2EC] py-12 md:py-16">
-        <div className="container-custom">
-          <Card className="bg-[#1C1C1C] border-0 text-white overflow-hidden">
-            <CardContent className="p-8 md:p-12 text-center">
-              <h2 className="text-2xl md:text-3xl font-black mb-4 tracking-tight">
-                هل تحتاج خدمة نقل أثاث؟
-              </h2>
-              <p className="text-white/60 mb-8 max-w-xl mx-auto">
-                فريقنا جاهز لخدمتك على مدار الساعة. تواصل معنا الآن
-              </p>
-              <div className="flex flex-col sm:flex-row justify-center gap-3">
-                <Button
-                  asChild
-                  size="lg"
-                  className="bg-[#E8E3D9] hover:bg-[#D4CCB8] text-[#1C1C1C] h-12 px-8"
-                >
-                  <a href={`tel:${siteConfig.phone}`}>
-                    <Phone className="w-4 h-4 ml-2" />
-                    اتصل الآن
-                  </a>
-                </Button>
-                <Button
-                  asChild
-                  size="lg"
-                  variant="outline"
-                  className="bg-white/5 hover:bg-white/10 border-white/20 text-white hover:text-white h-12 px-8 backdrop-blur"
-                >
-                  <a
-                    href={`https://wa.me/${siteConfig.whatsapp}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <MessageCircle className="w-4 h-4 ml-2" />
-                    واتساب
-                  </a>
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
         </div>
       </section>
     </>

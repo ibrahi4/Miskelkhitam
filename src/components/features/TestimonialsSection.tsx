@@ -1,170 +1,151 @@
 "use client";
 
-import { Star, Quote, MapPin, Crown } from "lucide-react";
+import { useState, useEffect, useCallback } from "react";
+import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
+import { motion } from "framer-motion";
+import {
+  MessageSquareQuote,
+  Star,
+  MapPin,
+  ChevronLeft,
+  ChevronRight,
+  Quote,
+} from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { testimonials } from "@/config/media";
 
-const testimonials = [
-  {
-    id: 1,
-    name: "أحمد محمد",
-    location: "الشيخ زايد",
-    role: "صاحب فيلا",
-    rating: 5,
-    comment:
-      "خدمة استثنائية! نقلوا فيلتي بالكامل من الشيخ زايد للتجمع الخامس بكل احترافية. الفريق مدرب جداً والتغليف كان ممتاز. أنصح بهم بشدة لأصحاب الكمبوندات.",
-    isVIP: true,
-  },
-  {
-    id: 2,
-    name: "د. سارة عبدالله",
-    location: "التجمع الخامس",
-    role: "طبيبة",
-    rating: 5,
-    comment:
-      "تعاملت معهم في نقل أثاث عيادتي والمنزل. الالتزام بالمواعيد ممتاز والأسعار شفافة. الأهم أنهم اهتموا بالأجهزة الحساسة بشكل احترافي جداً.",
-    isVIP: true,
-  },
-  {
-    id: 3,
-    name: "م. خالد إبراهيم",
-    location: "مدينتي",
-    role: "مهندس",
-    rating: 5,
-    comment:
-      "أفضل شركة نقل تعاملت معها على الإطلاق. نقلوا أثاث منزلي في مدينتي بسرعة وأمان تام. الونش جاء في الموعد وخدمة فك وتركيب التكييفات كانت احترافية.",
-    isVIP: true,
-  },
-  {
-    id: 4,
-    name: "نورا حسن",
-    location: "6 أكتوبر",
-    role: "ربة منزل",
-    rating: 5,
-    comment:
-      "شركة محترمة ومتعاونة. غلفوا كل قطعة بعناية وكأنها قطعتهم. لا توجد أي خدوش أو أضرار. سعرهم مناسب جداً مقارنة بجودة الخدمة.",
-    isVIP: false,
-  },
-  {
-    id: 5,
-    name: "أ. محمود سعيد",
-    location: "القاهرة الجديدة",
-    role: "أستاذ جامعي",
-    rating: 5,
-    comment:
-      "خبرة سنين في الخدمة واضحة من أول لحظة. تعاملوا مع مكتبتي الضخمة ولوحاتي الفنية بمنتهى الحرص. شركة موثوقة تستحق التقدير.",
-    isVIP: true,
-  },
-  {
-    id: 6,
-    name: "ياسمين أحمد",
-    location: "الرحاب",
-    role: "محاسبة",
-    rating: 5,
-    comment:
-      "نقلت بيتي معاهم أكثر من مرة، وكل مرة بنفس الجودة والاحترافية. فريق محترم والمدير شخصياً بيتابع الشغل. أنصح بهم لكل من يبحث عن الجودة.",
-    isVIP: false,
-  },
-];
+function StarRating({ rating }: { rating: number }) {
+  return (
+    <div className="flex gap-0.5">
+      {Array.from({ length: 5 }).map((_, i) => (
+        <Star
+          key={i}
+          className={`w-4 h-4 ${
+            i < rating ? "fill-amber-400 text-amber-400" : "text-slate-200"
+          }`}
+        />
+      ))}
+    </div>
+  );
+}
 
 export function TestimonialsSection() {
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    {
+      loop: true,
+      align: "start",
+      direction: "rtl",
+      slidesToScroll: 1,
+    },
+    [Autoplay({ delay: 5000, stopOnInteraction: false })]
+  );
+
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
+
+  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
+  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+  const scrollTo = useCallback(
+    (index: number) => emblaApi?.scrollTo(index),
+    [emblaApi]
+  );
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    const onSelect = () => setSelectedIndex(emblaApi.selectedScrollSnap());
+    setScrollSnaps(emblaApi.scrollSnapList());
+    emblaApi.on("select", onSelect);
+    onSelect();
+  }, [emblaApi]);
+
   return (
-    <section className="section-padding bg-[#F5F2EC]">
+    <section id="testimonials" className="section-padding bg-white overflow-hidden">
       <div className="container-custom">
-
-        {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <Badge variant="outline" className="border-[#3F4F44] text-[#3F4F44] mb-4">
-            <Quote className="w-3 h-3 ml-1.5" />
-            آراء عملائنا
-          </Badge>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-[#1C1C1C] mb-4 tracking-tight">
-            ماذا يقول
-            <br />
-            <span className="text-[#3F4F44]">عملاؤنا عنا؟</span>
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center gap-2 bg-amber-50 text-amber-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
+            <MessageSquareQuote className="w-4 h-4" />
+            آراء العملاء
+          </div>
+          <h2 className="text-2xl md:text-3xl font-bold text-sky-950 mb-3">
+            عملاؤنا بيتكلموا عننا
           </h2>
-          <p className="text-base text-[#6B6B6B] leading-relaxed mb-6">
-            آلاف العملاء وثقوا بنا في نقل أثاثهم. اقرأ بعض تجاربهم الحقيقية
+          <p className="text-slate-500 max-w-lg mx-auto">
+            آراء حقيقية من عملاء ثقوا فينا واستفادوا بخدماتنا
           </p>
+        </div>
 
-          {/* Overall Rating */}
-          <div className="inline-flex items-center gap-3 bg-white border border-[#E5E1DA] rounded-2xl px-6 py-4 shadow-sm">
-            <div className="flex gap-1">
-              {[1, 2, 3, 4, 5].map((i) => (
-                <Star key={i} className="w-5 h-5 fill-[#3F4F44] text-[#3F4F44]" />
+        <div className="relative">
+          <div className="overflow-hidden" ref={emblaRef}>
+            <div className="flex gap-5">
+              {testimonials.map((t, i) => (
+                <motion.div
+                  key={t.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.05 }}
+                  className="flex-[0_0_100%] sm:flex-[0_0_50%] lg:flex-[0_0_33.333%] min-w-0"
+                >
+                  <Card className="h-full border-sky-100 hover:shadow-lg transition-shadow relative overflow-hidden">
+                    <div className="absolute top-4 left-4 opacity-10">
+                      <Quote className="w-16 h-16 text-sky-500" />
+                    </div>
+                    <CardContent className="p-6 space-y-4 relative">
+                      <StarRating rating={t.rating} />
+                      <p className="text-sm text-slate-600 leading-relaxed min-h-[80px]">
+                        &ldquo;{t.text}&rdquo;
+                      </p>
+                      <div className="flex items-center justify-between pt-3 border-t border-sky-50">
+                        <div>
+                          <p className="text-sm font-bold text-sky-950">{t.name}</p>
+                          <div className="flex items-center gap-1 text-xs text-slate-400 mt-0.5">
+                            <MapPin className="w-3 h-3" />
+                            {t.location}
+                          </div>
+                        </div>
+                        <span className="text-[10px] bg-sky-50 text-sky-600 px-2 py-1 rounded-full font-medium">
+                          {t.service}
+                        </span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
               ))}
             </div>
-            <div className="text-right">
-              <div className="text-2xl font-black text-[#1C1C1C]">4.9 / 5</div>
-              <div className="text-xs text-[#6B6B6B]">من 500+ تقييم</div>
-            </div>
           </div>
-        </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
-          {testimonials.map((t) => (
-            <Card
-              key={t.id}
-              className="h-full hover:shadow-lg hover:border-[#3F4F44] transition-all duration-300 group border-[#E5E1DA] bg-white relative overflow-hidden"
+          {/* Controls */}
+          <div className="flex items-center justify-center gap-4 mt-8">
+            <button
+              onClick={scrollPrev}
+              className="w-10 h-10 rounded-full bg-white border border-sky-200 text-sky-600 hover:bg-sky-50 flex items-center justify-center transition-colors shadow-sm"
+              aria-label="السابق"
             >
-              {t.isVIP && (
-                <div className="absolute top-0 left-0 bg-[#1C1C1C] text-[#E8E3D9] px-3 py-1.5 rounded-br-2xl flex items-center gap-1.5 text-xs font-bold z-10">
-                  <Crown className="w-3 h-3" />
-                  عميل VIP
-                </div>
-              )}
+              <ChevronRight className="w-5 h-5" />
+            </button>
 
-              <CardContent className="p-6 md:p-7 relative">
-                <Quote className="absolute top-4 left-4 w-14 h-14 text-[#E5E1DA] group-hover:text-[#3F4F44]/20 transition-colors" />
-
-                <div className="relative">
-                  <div className="flex gap-1 mb-4">
-                    {[...Array(t.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-[#3F4F44] text-[#3F4F44]" />
-                    ))}
-                  </div>
-
-                  <p className="text-[#1C1C1C]/80 leading-relaxed mb-6 text-sm md:text-base line-clamp-5">
-                    {t.comment}
-                  </p>
-
-                  <div className="flex items-center gap-3 pt-4 border-t border-[#E5E1DA]">
-                    <div className="w-11 h-11 bg-[#1C1C1C] text-[#E8E3D9] rounded-full flex items-center justify-center font-black text-lg shrink-0">
-                      {t.name.charAt(0)}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="font-bold text-[#1C1C1C] text-sm md:text-base">{t.name}</div>
-                      <div className="text-xs text-[#6B6B6B] flex items-center gap-1.5">
-                        <MapPin className="w-3 h-3" />
-                        {t.location} • {t.role}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        {/* Bottom Stats */}
-        <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            { value: "500+", label: "عميل سعيد" },
-            { value: "4.9/5", label: "تقييم العملاء" },
-            { value: "98%", label: "معدل الرضا" },
-            { value: "95%", label: "عملاء متكررون" },
-          ].map((stat, i) => (
-            <div
-              key={i}
-              className="bg-white border border-[#E5E1DA] hover:border-[#3F4F44] rounded-2xl p-5 text-center transition-all hover:shadow-md"
-            >
-              <div className="text-2xl md:text-3xl font-black text-[#3F4F44] mb-1">
-                {stat.value}
-              </div>
-              <div className="text-xs md:text-sm text-[#6B6B6B] font-semibold">{stat.label}</div>
+            <div className="flex items-center gap-1.5">
+              {scrollSnaps.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => scrollTo(i)}
+                  className={`h-2 rounded-full transition-all ${
+                    selectedIndex === i ? "w-6 bg-sky-500" : "w-2 bg-sky-200 hover:bg-sky-300"
+                  }`}
+                  aria-label={`الانتقال للتقييم ${i + 1}`}
+                />
+              ))}
             </div>
-          ))}
+
+            <button
+              onClick={scrollNext}
+              className="w-10 h-10 rounded-full bg-white border border-sky-200 text-sky-600 hover:bg-sky-50 flex items-center justify-center transition-colors shadow-sm"
+              aria-label="التالي"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+          </div>
         </div>
       </div>
     </section>

@@ -7,38 +7,10 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: [
-          "/api/",
-          "/_next/",
-          "/admin/",
-          "/private/",
-          "/thank-you",
-          "/*.json$",
-        ],
-      },
-      {
-        userAgent: "Googlebot",
-        allow: "/",
-        disallow: ["/api/", "/admin/", "/private/"],
-      },
-      {
-        userAgent: "Googlebot-Image",
-        allow: "/images/",
-      },
-      {
-        userAgent: "Bingbot",
-        allow: "/",
-        crawlDelay: 2,
-      },
-      {
-        userAgent: "Slurp",
-        allow: "/",
-        crawlDelay: 5,
+        disallow: ["/api/", "/admin/"],
       },
     ],
-    sitemap: [
-      `${siteConfig.url}/sitemap.xml`,
-    ],
+    sitemap: `${siteConfig.url}/sitemap.xml`,
     host: siteConfig.url,
   };
 }

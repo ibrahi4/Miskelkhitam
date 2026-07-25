@@ -1,154 +1,198 @@
 "use client";
 
 import Link from "next/link";
-import { MapPin, Phone, MessageCircle, Clock, ArrowLeft } from "lucide-react";
+import Image from "next/image";
+import {
+  Phone,
+  MessageCircle,
+  MapPin,
+  Clock,
+  Mail,
+  ChevronLeft,
+  Share2,
+  Send,
+  Shield,
+} from "lucide-react";
 import { siteConfig } from "@/config/site";
-import { services } from "@/config/services";
-import { featuredAreas } from "@/config/areas";
-import { Logo } from "@/components/shared/Logo";
-import { Separator } from "@/components/ui/separator";
-import { trackPhoneCall, trackWhatsApp } from "@/lib/analytics/events";
+import {
+  footerServices,
+  footerAreas,
+  footerQuickLinks,
+} from "@/config/navigation";
+
+function FooterLinkGroup({
+  title,
+  links,
+}: {
+  title: string;
+  links: { label: string; href: string }[];
+}) {
+  return (
+    <div>
+      <h3 className="text-sm font-bold text-white mb-4 flex items-center gap-2">
+        <span className="w-1 h-4 bg-sky-500 rounded-full" />
+        {title}
+      </h3>
+      <ul className="space-y-2.5">
+        {links.map((link) => (
+          <li key={link.href}>
+            <Link
+              href={link.href}
+              className="flex items-center gap-1.5 text-sm text-sky-200/70 hover:text-white transition-colors group"
+            >
+              <ChevronLeft className="w-3 h-3 opacity-0 group-hover:opacity-100 -mr-2 group-hover:mr-0 transition-all" />
+              {link.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
 export function Footer() {
-  const validAreas = (featuredAreas || []).filter((a) => a && a.slug && a.name);
+  const currentYear = new Date().getFullYear();
+
+  const handleShare = () => {
+    if (typeof navigator !== "undefined" && navigator.share) {
+      void navigator.share({
+        title: siteConfig.name,
+        url: siteConfig.url,
+      });
+    }
+  };
 
   return (
-    <footer className="bg-[#1C1C1C] text-white mt-16 lg:mt-24">
-      <div className="container-custom">
+    <footer className="bg-sky-950 text-sky-100 no-print relative overflow-hidden">
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-sky-400 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-sky-500 rounded-full blur-3xl" />
+      </div>
 
-        {/* Top Section */}
-        <div className="py-12 lg:py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
+      <div className="container-custom py-12 lg:py-16 relative">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
+          <div className="sm:col-span-2 lg:col-span-1 space-y-5">
+            <Link href="/" className="flex items-center gap-2.5 group" aria-label={siteConfig.name}>
+              <div className="relative overflow-hidden rounded-xl border border-sky-800 shadow-md">
+                <Image src="/logo.jpeg" alt={siteConfig.shortName} width={56} height={56} className="object-cover" priority />
+              </div>
+              <div className="flex flex-col leading-tight">
+                <span className="font-bold text-white text-xl">{siteConfig.shortName}</span>
+                <span className="text-[10px] text-sky-400 font-medium tracking-wide">لنقل الأثاث</span>
+              </div>
+            </Link>
 
-            {/* Brand */}
-            <div className="space-y-4">
-              <Logo variant="white" size="lg" />
-              <p className="text-sm text-white/60 leading-relaxed">
-                خدمات نقل أثاث احترافية تليق بسكان التجمع ومدينتي والشيخ زايد.
-                فرق مدربة ومعدات حديثة لضمان أعلى مستوى من الجودة.
-              </p>
-              <div className="flex items-center gap-2 pt-1">
-                <div className="w-2 h-2 bg-[#3F4F44] rounded-full" />
-                <span className="text-xs text-white/50">خبرة {siteConfig.yearsOfExperience} سنوات في خدمتكم</span>
+            <p className="text-sm text-sky-200/70 leading-relaxed max-w-xs">
+              أثاثك أمانة عندنا. بنقدم خدمة نقل احترافية بمعايير عالمية في
+              التجمع الخامس، مدينتي، الشيخ زايد، وكل المدن الجديدة.
+            </p>
+
+            <div className="space-y-3 text-sm">
+              <a
+                href={`tel:${siteConfig.phone}`}
+                className="flex items-center gap-2.5 text-sky-200/80 hover:text-white transition-colors group"
+              >
+                <div className="w-8 h-8 bg-sky-800/50 rounded-lg flex items-center justify-center group-hover:bg-sky-500 transition-colors">
+                  <Phone className="w-4 h-4" />
+                </div>
+                <span dir="ltr">{siteConfig.phone}</span>
+              </a>
+              <a
+                href={`https://wa.me/${siteConfig.whatsapp}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2.5 text-sky-200/80 hover:text-white transition-colors group"
+              >
+                <div className="w-8 h-8 bg-sky-800/50 rounded-lg flex items-center justify-center group-hover:bg-green-500 transition-colors">
+                  <MessageCircle className="w-4 h-4" />
+                </div>
+                <span>واتساب</span>
+              </a>
+              {siteConfig.email && (
+                <a
+                  href={`mailto:${siteConfig.email}`}
+                  className="flex items-center gap-2.5 text-sky-200/80 hover:text-white transition-colors group"
+                >
+                  <div className="w-8 h-8 bg-sky-800/50 rounded-lg flex items-center justify-center group-hover:bg-sky-500 transition-colors">
+                    <Mail className="w-4 h-4" />
+                  </div>
+                  <span dir="ltr">{siteConfig.email}</span>
+                </a>
+              )}
+              <div className="flex items-center gap-2.5 text-sky-200/80">
+                <div className="w-8 h-8 bg-sky-800/50 rounded-lg flex items-center justify-center shrink-0">
+                  <MapPin className="w-4 h-4" />
+                </div>
+                <span className="text-xs">{siteConfig.address}</span>
+              </div>
+              <div className="flex items-center gap-2.5 text-sky-200/80">
+                <div className="w-8 h-8 bg-sky-800/50 rounded-lg flex items-center justify-center">
+                  <Clock className="w-4 h-4" />
+                </div>
+                <span>24 ساعة / 7 أيام</span>
               </div>
             </div>
-
-            {/* Services */}
-            <div>
-              <h4 className="font-bold text-sm text-white/90 mb-4 uppercase tracking-wider">
-                خدماتنا
-              </h4>
-              <ul className="space-y-2.5">
-                {services.map((s) => (
-                  <li key={s.slug}>
-                    <Link
-                      href={`/services/${s.slug}`}
-                      className="text-sm text-white/55 hover:text-white transition-colors flex items-center gap-2 group"
-                    >
-                      <ArrowLeft className="w-3 h-3 text-[#3F4F44] opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
-                      {s.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Areas */}
-            <div>
-              <h4 className="font-bold text-sm text-white/90 mb-4 uppercase tracking-wider">
-                مناطق الخدمة
-              </h4>
-              <ul className="space-y-2.5">
-                {validAreas.map((area) => (
-                  <li key={area.slug}>
-                    <Link
-                      href={`/areas/${area.slug}`}
-                      className="text-sm text-white/55 hover:text-white transition-colors flex items-center gap-2 group"
-                    >
-                      <ArrowLeft className="w-3 h-3 text-[#3F4F44] opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
-                      نقل أثاث {area.name}
-                    </Link>
-                  </li>
-                ))}
-                <li>
-                  <Link
-                    href="/areas"
-                    className="text-sm text-[#E8E3D9] hover:text-white transition-colors font-semibold flex items-center gap-1.5"
-                  >
-                    <ArrowLeft className="w-3 h-3" />
-                    كل المناطق
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            {/* Contact */}
-            <div>
-              <h4 className="font-bold text-sm text-white/90 mb-4 uppercase tracking-wider">
-                تواصل معنا
-              </h4>
-              <ul className="space-y-3.5">
-                <li className="flex items-start gap-3">
-                  <MapPin className="w-4 h-4 text-[#3F4F44] shrink-0 mt-0.5" />
-                  <span className="text-sm text-white/55 leading-relaxed">
-                    {siteConfig.address}
-                  </span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <Phone className="w-4 h-4 text-[#3F4F44] shrink-0" />
-                  <a
-                    href={`tel:${siteConfig.phone}`}
-                    dir="ltr"
-                    onClick={() => trackPhoneCall("footer")}
-                    className="text-sm text-white/55 hover:text-white transition-colors"
-                  >
-                    {siteConfig.phone}
-                  </a>
-                </li>
-                <li className="flex items-center gap-3">
-                  <MessageCircle className="w-4 h-4 text-[#3F4F44] shrink-0" />
-                  <a
-                    href={`https://wa.me/${siteConfig.whatsapp}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => trackWhatsApp("footer")}
-                    className="text-sm text-white/55 hover:text-white transition-colors"
-                  >
-                    تواصل عبر واتساب
-                  </a>
-                </li>
-                <li className="flex items-center gap-3">
-                  <Clock className="w-4 h-4 text-[#3F4F44] shrink-0" />
-                  <span className="text-sm text-white/55">متاحون 24 ساعة / 7 أيام</span>
-                </li>
-              </ul>
-            </div>
-
           </div>
+
+          <FooterLinkGroup title="خدماتنا" links={footerServices} />
+          <FooterLinkGroup title="مناطق الخدمة" links={footerAreas} />
+          <FooterLinkGroup title="روابط سريعة" links={footerQuickLinks} />
         </div>
 
-        <Separator className="bg-white/10" />
+        <div className="mt-12 pt-8 border-t border-sky-800/50">
+          <div className="flex flex-wrap items-center justify-between gap-6">
+            <div className="flex items-center gap-2 text-sky-300">
+              <Shield className="w-5 h-5" />
+              <span className="text-sm font-medium">شركة موثوقة ومرخصة</span>
+            </div>
 
-        {/* Bottom */}
-        <div className="py-5 flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-white/40">
-          <div>
-            © {new Date().getFullYear()} {siteConfig.name} - جميع الحقوق محفوظة
+            <div className="flex items-center gap-3">
+              <a
+                href={`https://wa.me/${siteConfig.whatsapp}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 bg-sky-800/50 hover:bg-green-500 rounded-lg flex items-center justify-center transition-colors"
+                aria-label="واتساب"
+              >
+                <MessageCircle className="w-4 h-4 text-white" />
+              </a>
+              <a
+                href={`tel:${siteConfig.phone}`}
+                className="w-9 h-9 bg-sky-800/50 hover:bg-sky-500 rounded-lg flex items-center justify-center transition-colors"
+                aria-label="اتصل بنا"
+              >
+                <Phone className="w-4 h-4 text-white" />
+              </a>
+              {siteConfig.email && (
+                <a
+                  href={`mailto:${siteConfig.email}`}
+                  className="w-9 h-9 bg-sky-800/50 hover:bg-sky-500 rounded-lg flex items-center justify-center transition-colors"
+                  aria-label="راسلنا"
+                >
+                  <Send className="w-4 h-4 text-white" />
+                </a>
+              )}
+              <button
+                type="button"
+                onClick={handleShare}
+                className="w-9 h-9 bg-sky-800/50 hover:bg-sky-500 rounded-lg flex items-center justify-center transition-colors"
+                aria-label="شارك"
+              >
+                <Share2 className="w-4 h-4 text-white" />
+              </button>
+            </div>
           </div>
+        </div>
+      </div>
+
+      <div className="border-t border-sky-800/50 relative">
+        <div className="container-custom py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-sky-300/60">
+          <p>© {currentYear} {siteConfig.name}. جميع الحقوق محفوظة.</p>
           <div className="flex items-center gap-4">
-            <Link href="/privacy" className="hover:text-white/70 transition-colors">
-              سياسة الخصوصية
-            </Link>
-            <span className="text-white/20">|</span>
-            <Link href="/terms" className="hover:text-white/70 transition-colors">
-              شروط الاستخدام
-            </Link>
-            <span className="text-white/20">|</span>
-            <Link href="/faq" className="hover:text-white/70 transition-colors">
-              الأسئلة الشائعة
-            </Link>
+            <Link href="/privacy" className="hover:text-white transition-colors">سياسة الخصوصية</Link>
+            <Link href="/terms" className="hover:text-white transition-colors">الشروط والأحكام</Link>
           </div>
         </div>
-
       </div>
     </footer>
   );

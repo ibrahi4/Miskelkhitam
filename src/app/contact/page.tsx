@@ -1,12 +1,11 @@
-import { buildMetadata } from "@/lib/seo/metadata";
+import type { Metadata } from "next";
 import ContactContent from "./Content";
 
-export const metadata = buildMetadata({
-  title: "تواصل معنا | خطوة لنقل الأثاث",
+export const metadata: Metadata = {
+  title: "تواصل معنا",
   description:
-    "تواصل مع خطوة لنقل الأثاث. متاحون 24/7 لخدمتك في التجمع الخامس ومدينتي والشيخ زايد وجميع محافظات مصر.",
-  path: "/contact",
-});
+    "تواصل مع شركة البحرين لنقل الأثاث عبر الهاتف أو الواتساب أو النموذج. خدمة 24/7 في التجمع الخامس ومدينتي والشيخ زايد.",
+};
 
 export default function ContactPage() {
   return <ContactContent />;

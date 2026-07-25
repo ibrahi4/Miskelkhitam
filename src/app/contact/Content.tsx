@@ -1,395 +1,263 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { toast, Toaster } from "sonner";
+import { useState } from "react";
 import {
-  Phone, MessageCircle, MapPin, Clock, Send,
-  CheckCircle2, Loader2, User, Sparkles,
+  Phone,
+  MessageCircle,
+  MapPin,
+  Clock,
+  Mail,
+  Send,
+  Loader2,
+  CheckCircle2,
 } from "lucide-react";
-import { siteConfig } from "@/config/site";
-import { services } from "@/config/services";
-import { areas } from "@/config/areas";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
-} from "@/components/ui/select";
-import {
-  trackPhoneCall, trackWhatsApp, trackFormSubmit, trackQuoteRequest,
-} from "@/lib/analytics/events";
+import { siteConfig } from "@/config/site";
+
+const contactInfo = [
+  { icon: Phone, label: "اتصل بنا", value: siteConfig.phone, href: `tel:${siteConfig.phone}`, color: "bg-sky-500", ltr: true },
+  { icon: MessageCircle, label: "واتساب", value: "تواصل عبر واتساب", href: `https://wa.me/${siteConfig.whatsapp}`, color: "bg-green-500", ltr: false },
+  { icon: Mail, label: "البريد الإلكتروني", value: siteConfig.email, href: `mailto:${siteConfig.email}`, color: "bg-blue-500", ltr: true },
+  { icon: MapPin, label: "العنوان", value: siteConfig.address, href: "#", color: "bg-red-500", ltr: false },
+  { icon: Clock, label: "ساعات العمل", value: "24 ساعة / 7 أيام", href: "#", color: "bg-amber-500", ltr: false },
+];
+
+interface FormData {
+  name: string;
+  phone: string;
+  email: string;
+  from: string;
+  to: string;
+  message: string;
+}
 
 export default function ContactContent() {
-  const router = useRouter();
-  const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    service: "",
-    area: "",
-    message: "",
+  const [form, setForm] = useState<FormData>({
+    name: "", phone: "", email: "", from: "", to: "", message: "",
   });
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const update = (field: keyof FormData, value: string) => {
+    setForm((prev) => ({ ...prev, [field]: value }));
+  };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    if (!formData.name || !formData.phone || !formData.service || !formData.area) {
-      toast.error("من فضلك املأ جميع الحقول المطلوبة");
+    if (!form.name.trim() || !form.phone.trim()) {
+      toast.error("الاسم ورقم التليفون مطلوبين");
       return;
     }
-
     setLoading(true);
 
-    trackFormSubmit("contact_page_form", {
-      service: formData.service,
-      area: formData.area,
-    });
-    trackQuoteRequest("contact_page");
+    const msg = [
+      "*رسالة جديدة من الموقع*",
+      `الاسم: ${form.name}`,
+      `التليفون: ${form.phone}`,
+      form.email ? `الإيميل: ${form.email}` : "",
+      form.from ? `من: ${form.from}` : "",
+      form.to ? `إلى: ${form.to}` : "",
+      form.message ? `الرسالة: ${form.message}` : "",
+    ].filter(Boolean).join("\n");
 
-    const whatsappMessage = `
-*طلب جديد من موقع خطوة*
-
-*الاسم:* ${formData.name}
-*الهاتف:* ${formData.phone}
-*الخدمة:* ${formData.service}
-*المنطقة:* ${formData.area}
-*التفاصيل:* ${formData.message || "لا يوجد"}
-    `.trim();
-
-    const whatsappUrl = `https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(whatsappMessage)}`;
-
-    setTimeout(() => {
-      window.open(whatsappUrl, "_blank");
-      toast.success("تم إرسال طلبك بنجاح");
-      setLoading(false);
-      setFormData({ name: "", phone: "", service: "", area: "", message: "" });
-
-      setTimeout(() => {
-        router.push("/thank-you");
-      }, 1500);
-    }, 600);
+    window.open(`https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(msg)}`, "_blank");
+    toast.success("تم فتح واتساب - أرسل الرسالة وهنرد عليك في أسرع وقت");
+    setLoading(false);
+    setForm({ name: "", phone: "", email: "", from: "", to: "", message: "" });
   };
 
   return (
     <>
-      <Toaster
-        position="top-center"
-        dir="rtl"
-        toastOptions={{
-          style: {
-            background: "#1C1C1C",
-            color: "#fff",
-            border: "1px solid #3F4F44",
-            borderRadius: "12px",
-            padding: "12px 16px",
-            fontSize: "14px",
-            fontFamily: "Cairo, sans-serif",
-          },
-        }}
-      />
-
       {/* Hero */}
-      <section className="relative bg-[#1C1C1C] text-white overflow-hidden">
-        <div className="absolute inset-0 opacity-10" aria-hidden="true">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-[#3F4F44] rounded-full blur-3xl" />
+      <section className="relative overflow-hidden bg-gradient-to-bl from-sky-950 via-sky-900 to-sky-800">
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-sky-500 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-cyan-500 rounded-full blur-3xl" />
         </div>
-        <div className="relative container-custom py-16 md:py-20">
-          <div className="max-w-3xl mx-auto text-center">
-            <Badge className="bg-white/5 text-[#E8E3D9] border border-white/10 mb-5 px-4 py-1.5">
-              <MessageCircle className="w-3 h-3 ml-1.5" />
-              نحن في خدمتك
-            </Badge>
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-black mb-5 tracking-tight">
-              تواصل <span className="text-[#E8E3D9]">معنا</span>
-            </h1>
-            <p className="text-base md:text-lg text-white/70 leading-relaxed">
-              نحن متاحون على مدار الساعة لخدمتك. اختر الطريقة الأنسب للتواصل
-            </p>
+
+        <div className="container-custom py-16 md:py-20 text-center relative z-10">
+          <div className="inline-flex items-center gap-2 rounded-full bg-sky-500/20 backdrop-blur-sm border border-sky-400/30 px-4 py-1.5 text-sm font-semibold text-sky-200 mb-4">
+            <Phone className="h-4 w-4" />
+            تواصل معنا
+          </div>
+          <h1 className="mb-4 text-3xl md:text-5xl font-black text-white leading-tight">
+            نحب نسمع منك
+          </h1>
+          <p className="text-sky-100/90 leading-relaxed md:text-lg max-w-2xl mx-auto">
+            سواء محتاج عرض سعر أو عندك استفسار، فريقنا جاهز يساعدك 24/7.
+          </p>
+        </div>
+      </section>
+
+      {/* Contact Cards Row */}
+      <section className="py-8 bg-white">
+        <div className="container-custom">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+            {contactInfo.map((item) => {
+              const Icon = item.icon;
+              return (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  target={item.href.startsWith("http") ? "_blank" : undefined}
+                  rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                  className="group"
+                >
+                  <Card className="border-sky-100 hover:shadow-lg hover:border-sky-200 transition-all h-full">
+                    <CardContent className="p-4 text-center space-y-2">
+                      <div className={`w-11 h-11 ${item.color} text-white rounded-xl flex items-center justify-center mx-auto shadow-md group-hover:scale-110 transition-transform`}>
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <div className="text-xs text-slate-500">{item.label}</div>
+                      <div className="font-bold text-sky-950 text-xs line-clamp-1" dir={item.ltr ? "ltr" : undefined}>
+                        {item.value}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </a>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* Quick Contact Cards */}
-      <section className="section-padding bg-white">
+      {/* Form + Info */}
+      <section className="section-padding bg-sky-50/40">
         <div className="container-custom">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 mb-16">
-            <a
-              href={`tel:${siteConfig.phone}`}
-              onClick={() => trackPhoneCall("contact_page")}
-              className="block"
-            >
-              <Card className="h-full hover:border-[#3F4F44] hover:shadow-lg transition-all group cursor-pointer border-[#E5E1DA] bg-[#F5F2EC]">
-                <CardContent className="p-6 text-center">
-                  <div className="w-16 h-16 bg-[#1C1C1C] group-hover:bg-[#3F4F44] text-[#E8E3D9] rounded-2xl flex items-center justify-center mx-auto mb-4 transition-all">
-                    <Phone className="w-7 h-7" />
-                  </div>
-                  <h3 className="text-lg font-bold text-[#1C1C1C] mb-2">اتصل بنا</h3>
-                  <p className="text-[#6B6B6B] text-sm mb-3">للحجز السريع والاستفسارات</p>
-                  <p className="text-[#3F4F44] font-bold text-base" dir="ltr">
-                    {siteConfig.phone}
-                  </p>
-                </CardContent>
-              </Card>
-            </a>
+          <div className="grid lg:grid-cols-2 gap-8 items-start">
+            {/* Info Side */}
+            <div className="space-y-6">
+              <div>
+                <h2 className="text-2xl font-bold text-sky-950 mb-3">اختار وسيلة التواصل اللي تريحك</h2>
+                <p className="text-slate-600 leading-relaxed">
+                  فريقنا متاح 24 ساعة. اتصل بينا، ابعت واتساب، أو املا الفورم واحنا هنرد عليك في دقائق.
+                </p>
+              </div>
 
-            <a
-              href={`https://wa.me/${siteConfig.whatsapp}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => trackWhatsApp("contact_page")}
-              className="block"
-            >
-              <Card className="h-full hover:border-[#3F4F44] hover:shadow-lg transition-all group cursor-pointer border-[#E5E1DA] bg-[#F5F2EC]">
-                <CardContent className="p-6 text-center">
-                  <div className="w-16 h-16 bg-[#3F4F44] group-hover:bg-[#2E3B32] text-white rounded-2xl flex items-center justify-center mx-auto mb-4 transition-all">
-                    <MessageCircle className="w-7 h-7" />
-                  </div>
-                  <h3 className="text-lg font-bold text-[#1C1C1C] mb-2">واتساب</h3>
-                  <p className="text-[#6B6B6B] text-sm mb-3">رد فوري على رسائلك</p>
-                  <p className="text-[#3F4F44] font-bold text-base">تواصل عبر واتساب</p>
-                </CardContent>
-              </Card>
-            </a>
-
-            <Card className="h-full hover:border-[#3F4F44] hover:shadow-lg transition-all border-[#E5E1DA] bg-[#F5F2EC]">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 bg-[#1C1C1C] text-[#E8E3D9] rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <MapPin className="w-7 h-7" />
-                </div>
-                <h3 className="text-lg font-bold text-[#1C1C1C] mb-2">مقرنا</h3>
-                <p className="text-[#6B6B6B] text-sm mb-3">مقرنا الرئيسي</p>
-                <p className="text-[#3F4F44] font-bold text-sm">{siteConfig.address}</p>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Form + Sidebar */}
-          <div className="grid lg:grid-cols-3 gap-8 lg:gap-10">
-            <div className="lg:col-span-2">
-              <Card className="border-[#E5E1DA] shadow-sm">
-                <CardContent className="p-6 md:p-8">
-                  <div className="mb-6">
-                    <Badge variant="outline" className="border-[#3F4F44] text-[#3F4F44] mb-3">
-                      <Sparkles className="w-3 h-3 ml-1.5" />
-                      احصل على عرض سعر
-                    </Badge>
-                    <h2 className="text-2xl md:text-3xl font-black text-[#1C1C1C] mb-2 tracking-tight">
-                      اطلب خدمتك الآن
-                    </h2>
-                    <p className="text-[#6B6B6B] text-sm">
-                      املأ النموذج وسنتواصل معك خلال دقائق
-                    </p>
+              <Card className="border-sky-100 bg-white">
+                <CardContent className="p-6 space-y-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-sky-500 text-white rounded-xl flex items-center justify-center shrink-0">
+                      <Phone className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <div className="text-xs text-slate-500">اتصل بنا مباشرة</div>
+                      <a href={`tel:${siteConfig.phone}`} className="text-lg font-bold text-sky-950 hover:text-sky-600" dir="ltr">
+                        {siteConfig.phone}
+                      </a>
+                    </div>
                   </div>
 
-                  <form onSubmit={handleSubmit} className="space-y-5">
-                    <div className="grid sm:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="name" className="text-[#1C1C1C] font-semibold">
-                          الاسم <span className="text-[#DC2626]">*</span>
-                        </Label>
-                        <div className="relative">
-                          <User className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B6B6B]" />
-                          <Input
-                            id="name"
-                            required
-                            value={formData.name}
-                            onChange={(e) =>
-                              setFormData({ ...formData, name: e.target.value })
-                            }
-                            placeholder="اسمك الكامل"
-                            className="pr-10 h-12 border-[#E5E1DA] focus-visible:ring-[#3F4F44]"
-                          />
-                        </div>
-                      </div>
+                  <div className="flex items-center gap-3 pt-4 border-t border-sky-50">
+                    <div className="w-12 h-12 bg-green-500 text-white rounded-xl flex items-center justify-center shrink-0">
+                      <MessageCircle className="h-6 w-6" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="text-xs text-slate-500">واتساب مباشر</div>
+                      <a href={`https://wa.me/${siteConfig.whatsapp}`} target="_blank" rel="noopener noreferrer" className="text-lg font-bold text-sky-950 hover:text-green-600">
+                        كلمنا الآن
+                      </a>
+                    </div>
+                  </div>
 
-                      <div className="space-y-2">
-                        <Label htmlFor="phone" className="text-[#1C1C1C] font-semibold">
-                          رقم الهاتف <span className="text-[#DC2626]">*</span>
-                        </Label>
-                        <div className="relative">
-                          <Phone className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B6B6B]" />
-                          <Input
-                            id="phone"
-                            required
-                            type="tel"
-                            value={formData.phone}
-                            onChange={(e) =>
-                              setFormData({ ...formData, phone: e.target.value })
-                            }
-                            placeholder="01xxxxxxxxx"
-                            className="pr-10 h-12 border-[#E5E1DA] focus-visible:ring-[#3F4F44]"
-                            dir="ltr"
-                          />
-                        </div>
+                  {siteConfig.email && (
+                    <div className="flex items-center gap-3 pt-4 border-t border-sky-50">
+                      <div className="w-12 h-12 bg-blue-500 text-white rounded-xl flex items-center justify-center shrink-0">
+                        <Mail className="h-6 w-6" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-xs text-slate-500">البريد الإلكتروني</div>
+                        <a href={`mailto:${siteConfig.email}`} className="text-sm font-bold text-sky-950 hover:text-blue-600 line-clamp-1" dir="ltr">
+                          {siteConfig.email}
+                        </a>
                       </div>
                     </div>
+                  )}
 
-                    <div className="grid sm:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label className="text-[#1C1C1C] font-semibold">
-                          الخدمة المطلوبة <span className="text-[#DC2626]">*</span>
-                        </Label>
-                        <Select
-                          value={formData.service}
-                          onValueChange={(value) =>
-                            setFormData({ ...formData, service: value ?? "" })
-                          }
-                        >
-                          <SelectTrigger className="h-12 border-[#E5E1DA]">
-                            <SelectValue placeholder="اختر الخدمة" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {services.map((s) => (
-                              <SelectItem key={s.slug} value={s.name}>
-                                {s.name}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label className="text-[#1C1C1C] font-semibold">
-                          المنطقة <span className="text-[#DC2626]">*</span>
-                        </Label>
-                        <Select
-                          value={formData.area}
-                          onValueChange={(value) =>
-                            setFormData({ ...formData, area: value ?? "" })
-                          }
-                        >
-                          <SelectTrigger className="h-12 border-[#E5E1DA]">
-                            <SelectValue placeholder="اختر منطقتك" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {mounted &&
-                              areas.map((a) => (
-                                <SelectItem key={a.slug} value={a.name}>
-                                  {a.name}
-                                </SelectItem>
-                              ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
+                  <div className="flex items-center gap-3 pt-4 border-t border-sky-50">
+                    <div className="w-12 h-12 bg-amber-500 text-white rounded-xl flex items-center justify-center shrink-0">
+                      <Clock className="h-6 w-6" />
                     </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="message" className="text-[#1C1C1C] font-semibold">
-                        تفاصيل إضافية
-                      </Label>
-                      <Textarea
-                        id="message"
-                        value={formData.message}
-                        onChange={(e) =>
-                          setFormData({ ...formData, message: e.target.value })
-                        }
-                        placeholder="اخبرنا عن تفاصيل المنقولات (عدد الغرف، الدور، أي تفاصيل مهمة...)"
-                        rows={4}
-                        className="resize-none border-[#E5E1DA] focus-visible:ring-[#3F4F44]"
-                      />
+                    <div>
+                      <div className="text-xs text-slate-500">مواعيد العمل</div>
+                      <div className="text-lg font-bold text-sky-950">24 ساعة / 7 أيام</div>
                     </div>
+                  </div>
 
-                    <Button
-                      type="submit"
-                      size="lg"
-                      disabled={loading}
-                      className="w-full bg-[#3F4F44] hover:bg-[#2E3B32] text-white font-bold h-14 text-base shadow-lg"
-                    >
-                      {loading ? (
-                        <>
-                          <Loader2 className="w-5 h-5 ml-2 animate-spin" />
-                          جاري الإرسال...
-                        </>
-                      ) : (
-                        <>
-                          <Send className="w-5 h-5 ml-2" />
-                          إرسال الطلب عبر واتساب
-                        </>
-                      )}
-                    </Button>
-
-                    <p className="text-xs text-center text-[#6B6B6B]">
-                      بإرسال النموذج، أنت توافق على التواصل معك عبر واتساب أو الهاتف
-                    </p>
-                  </form>
+                  <div className="flex items-start gap-3 pt-4 border-t border-sky-50">
+                    <div className="w-12 h-12 bg-red-500 text-white rounded-xl flex items-center justify-center shrink-0">
+                      <MapPin className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <div className="text-xs text-slate-500">المقر الرئيسي</div>
+                      <div className="text-sm font-bold text-sky-950">{siteConfig.address}</div>
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             </div>
 
-            {/* Sidebar */}
-            <div className="space-y-5">
-              <Card className="bg-[#1C1C1C] border-0 text-white">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 bg-[#3F4F44] rounded-xl flex items-center justify-center">
-                      <Clock className="w-6 h-6 text-white" />
+            {/* Form Side */}
+            <div>
+              <Card className="border-sky-100 bg-white shadow-lg">
+                <CardContent className="p-6 md:p-8">
+                  <div className="flex items-center gap-2 mb-6">
+                    <div className="w-10 h-10 bg-sky-500 text-white rounded-xl flex items-center justify-center">
+                      <Send className="h-5 w-5" />
                     </div>
                     <div>
-                      <h3 className="font-bold text-lg">ساعات العمل</h3>
-                      <p className="text-xs text-white/60">متاحون لخدمتك</p>
+                      <h2 className="text-lg font-bold text-sky-950">أرسل لنا رسالة</h2>
+                      <p className="text-xs text-slate-500">هنرد عليك في أقل من ساعة</p>
                     </div>
                   </div>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between bg-white/5 p-3 rounded-xl">
-                      <span className="text-white/70">السبت - الخميس</span>
-                      <span className="font-bold text-[#E8E3D9]">24 ساعة</span>
-                    </div>
-                    <div className="flex justify-between bg-white/5 p-3 rounded-xl">
-                      <span className="text-white/70">الجمعة</span>
-                      <span className="font-bold text-[#E8E3D9]">24 ساعة</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
 
-              <Card className="border-[#E5E1DA] bg-white">
-                <CardContent className="p-6">
-                  <h3 className="font-bold text-lg text-[#1C1C1C] mb-4">لماذا خطوة؟</h3>
-                  <div className="space-y-3">
-                    {[
-                      "خبرة 10+ سنوات",
-                      "فرق مدربة ومتخصصة",
-                      "تغليف احترافي",
-                      "ضمان كامل على المقتنيات",
-                      "أسعار شفافة بدون رسوم خفية",
-                    ].map((item, i) => (
-                      <div key={i} className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-[#3F4F44]/10 text-[#3F4F44] rounded-lg flex items-center justify-center shrink-0">
-                          <CheckCircle2 className="w-4 h-4" />
-                        </div>
-                        <span className="text-sm text-[#1C1C1C]">{item}</span>
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <div className="grid sm:grid-cols-2 gap-3">
+                      <div className="space-y-2">
+                        <Label htmlFor="c-name">الاسم *</Label>
+                        <Input id="c-name" placeholder="اسمك الكريم" value={form.name} onChange={(e) => update("name", e.target.value)} required />
                       </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+                      <div className="space-y-2">
+                        <Label htmlFor="c-phone">التليفون *</Label>
+                        <Input id="c-phone" type="tel" placeholder="01xxxxxxxxx" value={form.phone} onChange={(e) => update("phone", e.target.value)} required dir="ltr" className="text-left" />
+                      </div>
+                    </div>
 
-              <Card className="bg-[#3F4F44] border-0 text-white">
-                <CardContent className="p-6 text-center">
-                  <Phone className="w-10 h-10 mx-auto mb-3" />
-                  <h3 className="font-bold text-lg mb-2">للحجز السريع</h3>
-                  <p className="text-white/90 text-sm mb-4">اتصل الآن</p>
-                  <Button
-                    asChild
-                    className="w-full bg-[#E8E3D9] text-[#1C1C1C] hover:bg-[#D4CCB8] font-bold h-12"
-                  >
-                    <a
-                      href={`tel:${siteConfig.phone}`}
-                      dir="ltr"
-                      onClick={() => trackPhoneCall("contact_page")}
-                    >
-                      {siteConfig.phone}
-                    </a>
-                  </Button>
+                    <div className="space-y-2">
+                      <Label htmlFor="c-email">الإيميل (اختياري)</Label>
+                      <Input id="c-email" type="email" placeholder="example@email.com" value={form.email} onChange={(e) => update("email", e.target.value)} dir="ltr" className="text-left" />
+                    </div>
+
+                    <div className="grid sm:grid-cols-2 gap-3">
+                      <div className="space-y-2">
+                        <Label htmlFor="c-from">النقل من</Label>
+                        <Input id="c-from" placeholder="المنطقة" value={form.from} onChange={(e) => update("from", e.target.value)} />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="c-to">النقل إلى</Label>
+                        <Input id="c-to" placeholder="المنطقة" value={form.to} onChange={(e) => update("to", e.target.value)} />
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="c-msg">تفاصيل النقلة أو استفسارك</Label>
+                      <Textarea id="c-msg" placeholder="اكتب أي تفاصيل هتساعدنا نقدملك أحسن خدمة..." value={form.message} onChange={(e) => update("message", e.target.value)} rows={4} />
+                    </div>
+
+                    <Button type="submit" disabled={loading} className="w-full gap-2 bg-green-500 text-white hover:bg-green-600 shadow-lg shadow-green-500/30" size="lg">
+                      {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : <MessageCircle className="h-5 w-5" />}
+                      إرسال عبر واتساب
+                    </Button>
+
+                    <div className="flex items-center justify-center gap-2 text-xs text-slate-400">
+                      <CheckCircle2 className="h-4 w-4 text-green-500" />
+                      <span>بياناتك آمنة ومحفوظة</span>
+                    </div>
+                  </form>
                 </CardContent>
               </Card>
             </div>

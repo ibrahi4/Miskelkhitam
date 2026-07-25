@@ -1,71 +1,108 @@
 import { siteConfig } from "@/config/site";
 
-// Main Business Schema
-export function generateLocalBusinessSchema() {
+type SchemaPrimitive = string | number | boolean | null;
+type SchemaValue = SchemaPrimitive | SchemaObject | SchemaValue[];
+
+interface SchemaObject {
+  [key: string]: SchemaValue;
+}
+
+interface BreadcrumbItem {
+  name: string;
+  url: string;
+}
+
+interface ServiceSchemaInput {
+  title: string;
+  description: string;
+  slug: string;
+  image?: string;
+}
+
+interface AreaSchemaInput {
+  name: string;
+  description: string;
+  slug: string;
+}
+
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+interface ArticleSchemaInput {
+  title: string;
+  description: string;
+  slug: string;
+  image: string;
+  datePublished: string;
+  author: string;
+}
+
+const sameAs = [
+  siteConfig.socialMedia.facebook,
+  siteConfig.socialMedia.instagram,
+  siteConfig.socialMedia.tiktok,
+].filter((item): item is string => Boolean(item) && item.length > 0);
+
+export function generateOrganizationSchema(): SchemaObject {
   return {
     "@context": "https://schema.org",
-    "@type": ["MovingCompany", "LocalBusiness"],
+    "@type": "Organization",
     "@id": `${siteConfig.url}/#organization`,
     name: siteConfig.name,
-    alternateName: [siteConfig.shortName, "Khotwa Moving", "خطوة"],
-    description: siteConfig.description,
+    alternateName: siteConfig.englishName,
     url: siteConfig.url,
     logo: {
       "@type": "ImageObject",
       url: `${siteConfig.url}/logo.jpeg`,
       width: 512,
       height: 512,
-      caption: siteConfig.name,
     },
-    image: [
-      `${siteConfig.url}/logo.jpeg`,
-      `${siteConfig.url}/herosection.jpeg`,
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        telephone: `+2${siteConfig.phone}`,
+        contactType: "customer service",
+        areaServed: "EG",
+        availableLanguage: ["Arabic", "English"],
+      },
     ],
-    telephone: siteConfig.phone,
-    email: "info@khotwa-trans.com",
-    foundingDate: siteConfig.foundingYear.toString(),
-    priceRange: "$$$",
-    slogan: "خدمة نقل أثاث تليق بمنزلك",
+    ...(sameAs.length > 0 ? { sameAs } : {}),
+  };
+}
+
+export function generateLocalBusinessSchema(): SchemaObject {
+  return {
+    "@context": "https://schema.org",
+    "@type": "MovingCompany",
+    "@id": `${siteConfig.url}/#business`,
+    name: siteConfig.name,
+    alternateName: siteConfig.englishName,
+    image: `${siteConfig.url}/herosection.jpeg`,
+    logo: `${siteConfig.url}/logo.jpeg`,
+    url: siteConfig.url,
+    telephone: `+2${siteConfig.phone}`,
+    email: siteConfig.email,
+    priceRange: "EGP",
     address: {
       "@type": "PostalAddress",
-      streetAddress: "التجمع الخامس",
+      streetAddress: siteConfig.address,
       addressLocality: "القاهرة الجديدة",
       addressRegion: "القاهرة",
-      postalCode: "11835",
-      addressCountry: {
-        "@type": "Country",
-        name: "EG",
-      },
+      addressCountry: "EG",
     },
     geo: {
       "@type": "GeoCoordinates",
       latitude: 30.0131,
       longitude: 31.4961,
     },
-    hasMap: "https://www.google.com/maps?q=30.0131,31.4961",
-    areaServed: [
-      {
-        "@type": "Country",
-        name: "مصر",
-        alternateName: "Egypt",
-      },
-      {
-        "@type": "AdministrativeArea",
-        name: "القاهرة",
-      },
-      {
-        "@type": "AdministrativeArea",
-        name: "الجيزة",
-      },
-      { "@type": "City", name: "التجمع الخامس" },
-      { "@type": "City", name: "مدينتي" },
-      { "@type": "City", name: "الشيخ زايد" },
-      { "@type": "City", name: "6 أكتوبر" },
-      { "@type": "City", name: "القاهرة الجديدة" },
-      { "@type": "City", name: "العاصمة الإدارية" },
-      { "@type": "City", name: "الرحاب" },
-      { "@type": "City", name: "مدينة المستقبل" },
-    ],
+    areaServed: siteConfig.serviceAreas.map((area) => ({
+      "@type": "City",
+      name: area,
+    })),
+    description: siteConfig.description,
+    foundingDate: String(siteConfig.foundingYear),
     openingHoursSpecification: [
       {
         "@type": "OpeningHoursSpecification",
@@ -85,204 +122,40 @@ export function generateLocalBusinessSchema() {
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.9",
-      reviewCount: "500",
+      reviewCount: "180",
       bestRating: "5",
       worstRating: "1",
     },
-    review: [
-      {
-        "@type": "Review",
-        author: { "@type": "Person", name: "أحمد محمد" },
-        datePublished: "2024-12-15",
-        reviewRating: {
-          "@type": "Rating",
-          ratingValue: "5",
-          bestRating: "5",
-        },
-        reviewBody: "خدمة استثنائية، نقلوا فيلتي بكل احترافية والتغليف كان ممتاز.",
-      },
-      {
-        "@type": "Review",
-        author: { "@type": "Person", name: "سارة عبدالله" },
-        datePublished: "2024-11-20",
-        reviewRating: {
-          "@type": "Rating",
-          ratingValue: "5",
-          bestRating: "5",
-        },
-        reviewBody: "التزام بالمواعيد وأسعار شفافة، أنصح بالتعامل معهم.",
-      },
-    ],
-    paymentAccepted: ["Cash", "Credit Card", "Bank Transfer", "Vodafone Cash"],
-    currenciesAccepted: "EGP",
-    sameAs: [
-      siteConfig.socialMedia?.facebook,
-      siteConfig.socialMedia?.instagram,
-    ].filter(Boolean),
-    hasOfferCatalog: {
-      "@type": "OfferCatalog",
-      name: "خدمات نقل الأثاث",
-      itemListElement: [
-        {
-          "@type": "Offer",
-          itemOffered: {
-            "@type": "Service",
-            name: "نقل الأثاث",
-            description: "نقل الأثاث والعفش بأمان في جميع محافظات مصر",
-            provider: { "@id": `${siteConfig.url}/#organization` },
-          },
-        },
-        {
-          "@type": "Offer",
-          itemOffered: {
-            "@type": "Service",
-            name: "فك وتركيب الأثاث",
-            description: "فك وتركيب جميع أنواع الأثاث بدقة واحترافية",
-            provider: { "@id": `${siteConfig.url}/#organization` },
-          },
-        },
-        {
-          "@type": "Offer",
-          itemOffered: {
-            "@type": "Service",
-            name: "فك وتركيب التكييفات",
-            description: "خبراء فك ونقل وإعادة تركيب جميع أنواع التكييفات",
-            provider: { "@id": `${siteConfig.url}/#organization` },
-          },
-        },
-        {
-          "@type": "Offer",
-          itemOffered: {
-            "@type": "Service",
-            name: "تغليف الأثاث",
-            description: "تغليف احترافي بمواد عالية الجودة",
-            provider: { "@id": `${siteConfig.url}/#organization` },
-          },
-        },
-        {
-          "@type": "Offer",
-          itemOffered: {
-            "@type": "Service",
-            name: "ونش رفع الأثاث",
-            description: "ونش رفع للأدوار المرتفعة والأماكن الضيقة",
-            provider: { "@id": `${siteConfig.url}/#organization` },
-          },
-        },
-        {
-          "@type": "Offer",
-          itemOffered: {
-            "@type": "Service",
-            name: "نقل المقتنيات الحساسة",
-            description: "نقل الزجاج والنجف والتحف بأمان تام",
-            provider: { "@id": `${siteConfig.url}/#organization` },
-          },
-        },
-      ],
-    },
-    knowsAbout: [
-      "نقل الأثاث",
-      "نقل العفش",
-      "فك وتركيب الأثاث",
-      "تغليف الأثاث",
-      "ونش رفع الأثاث",
-      "نقل التكييفات",
-      "نقل المقتنيات الحساسة",
-    ],
+    hasMap: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(siteConfig.address)}`,
+    ...(sameAs.length > 0 ? { sameAs } : {}),
   };
 }
 
-// Service Schema (per service page)
-export function generateServiceSchema(
-  serviceName: string,
-  serviceDescription: string,
-  serviceUrl: string
-) {
+export function generateWebsiteSchema(): SchemaObject {
   return {
     "@context": "https://schema.org",
-    "@type": "Service",
-    serviceType: serviceName,
-    name: serviceName,
-    description: serviceDescription,
-    url: serviceUrl,
-    provider: {
-      "@type": "MovingCompany",
+    "@type": "WebSite",
+    "@id": `${siteConfig.url}/#website`,
+    name: siteConfig.name,
+    alternateName: siteConfig.englishName,
+    url: siteConfig.url,
+    description: siteConfig.description,
+    inLanguage: "ar-EG",
+    publisher: {
       "@id": `${siteConfig.url}/#organization`,
-      name: siteConfig.name,
-      telephone: siteConfig.phone,
-      logo: `${siteConfig.url}/logo.jpeg`,
-      address: {
-        "@type": "PostalAddress",
-        addressLocality: "القاهرة الجديدة",
-        addressCountry: "EG",
+    },
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${siteConfig.url}/services?search={search_term_string}`,
       },
-    },
-    areaServed: {
-      "@type": "Country",
-      name: "مصر",
-    },
-    hasOfferCatalog: {
-      "@type": "OfferCatalog",
-      name: serviceName,
-    },
-    audience: {
-      "@type": "Audience",
-      audienceType: "سكان الكمبوندات والمدن الجديدة",
+      "query-input": "required name=search_term_string",
     },
   };
 }
 
-// Area Schema (per area page)
-export function generateAreaSchema(
-  areaName: string,
-  areaDescription: string,
-  areaUrl: string
-) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    serviceType: `نقل أثاث ${areaName}`,
-    name: `خدمة نقل الأثاث في ${areaName}`,
-    description: areaDescription,
-    url: areaUrl,
-    provider: {
-      "@type": "MovingCompany",
-      "@id": `${siteConfig.url}/#organization`,
-      name: siteConfig.name,
-      telephone: siteConfig.phone,
-    },
-    areaServed: {
-      "@type": "City",
-      name: areaName,
-      containedInPlace: {
-        "@type": "Country",
-        name: "مصر",
-      },
-    },
-  };
-}
-
-// FAQ Schema
-export function generateFAQSchema(
-  faqs: { question: string; answer: string }[]
-) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqs.map((faq) => ({
-      "@type": "Question",
-      name: faq.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: faq.answer,
-      },
-    })),
-  };
-}
-
-// Breadcrumb Schema
-export function generateBreadcrumbSchema(
-  items: { name: string; url: string }[]
-) {
+export function generateBreadcrumbSchema(items: BreadcrumbItem[]): SchemaObject {
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -295,64 +168,103 @@ export function generateBreadcrumbSchema(
   };
 }
 
-// Blog Post Schema
-export function generateBlogPostSchema(post: {
-  title: string;
-  description: string;
-  image: string;
-  publishedAt: string;
-  author: string;
-  slug: string;
-}) {
+export function generateServiceSchema({
+  title,
+  description,
+  slug,
+  image,
+}: ServiceSchemaInput): SchemaObject {
   return {
     "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: post.title,
-    description: post.description,
-    image: post.image,
-    datePublished: post.publishedAt,
-    dateModified: post.publishedAt,
-    author: {
-      "@type": "Organization",
-      name: post.author,
-      url: siteConfig.url,
+    "@type": "Service",
+    "@id": `${siteConfig.url}/services/${slug}#service`,
+    name: title,
+    description,
+    serviceType: title,
+    ...(image ? { image: `${siteConfig.url}${image}` } : {}),
+    areaServed: siteConfig.serviceAreas.map((area) => ({
+      "@type": "City",
+      name: area,
+    })),
+    provider: {
+      "@id": `${siteConfig.url}/#business`,
     },
-    publisher: {
-      "@type": "Organization",
-      name: siteConfig.name,
-      logo: {
-        "@type": "ImageObject",
-        url: `${siteConfig.url}/logo.jpeg`,
-      },
-    },
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": `${siteConfig.url}/blog/${post.slug}`,
+    url: `${siteConfig.url}/services/${slug}`,
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "EGP",
+      availability: "https://schema.org/InStock",
+      url: `${siteConfig.url}/services/${slug}`,
     },
   };
 }
 
-// Website Schema (for search box in Google)
-export function generateWebsiteSchema() {
+export function generateAreaSchema({
+  name,
+  description,
+  slug,
+}: AreaSchemaInput): SchemaObject {
   return {
     "@context": "https://schema.org",
-    "@type": "WebSite",
-    "@id": `${siteConfig.url}/#website`,
-    name: siteConfig.name,
-    alternateName: siteConfig.shortName,
-    url: siteConfig.url,
-    description: siteConfig.description,
-    inLanguage: "ar-EG",
+    "@type": "Service",
+    "@id": `${siteConfig.url}/areas/${slug}#area-service`,
+    name: `نقل أثاث في ${name}`,
+    description,
+    serviceType: "خدمة نقل الأثاث",
+    areaServed: {
+      "@type": "Place",
+      name,
+    },
+    provider: {
+      "@id": `${siteConfig.url}/#business`,
+    },
+    url: `${siteConfig.url}/areas/${slug}`,
+  };
+}
+
+export function generateFAQSchema(items: FaqItem[]): SchemaObject {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
+}
+
+export function generateArticleSchema({
+  title,
+  description,
+  slug,
+  image,
+  datePublished,
+  author,
+}: ArticleSchemaInput): SchemaObject {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: title,
+    description,
+    image: `${siteConfig.url}${image}`,
+    datePublished,
+    dateModified: datePublished,
+    author: {
+      "@type": "Organization",
+      name: author,
+      url: siteConfig.url,
+    },
     publisher: {
       "@id": `${siteConfig.url}/#organization`,
     },
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: `${siteConfig.url}/search?q={search_term_string}`,
-      },
-      "query-input": "required name=search_term_string",
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${siteConfig.url}/blog/${slug}`,
     },
+    inLanguage: "ar-EG",
   };
 }
