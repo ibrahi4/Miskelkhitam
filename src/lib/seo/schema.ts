@@ -39,13 +39,17 @@ interface ArticleSchemaInput {
   author: string;
 }
 
-const sameAs: string[] = [
-  siteConfig.socialMedia.facebook,
-  siteConfig.socialMedia.instagram,
-  siteConfig.socialMedia.tiktok,
-].filter((item): item is string => typeof item === "string" && item.length > 0);
+function getSameAs(): string[] {
+  const links = [
+    siteConfig.socialMedia.facebook,
+    siteConfig.socialMedia.instagram,
+    siteConfig.socialMedia.tiktok,
+  ];
+  return links.filter((item) => item.length > 0);
+}
 
 export function generateOrganizationSchema(): SchemaObject {
+  const sameAs = getSameAs();
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -73,6 +77,7 @@ export function generateOrganizationSchema(): SchemaObject {
 }
 
 export function generateLocalBusinessSchema(): SchemaObject {
+  const sameAs = getSameAs();
   return {
     "@context": "https://schema.org",
     "@type": "MovingCompany",
