@@ -35,7 +35,7 @@ export const siteConfig: SiteConfig = {
   url: "https://www.albahrain-moving.com/",
   phone: "01044212354",
   whatsapp: "201044212354",
-  email: "info@albahrainmoving.com",
+  email: "albhrynmwfnj@gmail.com",
   address: "ميدان الجيش - العباسية  - القاهرة",
   country: "مصر",
   serviceArea:
