@@ -25,6 +25,9 @@ interface SiteConfig {
   socialMedia: SocialMedia;
 }
 
+const RAW_SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://albahrain-moving.com";
+const SITE_URL = RAW_SITE_URL.replace(/\/+$/, "");
+
 export const siteConfig: SiteConfig = {
   name: "شركة البحرين لنقل الأثاث",
   shortName: "البحرين",
@@ -32,11 +35,11 @@ export const siteConfig: SiteConfig = {
   tagline: "أثاثك أمانة.. وإحنا أهل الأمانة",
   description:
     "شركة البحرين لنقل الأثاث متخصصة في نقل العفش والأثاث المنزلي والمكتبي في القاهرة الجديدة، التجمع الخامس، مدينتي، الشيخ زايد، و6 أكتوبر. فريق محترف، تغليف آمن، ونش رفع، فك وتركيب، وضمان شامل على كل المنقولات.",
-  url: "https://www.albahrain-moving.com/",
-  phone: "01044212354",
-  whatsapp: "201044212354",
-  email: "info@albahrainmoving.com",
-  address: "ميدان الجيش - العباسية  - القاهرة",
+  url: SITE_URL,
+  phone: "01091857418",
+  whatsapp: "201091857418",
+  email: "albarakatrans6@gmail.com",
+  address: "التجمع الخامس - القاهرة الجديدة - مصر",
   country: "مصر",
   serviceArea:
     "التجمع الخامس، القاهرة الجديدة، مدينتي، الشيخ زايد، 6 أكتوبر، الرحاب، العاصمة الإدارية",
@@ -51,7 +54,7 @@ export const siteConfig: SiteConfig = {
   ],
   yearsOfExperience: 7,
   foundingYear: 2019,
-  completedMoves: "2,800",
+  completedMoves: "4,800",
   teamSize: "35",
   socialMedia: {
     facebook: "",
