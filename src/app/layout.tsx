@@ -1,10 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Cairo } from "next/font/google";
-import { Toaster } from "sonner";
+import { Toaster } from "react-hot-toast";
 import { Footer } from "@/components/layout/Footer";
 import { FloatingActions } from "@/components/layout/FloatingActions";
 import { Header } from "@/components/layout/Header";
-import { MobileStickyBar } from "@/components/layout/MobileStickyBar";
 import { GoogleAnalytics, GoogleTagManager } from "@/components/analytics/GoogleAnalytics";
 import { siteConfig } from "@/config/site";
 import {
@@ -24,7 +23,7 @@ const cairo = Cairo({
 });
 
 const defaultTitle =
-  "شركة البحرين لنقل الأثاث | نقل أثاث احترافي في التجمع الخامس ومدينتي والشيخ زايد";
+  "شركة مسك الختام لنقل الاثاث | نقل اثاث احترافي في التجمع الخامس ومدينتي والشيخ زايد";
 const defaultDescription = siteConfig.description;
 
 export const metadata: Metadata = {
@@ -35,22 +34,22 @@ export const metadata: Metadata = {
   },
   description: defaultDescription,
   keywords: [
-    "شركة البحرين لنقل الأثاث",
-    "البحرين لنقل الأثاث",
-    "Al Bahrain Moving",
-    "شركة نقل أثاث",
+    "شركة مسك الختام لنقل الاثاث",
+    "مسك الختام لنقل الاثاث",
+    "Misk Al Khitam Moving",
+    "شركة نقل اثاث",
     "نقل عفش",
     "شركة نقل عفش",
-    "نقل أثاث التجمع الخامس",
-    "نقل أثاث القاهرة الجديدة",
-    "نقل أثاث مدينتي",
-    "نقل أثاث الشيخ زايد",
-    "نقل أثاث 6 أكتوبر",
-    "فك وتركيب أثاث",
-    "تغليف أثاث",
-    "ونش رفع أثاث",
-    "شركة نقل أثاث موثوقة",
-    "أفضل شركة نقل أثاث",
+    "نقل اثاث التجمع الخامس",
+    "نقل اثاث القاهرة الجديدة",
+    "نقل اثاث مدينتي",
+    "نقل اثاث الشيخ زايد",
+    "نقل اثاث 6 اكتوبر",
+    "فك وتركيب اثاث",
+    "تغليف اثاث",
+    "ونش رفع اثاث",
+    "شركة نقل اثاث موثوقة",
+    "افضل شركة نقل اثاث",
   ],
   authors: [{ name: siteConfig.name, url: siteConfig.url }],
   creator: siteConfig.name,
@@ -135,8 +134,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#F8FCFF" },
-    { media: "(prefers-color-scheme: dark)", color: "#0F172A" },
+    { media: "(prefers-color-scheme: light)", color: "#FAFDF7" },
+    { media: "(prefers-color-scheme: dark)", color: "#14532D" },
   ],
   colorScheme: "light",
   width: "device-width",
@@ -184,8 +183,31 @@ export default function RootLayout({
         <main className="min-h-screen">{children}</main>
         <Footer />
         <FloatingActions />
-        <MobileStickyBar />
-        <Toaster position="top-center" richColors closeButton />
+        <Toaster
+          position="top-center"
+          toastOptions={{
+            duration: 4000,
+            style: {
+              background: "#FFFFFF",
+              color: "#1E293B",
+              border: "1px solid #E2E8F0",
+              borderRadius: "12px",
+              fontSize: "14px",
+              fontFamily: "var(--font-sans)",
+              direction: "rtl",
+            },
+            success: {
+              style: {
+                borderColor: "#15803D",
+              },
+            },
+            error: {
+              style: {
+                borderColor: "#DC2626",
+              },
+            },
+          }}
+        />
       </body>
     </html>
   );

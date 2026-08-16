@@ -2,28 +2,67 @@ import type { Metadata } from "next";
 import { Shield } from "lucide-react";
 import { siteConfig } from "@/config/site";
 
-export const metadata: Metadata = { title: "سياسة الخصوصية" };
+export const metadata: Metadata = {
+  title: "سياسة الخصوصية",
+  description: `سياسة الخصوصية الخاصة بموقع ${siteConfig.name}.`,
+};
+
+const sections = [
+  {
+    title: "جمع المعلومات",
+    content: "نجمع المعلومات التي تقدمها لنا طواعية عند التواصل معنا او طلب عرض سعر، مثل الاسم ورقم الهاتف والمنطقة. لا نجمع اي بيانات حساسة بدون موافقتك.",
+  },
+  {
+    title: "استخدام المعلومات",
+    content: "نستخدم بياناتك فقط للتواصل معك بخصوص الخدمات المطلوبة، تحسين خدماتنا، وارسال عروض اذا وافقت على ذلك. لا نبيع او نشارك بياناتك مع اطراف ثالثة.",
+  },
+  {
+    title: "حماية البيانات",
+    content: "نتخذ اجراءات امنية مناسبة لحماية بياناتك الشخصية من الوصول غير المصرح به او التعديل او الافصاح.",
+  },
+  {
+    title: "ملفات تعريف الارتباط",
+    content: "نستخدم ملفات تعريف الارتباط (Cookies) لتحسين تجربة التصفح وتحليل حركة الزوار. يمكنك تعطيلها من اعدادات المتصفح.",
+  },
+  {
+    title: "حقوقك",
+    content: "يحق لك طلب الاطلاع على بياناتك الشخصية او تعديلها او حذفها في اي وقت عن طريق التواصل معنا.",
+  },
+  {
+    title: "التواصل",
+    content: `لاي استفسار بخصوص سياسة الخصوصية، يمكنك التواصل معنا عبر الهاتف ${siteConfig.phone} او البريد الالكتروني ${siteConfig.email}.`,
+  },
+];
 
 export default function PrivacyPage() {
   return (
-    <section className="section-padding bg-white">
-      <div className="container-custom max-w-3xl">
-        <div className="flex items-center gap-2 mb-6">
-          <Shield className="h-6 w-6 text-sky-500" />
-          <h1 className="text-2xl md:text-3xl font-bold text-sky-950">سياسة الخصوصية</h1>
+    <>
+      <section className="bg-gradient-to-b from-green-50 via-white to-white">
+        <div className="container-custom py-16 md:py-20 text-center">
+          <div className="inline-flex items-center gap-2 rounded-full bg-green-100 px-4 py-1.5 text-sm font-semibold text-green-700 mb-4">
+            <Shield className="h-4 w-4" />
+            الخصوصية
+          </div>
+          <h1 className="text-3xl md:text-4xl font-black text-green-950 mb-4">سياسة الخصوصية</h1>
+          <p className="text-slate-600 max-w-2xl mx-auto">
+            خصوصيتك مهمة لنا. هنا نوضح كيف نتعامل مع بياناتك.
+          </p>
         </div>
-        <div className="space-y-4 text-slate-600 leading-relaxed">
-          <p>في {siteConfig.name}، خصوصيتك مهمة عندنا وبنلتزم بحمايتها بالكامل.</p>
-          <h2 className="text-lg font-bold text-sky-950 mt-6">إيه البيانات اللي بنجمعها؟</h2>
-          <p>بنجمع بس اللي محتاجينه عشان نقدم لك الخدمة: اسمك، رقم تليفونك، وتفاصيل النقلة. مش بنجمع أي بيانات زيادة.</p>
-          <h2 className="text-lg font-bold text-sky-950 mt-6">بنستخدم البيانات دي في إيه؟</h2>
-          <p>في التواصل معاك بخصوص الخدمة اللي طلبتها بس. مش بنبيع أو نشارك بياناتك مع أي حد تاني أبدًا.</p>
-          <h2 className="text-lg font-bold text-sky-950 mt-6">إزاي بنحمي بياناتك؟</h2>
-          <p>بناخد كل الاحتياطات التقنية والتنظيمية اللازمة عشان نحمي بياناتك من أي وصول غير مصرح بيه.</p>
-          <h2 className="text-lg font-bold text-sky-950 mt-6">عايز تسأل أكتر؟</h2>
-          <p>كلمنا على {siteConfig.phone} وهنجاوب على أي سؤال عندك.</p>
+      </section>
+
+      <section className="section-padding bg-white">
+        <div className="container-custom max-w-3xl space-y-8">
+          {sections.map((s, i) => (
+            <div key={i}>
+              <h2 className="text-lg font-bold text-green-950 mb-2">{s.title}</h2>
+              <p className="text-slate-600 leading-relaxed text-sm">{s.content}</p>
+            </div>
+          ))}
+          <p className="text-xs text-slate-400 pt-4 border-t border-green-100">
+            آخر تحديث: يناير 2025
+          </p>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

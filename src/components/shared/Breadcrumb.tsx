@@ -14,12 +14,15 @@ interface BreadcrumbProps {
 export function Breadcrumb({ items, variant = "dark" }: BreadcrumbProps) {
   const isLight = variant === "light";
 
-  const baseColor = isLight ? "text-slate-500" : "text-sky-200/70";
-  const hoverColor = isLight ? "hover:text-sky-600" : "hover:text-white";
-  const activeColor = isLight ? "text-sky-950" : "text-white";
+  const baseColor = isLight ? "text-slate-500" : "text-green-200/70";
+  const hoverColor = isLight ? "hover:text-green-700" : "hover:text-white";
+  const activeColor = isLight ? "text-green-950" : "text-white";
 
   return (
-    <nav aria-label="التنقل" className={`flex items-center gap-1.5 text-sm flex-wrap ${baseColor}`}>
+    <nav
+      aria-label="التنقل"
+      className={`flex items-center gap-1.5 text-sm flex-wrap ${baseColor}`}
+    >
       <Link
         href="/"
         className={`flex items-center gap-1 transition-colors ${hoverColor}`}

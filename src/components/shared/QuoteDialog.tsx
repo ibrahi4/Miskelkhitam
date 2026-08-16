@@ -2,7 +2,7 @@
 
 import { useState, type KeyboardEvent, type ReactNode } from "react";
 import { Loader2, MessageCircle, Send } from "lucide-react";
-import { toast } from "sonner";
+import toast from "react-hot-toast";
 import { siteConfig } from "@/config/site";
 import { Button } from "@/components/ui/button";
 import {
@@ -53,11 +53,11 @@ export function QuoteDialog({ trigger }: QuoteDialogProps) {
     setLoading(true);
 
     const message = [
-      "*طلب عرض سعر جديد*",
+      "*طلب عرض سعر جديد - مسك الختام*",
       `الاسم: ${form.name}`,
       `التليفون: ${form.phone}`,
       form.from ? `من: ${form.from}` : "",
-      form.to ? `إلى: ${form.to}` : "",
+      form.to ? `الى: ${form.to}` : "",
       form.details ? `تفاصيل: ${form.details}` : "",
     ]
       .filter(Boolean)
@@ -66,16 +66,10 @@ export function QuoteDialog({ trigger }: QuoteDialogProps) {
     const encoded = encodeURIComponent(message);
     window.open(`https://wa.me/${siteConfig.whatsapp}?text=${encoded}`, "_blank");
 
-    toast.success("تم فتح واتساب - أرسل الرسالة للحصول على عرض سعر");
+    toast.success("تم فتح واتساب - ارسل الرسالة للحصول على عرض سعر");
     setLoading(false);
     setOpen(false);
-    setForm({
-      name: "",
-      phone: "",
-      from: "",
-      to: "",
-      details: "",
-    });
+    setForm({ name: "", phone: "", from: "", to: "", details: "" });
   };
 
   const handleTriggerKeyDown = (event: KeyboardEvent<HTMLSpanElement>) => {
@@ -100,7 +94,7 @@ export function QuoteDialog({ trigger }: QuoteDialogProps) {
       ) : (
         <Button
           type="button"
-          className="gap-2 bg-sky-500 text-white hover:bg-sky-600"
+          className="gap-2 bg-green-700 text-white hover:bg-green-800"
           onClick={() => setOpen(true)}
         >
           <Send className="h-4 w-4" />
@@ -111,8 +105,8 @@ export function QuoteDialog({ trigger }: QuoteDialogProps) {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-sky-900">
-              <MessageCircle className="h-5 w-5 text-sky-500" />
+            <DialogTitle className="flex items-center gap-2 text-green-900">
+              <MessageCircle className="h-5 w-5 text-green-600" />
               طلب عرض سعر مجاني
             </DialogTitle>
           </DialogHeader>
@@ -153,9 +147,8 @@ export function QuoteDialog({ trigger }: QuoteDialogProps) {
                   onChange={(e) => update("from", e.target.value)}
                 />
               </div>
-
               <div className="space-y-2">
-                <Label htmlFor="q-to">النقل إلى</Label>
+                <Label htmlFor="q-to">النقل الى</Label>
                 <Input
                   id="q-to"
                   placeholder="المنطقة"
@@ -166,10 +159,10 @@ export function QuoteDialog({ trigger }: QuoteDialogProps) {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="q-details">تفاصيل إضافية</Label>
+              <Label htmlFor="q-details">تفاصيل اضافية</Label>
               <Textarea
                 id="q-details"
-                placeholder="عدد الغرف، أثاث خاص، ملاحظات..."
+                placeholder="عدد الغرف، اثاث خاص، ملاحظات..."
                 value={form.details}
                 onChange={(e) => update("details", e.target.value)}
                 rows={3}
@@ -179,14 +172,14 @@ export function QuoteDialog({ trigger }: QuoteDialogProps) {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full gap-2 bg-green-500 text-white hover:bg-green-600"
+              className="w-full gap-2 bg-green-600 text-white hover:bg-green-700"
             >
               {loading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
                 <MessageCircle className="h-4 w-4" />
               )}
-              إرسال عبر واتساب
+              ارسال عبر واتساب
             </Button>
           </form>
         </DialogContent>

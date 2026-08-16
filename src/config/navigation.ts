@@ -26,16 +26,16 @@ export const mainNavItems: NavItem[] = [
   { label: "معرض الصور", href: "/gallery", icon: Image },
   { label: "فيديوهات", href: "/videos", icon: Video },
   { label: "آراء العملاء", href: "/testimonials", icon: MessageSquareQuote },
-  { label: "الأسئلة الشائعة", href: "/faq", icon: HelpCircle },
+  { label: "الاسئلة الشائعة", href: "/faq", icon: HelpCircle },
   { label: "المدونة", href: "/blog", icon: BookOpen },
   { label: "تواصل معنا", href: "/contact", icon: Phone },
 ];
 
 export const footerServices = [
-  { label: "نقل الأثاث", href: "/services/furniture-moving" },
+  { label: "نقل الاثاث", href: "/services/furniture-moving" },
   { label: "فك وتركيب", href: "/services/disassembly-assembly" },
   { label: "تغليف احترافي", href: "/services/professional-packing" },
-  { label: "ونش رفع الأثاث", href: "/services/furniture-crane" },
+  { label: "ونش رفع الاثاث", href: "/services/furniture-crane" },
   { label: "فك وتركيب التكييفات", href: "/services/ac-services" },
   { label: "نقل المقتنيات الحساسة", href: "/services/fragile-items" },
 ];
@@ -45,9 +45,9 @@ export const footerAreas = [
   { label: "القاهرة الجديدة", href: "/areas/new-cairo" },
   { label: "مدينتي", href: "/areas/madinaty" },
   { label: "الشيخ زايد", href: "/areas/sheikh-zayed" },
-  { label: "6 أكتوبر", href: "/areas/october" },
+  { label: "6 اكتوبر", href: "/areas/october" },
   { label: "الرحاب", href: "/areas/rehab" },
-  { label: "العاصمة الإدارية", href: "/areas/new-capital" },
+  { label: "العاصمة الادارية", href: "/areas/new-capital" },
 ];
 
 export const footerQuickLinks = [
@@ -55,9 +55,9 @@ export const footerQuickLinks = [
   { label: "معرض الصور", href: "/gallery" },
   { label: "فيديوهات", href: "/videos" },
   { label: "آراء العملاء", href: "/testimonials" },
-  { label: "الأسئلة الشائعة", href: "/faq" },
+  { label: "الاسئلة الشائعة", href: "/faq" },
   { label: "المدونة", href: "/blog" },
   { label: "تواصل معنا", href: "/contact" },
   { label: "سياسة الخصوصية", href: "/privacy" },
-  { label: "الشروط والأحكام", href: "/terms" },
+  { label: "الشروط والاحكام", href: "/terms" },
 ];

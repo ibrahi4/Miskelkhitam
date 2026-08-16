@@ -2,30 +2,67 @@ import type { Metadata } from "next";
 import { FileText } from "lucide-react";
 import { siteConfig } from "@/config/site";
 
-export const metadata: Metadata = { title: "الشروط والأحكام" };
+export const metadata: Metadata = {
+  title: "الشروط والاحكام",
+  description: `الشروط والاحكام الخاصة باستخدام موقع وخدمات ${siteConfig.name}.`,
+};
+
+const sections = [
+  {
+    title: "قبول الشروط",
+    content: "باستخدامك لموقعنا او خدماتنا، فانت توافق على هذه الشروط والاحكام. اذا كنت لا توافق على اي جزء منها، يرجى عدم استخدام الموقع.",
+  },
+  {
+    title: "الخدمات",
+    content: "نقدم خدمات نقل الاثاث والعفش بما يشمل التغليف والفك والتركيب والنقل ورفع الاثاث بالونش. الاسعار يتم تحديدها بعد المعاينة وتكون نهائية ومكتوبة.",
+  },
+  {
+    title: "التأمين والضمان",
+    content: "جميع المنقولات مؤمن عليها اثناء عملية النقل. في حالة حدوث اي تلف - وهو نادر - نتحمل المسؤولية حسب سياسة التأمين المتفق عليها.",
+  },
+  {
+    title: "الالغاء والتعديل",
+    content: "يمكن الغاء او تعديل الحجز قبل 24 ساعة من الموعد المحدد بدون اي رسوم. الالغاء في نفس اليوم قد يترتب عليه رسوم ادارية.",
+  },
+  {
+    title: "المسؤولية",
+    content: "نبذل اقصى جهد لتقديم خدمة احترافية وآمنة. لا نتحمل المسؤولية عن الاضرار الناتجة عن معلومات غير دقيقة يقدمها العميل او ظروف خارجة عن السيطرة.",
+  },
+  {
+    title: "التواصل",
+    content: `لاي استفسار بخصوص الشروط والاحكام، تواصل معنا عبر ${siteConfig.phone} او ${siteConfig.email}.`,
+  },
+];
 
 export default function TermsPage() {
   return (
-    <section className="section-padding bg-white">
-      <div className="container-custom max-w-3xl">
-        <div className="flex items-center gap-2 mb-6">
-          <FileText className="h-6 w-6 text-sky-500" />
-          <h1 className="text-2xl md:text-3xl font-bold text-sky-950">الشروط والأحكام</h1>
+    <>
+      <section className="bg-gradient-to-b from-green-50 via-white to-white">
+        <div className="container-custom py-16 md:py-20 text-center">
+          <div className="inline-flex items-center gap-2 rounded-full bg-green-100 px-4 py-1.5 text-sm font-semibold text-green-700 mb-4">
+            <FileText className="h-4 w-4" />
+            الشروط
+          </div>
+          <h1 className="text-3xl md:text-4xl font-black text-green-950 mb-4">الشروط والاحكام</h1>
+          <p className="text-slate-600 max-w-2xl mx-auto">
+            يرجى قراءة الشروط والاحكام بعناية قبل استخدام خدماتنا.
+          </p>
         </div>
-        <div className="space-y-4 text-slate-600 leading-relaxed">
-          <p>لما بتستخدم خدمات {siteConfig.name}، ده معناه إنك موافق على الشروط دي.</p>
-          <h2 className="text-lg font-bold text-sky-950 mt-6">الخدمة</h2>
-          <p>بنلتزم بتقديم الخدمات المتفق عليها في عرض السعر بالجودة والمواعيد المحددة. أي تغيير بيكون بموافقة الطرفين.</p>
-          <h2 className="text-lg font-bold text-sky-950 mt-6">المسؤولية</h2>
-          <p>بنتحمل المسؤولية الكاملة عن أي تلف يحصل للأثاث أثناء النقل وفقًا لسياسة التأمين المتفق عليها.</p>
-          <h2 className="text-lg font-bold text-sky-950 mt-6">الأسعار</h2>
-          <p>السعر المكتوب في عرض السعر هو النهائي. مفيش إضافات أو رسوم مخفية. لو حصل تغيير في نطاق العمل، بيتم الاتفاق على السعر الجديد قبل التنفيذ.</p>
-          <h2 className="text-lg font-bold text-sky-950 mt-6">الإلغاء</h2>
-          <p>تقدر تلغي الحجز قبل الموعد بـ 24 ساعة بدون أي رسوم. الإلغاء بعد كده ممكن يترتب عليه رسوم تشغيلية بسيطة.</p>
-          <h2 className="text-lg font-bold text-sky-950 mt-6">الدفع</h2>
-          <p>الدفع بيكون بعد إتمام النقلة كاملة والتأكد من رضا العميل. بنقبل الدفع نقدي أو تحويل.</p>
+      </section>
+
+      <section className="section-padding bg-white">
+        <div className="container-custom max-w-3xl space-y-8">
+          {sections.map((s, i) => (
+            <div key={i}>
+              <h2 className="text-lg font-bold text-green-950 mb-2">{s.title}</h2>
+              <p className="text-slate-600 leading-relaxed text-sm">{s.content}</p>
+            </div>
+          ))}
+          <p className="text-xs text-slate-400 pt-4 border-t border-green-100">
+            آخر تحديث: يناير 2025
+          </p>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

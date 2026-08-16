@@ -1,25 +1,28 @@
-import Image from "next/image";
 import Link from "next/link";
+import { Truck } from "lucide-react";
 import { siteConfig } from "@/config/site";
 
 interface LogoProps {
   size?: "sm" | "md" | "lg";
   showText?: boolean;
   className?: string;
+  variant?: "light" | "dark";
 }
 
 const sizeMap = {
-  sm: { width: 36, height: 36, text: "text-base" },
-  md: { width: 44, height: 44, text: "text-lg" },
-  lg: { width: 56, height: 56, text: "text-xl" },
+  sm: { icon: "w-8 h-8", text: "text-base", sub: "text-[9px]", iconSize: "w-4 h-4" },
+  md: { icon: "w-10 h-10", text: "text-lg", sub: "text-[10px]", iconSize: "w-5 h-5" },
+  lg: { icon: "w-12 h-12", text: "text-xl", sub: "text-xs", iconSize: "w-6 h-6" },
 } as const;
 
 export function Logo({
   size = "md",
   showText = true,
   className = "",
+  variant = "dark",
 }: LogoProps) {
-  const resolvedSize = sizeMap[size] ?? sizeMap.md;
+  const s = sizeMap[size] ?? sizeMap.md;
+  const isLight = variant === "light";
 
   return (
     <Link
@@ -27,24 +30,21 @@ export function Logo({
       className={`group flex items-center gap-2.5 ${className}`}
       aria-label={siteConfig.name}
     >
-      <div className="relative overflow-hidden transition-transform duration-300 group-hover:scale-105">
-        <Image
-          src="/logo.jpeg"
-          alt={siteConfig.shortName}
-          width={resolvedSize.width}
-          height={resolvedSize.height}
-          className="h-auto w-auto object-cover"
-          priority
-        />
+      <div className={`${s.icon} rounded-xl flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-105 ${
+        isLight
+          ? "bg-white/15 border border-white/20"
+          : "bg-green-700 shadow-md shadow-green-700/20"
+      }`}>
+        <Truck className={`${s.iconSize} ${isLight ? "text-green-300" : "text-white"}`} />
       </div>
 
       {showText ? (
         <div className="flex flex-col leading-tight">
-          <span className={`font-bold text-sky-950 ${resolvedSize.text}`}>
+          <span className={`font-black ${s.text} ${isLight ? "text-white" : "text-green-950"}`}>
             {siteConfig.shortName}
           </span>
-          <span className="text-[10px] font-medium tracking-wide text-sky-600">
-            لنقل الأثاث
+          <span className={`${s.sub} font-semibold tracking-wide ${isLight ? "text-green-300" : "text-green-600"}`}>
+            لنقل الاثاث
           </span>
         </div>
       ) : null}
