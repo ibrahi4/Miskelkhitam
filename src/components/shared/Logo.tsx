@@ -1,5 +1,5 @@
+import Image from "next/image";
 import Link from "next/link";
-import { Truck } from "lucide-react";
 import { siteConfig } from "@/config/site";
 
 interface LogoProps {
@@ -10,9 +10,9 @@ interface LogoProps {
 }
 
 const sizeMap = {
-  sm: { icon: "w-8 h-8", text: "text-base", sub: "text-[9px]", iconSize: "w-4 h-4" },
-  md: { icon: "w-10 h-10", text: "text-lg", sub: "text-[10px]", iconSize: "w-5 h-5" },
-  lg: { icon: "w-12 h-12", text: "text-xl", sub: "text-xs", iconSize: "w-6 h-6" },
+  sm: { box: "w-10 h-10", text: "text-base", sub: "text-[9px]", img: 40 },
+  md: { box: "w-12 h-12", text: "text-lg", sub: "text-[10px]", img: 48 },
+  lg: { box: "w-14 h-14", text: "text-xl", sub: "text-xs", img: 56 },
 } as const;
 
 export function Logo({
@@ -30,12 +30,21 @@ export function Logo({
       className={`group flex items-center gap-2.5 ${className}`}
       aria-label={siteConfig.name}
     >
-      <div className={`${s.icon} rounded-xl flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-105 ${
-        isLight
-          ? "bg-white/15 border border-white/20"
-          : "bg-green-700 shadow-md shadow-green-700/20"
-      }`}>
-        <Truck className={`${s.iconSize} ${isLight ? "text-green-300" : "text-white"}`} />
+      <div
+        className={`${s.box} relative overflow-hidden rounded-xl shrink-0 transition-transform duration-300 group-hover:scale-105 ${
+          isLight
+            ? "ring-2 ring-white/20 shadow-md"
+            : "ring-2 ring-green-100 shadow-md shadow-green-700/10"
+        }`}
+      >
+        <Image
+          src="/logo.jpeg"
+          alt={siteConfig.shortName}
+          width={s.img}
+          height={s.img}
+          className="w-full h-full object-cover"
+          priority
+        />
       </div>
 
       {showText ? (
