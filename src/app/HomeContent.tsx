@@ -360,6 +360,8 @@ export default function HomeContent() {
         </div>
       </section>
 
+      <GallerySection />
+
       {/* ═══════════════════════ HOW IT WORKS ═══════════════════════ */}
       <section className="section-padding bg-white">
         <div className="container-custom">
@@ -645,8 +647,6 @@ export default function HomeContent() {
           </div>
         </div>
       </section>
-
-      <GallerySection />
 
       {/* ═══════════════════════ INLINE QUOTE FORM ═══════════════════════ */}
       <InlineQuoteForm />
