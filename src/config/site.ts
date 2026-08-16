@@ -33,8 +33,8 @@ export const siteConfig: SiteConfig = {
   description:
     "شركة مسك الختام لنقل الاثاث متخصصة في نقل العفش والاثاث المنزلي والمكتبي في القاهرة الجديدة، التجمع الخامس، مدينتي، الشيخ زايد، و6 اكتوبر. فريق محترف، تغليف آمن، ونش رفع، فك وتركيب، وضمان شامل على كل المنقولات.",
   url: "https://www.miskalkhitam-moving.com/",
-  phone: "01044212354",
-  whatsapp: "201044212354",
+  phone: "01055971122",
+  whatsapp: "201055971122",
   email: "info@miskalkhitam-moving.com",
   address: "ميدان الجيش - العباسية - القاهرة",
   country: "مصر",
