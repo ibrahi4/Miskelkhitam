@@ -89,13 +89,13 @@ export default function FaqContent() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-gradient-to-b from-green-50 via-white to-white">
+      <section className="bg-gradient-to-b from-blue-50 via-white to-white">
         <div className="container-custom py-16 md:py-20 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full bg-green-100 px-4 py-1.5 text-sm font-semibold text-green-700 mb-4">
+          <div className="inline-flex items-center gap-2 rounded-full bg-blue-100 px-4 py-1.5 text-sm font-semibold text-blue-700 mb-4">
             <HelpCircle className="h-4 w-4" />
             اسئلة شائعة
           </div>
-          <h1 className="text-3xl md:text-5xl font-black text-green-950 mb-4">عندك سؤال؟ هنا الاجابة</h1>
+          <h1 className="text-3xl md:text-5xl font-black text-blue-950 mb-4">عندك سؤال؟ هنا الاجابة</h1>
           <p className="text-slate-600 max-w-2xl mx-auto md:text-lg">جمعنا لك اكتر الاسئلة اللي العملاء بيسألوها مع اجابات واضحة ومباشرة.</p>
         </div>
       </section>
@@ -108,24 +108,24 @@ export default function FaqContent() {
             return (
               <motion.div key={cat.title} custom={catIndex} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
                 <div className="flex items-center gap-2 mb-5">
-                  <div className="w-9 h-9 bg-green-50 text-green-700 rounded-lg flex items-center justify-center">
+                  <div className="w-9 h-9 bg-blue-50 text-blue-700 rounded-lg flex items-center justify-center">
                     <Icon className="h-5 w-5" />
                   </div>
-                  <h2 className="text-xl font-bold text-green-950">{cat.title}</h2>
+                  <h2 className="text-xl font-bold text-blue-950">{cat.title}</h2>
                 </div>
                 <div className="space-y-2">
                   {cat.faqs.map((faq, i) => {
                     const key = `${catIndex}-${i}`;
                     const isOpen = openItems[key] || false;
                     return (
-                      <Card key={i} className="border-green-100/60 overflow-hidden">
+                      <Card key={i} className="border-blue-100/60 overflow-hidden">
                         <button
                           type="button"
                           onClick={() => toggle(key)}
                           className="w-full flex items-center justify-between p-5 text-right"
                         >
-                          <h3 className="font-bold text-green-950 text-sm">{faq.q}</h3>
-                          <ChevronDown className={`w-5 h-5 text-green-600 shrink-0 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+                          <h3 className="font-bold text-blue-950 text-sm">{faq.q}</h3>
+                          <ChevronDown className={`w-5 h-5 text-blue-600 shrink-0 transition-transform ${isOpen ? "rotate-180" : ""}`} />
                         </button>
                         {isOpen && (
                           <div className="px-5 pb-5 -mt-1">
@@ -143,15 +143,15 @@ export default function FaqContent() {
       </section>
 
       {/* CTA */}
-      <section className="section-padding bg-green-50/50">
+      <section className="section-padding bg-blue-50/50">
         <div className="container-custom text-center space-y-6">
-          <h2 className="text-2xl md:text-3xl font-bold text-green-950">لسه عندك سؤال؟</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-blue-950">لسه عندك سؤال؟</h2>
           <p className="text-slate-500 max-w-md mx-auto">كلمنا على اي وسيلة وهنرد عليك فوراً</p>
           <div className="flex flex-wrap justify-center gap-3">
-            <Button size="lg" className="bg-green-700 hover:bg-green-800 text-white gap-2" asChild>
+            <Button size="lg" className="bg-blue-700 hover:bg-blue-800 text-white gap-2" asChild>
               <a href={`tel:${siteConfig.phone}`}><Phone className="h-5 w-5" />اتصل دلوقتي</a>
             </Button>
-            <Button size="lg" className="bg-green-500 hover:bg-green-600 text-white gap-2" asChild>
+            <Button size="lg" className="bg-blue-500 hover:bg-blue-600 text-white gap-2" asChild>
               <a href={`https://wa.me/${siteConfig.whatsapp}`} target="_blank" rel="noopener noreferrer"><MessageCircle className="h-5 w-5" />واتساب</a>
             </Button>
           </div>

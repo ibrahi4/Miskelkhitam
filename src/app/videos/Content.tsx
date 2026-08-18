@@ -72,14 +72,14 @@ export default function VideosContent() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-gradient-to-b from-green-50 via-white to-white">
+      <section className="bg-gradient-to-b from-blue-50 via-white to-white">
         <div className="container-custom py-16 md:py-20">
           <div className="mx-auto max-w-3xl text-center">
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-green-100 px-4 py-1.5 text-sm font-semibold text-green-700">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-blue-100 px-4 py-1.5 text-sm font-semibold text-blue-700">
               <Video className="h-4 w-4" />
               فيديوهات الاعمال
             </div>
-            <h1 className="mb-4 text-3xl font-black text-green-950 md:text-5xl">
+            <h1 className="mb-4 text-3xl font-black text-blue-950 md:text-5xl">
               شوف الخدمة على الطبيعة
             </h1>
             <p className="text-slate-600 leading-relaxed md:text-lg">
@@ -96,7 +96,7 @@ export default function VideosContent() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {videos.map((item, index) => (
                 <motion.div key={item.id} custom={index} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
-                  <Card className="overflow-hidden border-green-100/60 shadow-sm">
+                  <Card className="overflow-hidden border-blue-100/60 shadow-sm">
                     <div className="relative aspect-video bg-slate-100">
                       <video
                         ref={(el) => { videoRefs.current[index] = el; }}
@@ -112,7 +112,7 @@ export default function VideosContent() {
                         <button
                           type="button"
                           onClick={() => void togglePlay(item.id, index)}
-                          className="flex h-11 w-11 items-center justify-center rounded-full bg-green-600 text-white shadow-lg transition-colors hover:bg-green-700"
+                          className="flex h-11 w-11 items-center justify-center rounded-full bg-blue-600 text-white shadow-lg transition-colors hover:bg-blue-700"
                           aria-label={playing[item.id] ? "ايقاف" : "تشغيل"}
                         >
                           {playing[item.id] ? <Pause className="h-4 w-4" /> : <Play className="mr-0.5 h-4 w-4" />}
@@ -128,7 +128,7 @@ export default function VideosContent() {
                       </div>
                     </div>
                     <CardContent className="p-5">
-                      <h2 className="text-lg font-bold text-green-950">{item.title}</h2>
+                      <h2 className="text-lg font-bold text-blue-950">{item.title}</h2>
                       <p className="mt-2 text-sm leading-relaxed text-slate-500">{item.description}</p>
                     </CardContent>
                   </Card>
@@ -140,10 +140,10 @@ export default function VideosContent() {
       )}
 
       {/* How We Work */}
-      <section className="section-padding bg-green-50/40">
+      <section className="section-padding bg-blue-50/40">
         <div className="container-custom">
           <div className="text-center mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold text-green-950 mb-3">كيف نعمل؟</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-blue-950 mb-3">كيف نعمل؟</h2>
             <p className="mx-auto max-w-2xl text-slate-600">
               شغلنا مبني على خطوات واضحة تضمن لك نتيجة منظمة وآمنة.
             </p>
@@ -153,12 +153,12 @@ export default function VideosContent() {
               const Icon = item.icon;
               return (
                 <motion.div key={item.title} custom={index} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
-                  <Card className="h-full border-green-100/60 bg-white">
+                  <Card className="h-full border-blue-100/60 bg-white">
                     <CardContent className="p-6 text-center">
-                      <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-green-50 text-green-700">
+                      <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 text-blue-700">
                         <Icon className="h-6 w-6" />
                       </div>
-                      <h3 className="mb-2 font-bold text-green-950">{item.title}</h3>
+                      <h3 className="mb-2 font-bold text-blue-950">{item.title}</h3>
                       <p className="text-sm leading-relaxed text-slate-500">{item.description}</p>
                     </CardContent>
                   </Card>
@@ -172,16 +172,16 @@ export default function VideosContent() {
       {/* CTA */}
       <section className="section-padding bg-white">
         <div className="container-custom">
-          <div className="rounded-3xl bg-green-950 px-6 py-10 text-center text-white md:px-10">
+          <div className="rounded-3xl bg-blue-950 px-6 py-10 text-center text-white md:px-10">
             <h2 className="mb-3 text-2xl font-bold md:text-3xl">احجز خدمتك الآن</h2>
-            <p className="mx-auto mb-6 max-w-2xl text-green-200">
+            <p className="mx-auto mb-6 max-w-2xl text-blue-200">
               لو اعجبك مستوى الشغل، كلمنا الآن وخلي فريق مسك الختام يتولى النقل من البداية للنهاية.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3">
-              <Button size="lg" className="bg-white text-green-800 hover:bg-green-50 gap-2" asChild>
+              <Button size="lg" className="bg-white text-blue-800 hover:bg-blue-50 gap-2" asChild>
                 <a href={`tel:${siteConfig.phone}`}><Phone className="h-5 w-5" />اتصل الآن</a>
               </Button>
-              <Button size="lg" className="bg-green-500 text-white hover:bg-green-600 gap-2" asChild>
+              <Button size="lg" className="bg-blue-500 text-white hover:bg-blue-600 gap-2" asChild>
                 <a href={`https://wa.me/${siteConfig.whatsapp}`} target="_blank" rel="noopener noreferrer"><MessageCircle className="h-5 w-5" />واتساب</a>
               </Button>
               <QuoteDialog

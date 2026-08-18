@@ -32,10 +32,10 @@ export default function ServicesContent() {
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-bl from-green-950 via-green-900 to-green-800">
+      <section className="relative overflow-hidden bg-gradient-to-bl from-blue-950 via-blue-900 to-blue-800">
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-green-500 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-emerald-500 rounded-full blur-3xl" />
+          <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-sky-500 rounded-full blur-3xl" />
         </div>
         <div
           className="absolute inset-0 opacity-[0.05]"
@@ -46,20 +46,20 @@ export default function ServicesContent() {
         />
 
         <div className="container-custom py-16 md:py-24 text-center relative z-10">
-          <div className="inline-flex items-center gap-2 rounded-full bg-green-500/20 backdrop-blur-sm border border-green-400/30 px-4 py-1.5 text-sm font-semibold text-green-200 mb-4">
+          <div className="inline-flex items-center gap-2 rounded-full bg-blue-500/20 backdrop-blur-sm border border-blue-400/30 px-4 py-1.5 text-sm font-semibold text-blue-200 mb-4">
             <Wrench className="h-4 w-4" />
             خدماتنا
           </div>
           <h1 className="mb-4 text-3xl md:text-5xl font-black text-white leading-tight">
             كل حاجة اثاثك محتاجها
             <br />
-            <span className="text-green-400">في مكان واحد</span>
+            <span className="text-blue-400">في مكان واحد</span>
           </h1>
-          <p className="mx-auto max-w-2xl text-green-100/80 md:text-lg leading-relaxed">
+          <p className="mx-auto max-w-2xl text-blue-100/80 md:text-lg leading-relaxed">
             من النقل والتغليف للفك والتركيب - بنقدم خدمات متكاملة بمعايير احترافية وضمان شامل.
           </p>
         </div>
-        <div className="absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t from-[#FAFDF7] to-transparent" />
+        <div className="absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t from-[#F8FBFF] to-transparent" />
       </section>
 
       {/* Services Grid */}
@@ -71,7 +71,7 @@ export default function ServicesContent() {
               return (
                 <motion.div key={service.id} custom={i} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
                   <Link href={`/services/${service.slug}`}>
-                    <Card className="group h-full cursor-pointer overflow-hidden border-green-100/60 transition-all hover:border-green-200 hover:shadow-xl hover:-translate-y-1 bg-white">
+                    <Card className="group h-full cursor-pointer overflow-hidden border-blue-100/60 transition-all hover:border-blue-200 hover:shadow-xl hover:-translate-y-1 bg-white">
                       <div className="relative h-52 overflow-hidden">
                         <Image
                           src={service.image}
@@ -80,20 +80,20 @@ export default function ServicesContent() {
                           className="object-cover transition-transform duration-500 group-hover:scale-110"
                           sizes="(max-width: 768px) 100vw, 33vw"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-green-950/70 via-green-950/20 to-transparent" />
-                        <div className="absolute bottom-3 right-3 flex h-12 w-12 items-center justify-center rounded-xl bg-green-600 text-white shadow-lg">
+                        <div className="absolute inset-0 bg-gradient-to-t from-blue-950/70 via-blue-950/20 to-transparent" />
+                        <div className="absolute bottom-3 right-3 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600 text-white shadow-lg">
                           <Icon className="h-6 w-6" />
                         </div>
                       </div>
 
                       <CardContent className="p-5">
-                        <h2 className="mb-2 text-lg font-bold text-green-950 transition-colors group-hover:text-green-700">
+                        <h2 className="mb-2 text-lg font-bold text-blue-950 transition-colors group-hover:text-blue-700">
                           {service.shortTitle}
                         </h2>
                         <p className="line-clamp-3 text-sm leading-relaxed text-slate-500">
                           {service.description}
                         </p>
-                        <div className="mt-4 flex items-center gap-1 text-sm font-medium text-green-600 transition-all group-hover:gap-2">
+                        <div className="mt-4 flex items-center gap-1 text-sm font-medium text-blue-600 transition-all group-hover:gap-2">
                           <span>تفاصيل الخدمة</span>
                           <ArrowLeft className="h-4 w-4" />
                         </div>
@@ -108,22 +108,22 @@ export default function ServicesContent() {
       </section>
 
       {/* CTA */}
-      <section className="section-padding bg-green-950 text-white relative overflow-hidden">
+      <section className="section-padding bg-blue-950 text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-[0.05]">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-green-400 rounded-full blur-3xl" />
+          <div className="absolute top-0 right-0 w-96 h-96 bg-blue-400 rounded-full blur-3xl" />
         </div>
         <div className="container-custom text-center relative space-y-6">
           <h2 className="mb-3 text-2xl font-bold md:text-3xl">محتاج تحجز خدمة؟</h2>
-          <p className="mx-auto max-w-md text-green-200">كلمنا دلوقتي وهنرتب لك كل حاجة</p>
+          <p className="mx-auto max-w-md text-blue-200">كلمنا دلوقتي وهنرتب لك كل حاجة</p>
 
           <div className="flex flex-wrap justify-center gap-3">
-            <Button size="lg" className="bg-white text-green-800 hover:bg-green-50 gap-2" asChild>
+            <Button size="lg" className="bg-white text-blue-800 hover:bg-blue-50 gap-2" asChild>
               <a href={`tel:${siteConfig.phone}`}>
                 <Phone className="h-5 w-5" />
                 اتصل دلوقتي
               </a>
             </Button>
-            <Button size="lg" className="bg-green-500 text-white hover:bg-green-600 gap-2" asChild>
+            <Button size="lg" className="bg-blue-500 text-white hover:bg-blue-600 gap-2" asChild>
               <a href={`https://wa.me/${siteConfig.whatsapp}`} target="_blank" rel="noopener noreferrer">
                 <MessageCircle className="h-5 w-5" />
                 واتساب

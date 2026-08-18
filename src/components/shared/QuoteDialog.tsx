@@ -94,7 +94,7 @@ export function QuoteDialog({ trigger }: QuoteDialogProps) {
       ) : (
         <Button
           type="button"
-          className="gap-2 bg-green-700 text-white hover:bg-green-800"
+          className="gap-2 bg-blue-700 text-white hover:bg-blue-800"
           onClick={() => setOpen(true)}
         >
           <Send className="h-4 w-4" />
@@ -105,8 +105,8 @@ export function QuoteDialog({ trigger }: QuoteDialogProps) {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-green-900">
-              <MessageCircle className="h-5 w-5 text-green-600" />
+            <DialogTitle className="flex items-center gap-2 text-blue-900">
+              <MessageCircle className="h-5 w-5 text-blue-600" />
               طلب عرض سعر مجاني
             </DialogTitle>
           </DialogHeader>
@@ -172,7 +172,7 @@ export function QuoteDialog({ trigger }: QuoteDialogProps) {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full gap-2 bg-green-600 text-white hover:bg-green-700"
+              className="w-full gap-2 bg-blue-600 text-white hover:bg-blue-700"
             >
               {loading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />

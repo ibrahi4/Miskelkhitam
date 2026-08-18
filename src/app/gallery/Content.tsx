@@ -52,14 +52,14 @@ export default function GalleryContent() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-gradient-to-b from-green-50 via-white to-white">
+      <section className="bg-gradient-to-b from-blue-50 via-white to-white">
         <div className="container-custom py-16 md:py-20">
           <div className="max-w-3xl text-center mx-auto">
-            <div className="inline-flex items-center gap-2 rounded-full bg-green-100 px-4 py-1.5 text-sm font-semibold text-green-700 mb-4">
+            <div className="inline-flex items-center gap-2 rounded-full bg-blue-100 px-4 py-1.5 text-sm font-semibold text-blue-700 mb-4">
               <ImageIcon className="h-4 w-4" />
               معرض الصور
             </div>
-            <h1 className="text-3xl md:text-5xl font-black text-green-950 mb-4">
+            <h1 className="text-3xl md:text-5xl font-black text-blue-950 mb-4">
               صور حقيقية من اعمالنا
             </h1>
             <p className="text-slate-600 leading-relaxed md:text-lg">
@@ -84,8 +84,8 @@ export default function GalleryContent() {
                 }}
                 className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
                   selectedCategory === category
-                    ? "bg-green-700 text-white"
-                    : "bg-green-50 text-green-700 hover:bg-green-100"
+                    ? "bg-blue-700 text-white"
+                    : "bg-blue-50 text-blue-700 hover:bg-blue-100"
                 }`}
               >
                 {category}
@@ -104,7 +104,7 @@ export default function GalleryContent() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.05 }}
                 onClick={() => setActiveIndex(index)}
-                className="group relative aspect-square overflow-hidden rounded-2xl border border-green-100/60 bg-slate-100"
+                className="group relative aspect-square overflow-hidden rounded-2xl border border-blue-100/60 bg-slate-100"
               >
                 <Image
                   src={image.src}
@@ -113,10 +113,10 @@ export default function GalleryContent() {
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
                   sizes="(max-width: 768px) 50vw, (max-width: 1280px) 33vw, 25vw"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-green-950/60 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                <div className="absolute inset-0 bg-gradient-to-t from-blue-950/60 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                 <div className="absolute inset-x-0 bottom-0 translate-y-full p-3 transition-transform duration-300 group-hover:translate-y-0">
                   <div className="rounded-xl bg-white/95 px-3 py-2 text-right">
-                    <p className="text-sm font-bold text-green-950">{image.category}</p>
+                    <p className="text-sm font-bold text-blue-950">{image.category}</p>
                     <p className="text-xs text-slate-500">{image.alt}</p>
                   </div>
                 </div>
@@ -127,23 +127,23 @@ export default function GalleryContent() {
       </section>
 
       {/* CTA */}
-      <section className="section-padding bg-green-50/50">
+      <section className="section-padding bg-blue-50/50">
         <div className="container-custom">
-          <div className="rounded-3xl bg-green-950 px-6 py-10 text-center text-white md:px-10">
+          <div className="rounded-3xl bg-blue-950 px-6 py-10 text-center text-white md:px-10">
             <h2 className="text-2xl md:text-3xl font-bold mb-3">
               جاهز تنقل اثاثك مع فريق محترف؟
             </h2>
-            <p className="mx-auto mb-6 max-w-2xl text-green-200">
+            <p className="mx-auto mb-6 max-w-2xl text-blue-200">
               تواصل معنا الآن واحصل على عرض سعر سريع وخدمة منظمة.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3">
-              <Button size="lg" className="bg-white text-green-800 hover:bg-green-50 gap-2" asChild>
+              <Button size="lg" className="bg-white text-blue-800 hover:bg-blue-50 gap-2" asChild>
                 <a href={`tel:${siteConfig.phone}`}>
                   <Phone className="h-5 w-5" />
                   اتصل الآن
                 </a>
               </Button>
-              <Button size="lg" className="bg-green-500 text-white hover:bg-green-600 gap-2" asChild>
+              <Button size="lg" className="bg-blue-500 text-white hover:bg-blue-600 gap-2" asChild>
                 <a href={`https://wa.me/${siteConfig.whatsapp}`} target="_blank" rel="noopener noreferrer">
                   <MessageCircle className="h-5 w-5" />
                   واتساب

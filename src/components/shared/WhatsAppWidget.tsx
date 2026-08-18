@@ -50,9 +50,9 @@ export function WhatsAppWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="absolute bottom-14 left-0 w-72 bg-white rounded-2xl shadow-xl border border-green-100 overflow-hidden"
+            className="absolute bottom-14 left-0 w-72 bg-white rounded-2xl shadow-xl border border-blue-100 overflow-hidden"
           >
-            <div className="bg-green-600 px-4 py-3 flex items-center justify-between">
+            <div className="bg-blue-600 px-4 py-3 flex items-center justify-between">
               <div className="flex items-center gap-2 text-white">
                 <MessageCircle className="w-5 h-5" />
                 <div>
@@ -71,10 +71,10 @@ export function WhatsAppWidget() {
                 <button
                   key={i}
                   onClick={() => sendMessage(msg)}
-                  className="w-full text-right px-3 py-2.5 rounded-xl text-sm bg-green-50 hover:bg-green-100 text-slate-700 transition-colors flex items-center justify-between gap-2 group"
+                  className="w-full text-right px-3 py-2.5 rounded-xl text-sm bg-blue-50 hover:bg-blue-100 text-slate-700 transition-colors flex items-center justify-between gap-2 group"
                 >
                   <span>{msg}</span>
-                  <Send className="w-3.5 h-3.5 text-green-600 opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
+                  <Send className="w-3.5 h-3.5 text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
                 </button>
               ))}
             </div>
@@ -84,7 +84,7 @@ export function WhatsAppWidget() {
 
       <button
         onClick={() => setOpen(!open)}
-        className="w-11 h-11 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-lg flex items-center justify-center transition-all"
+        className="w-11 h-11 bg-blue-500 hover:bg-blue-600 text-white rounded-full shadow-lg flex items-center justify-center transition-all"
         aria-label="تواصل عبر واتساب"
       >
         {open ? <X className="w-5 h-5" /> : <MessageCircle className="w-5 h-5" />}

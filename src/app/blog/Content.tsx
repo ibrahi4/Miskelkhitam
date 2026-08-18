@@ -29,13 +29,13 @@ export default function BlogContent() {
 
   return (
     <>
-      <section className="bg-gradient-to-b from-green-50 via-white to-white">
+      <section className="bg-gradient-to-b from-blue-50 via-white to-white">
         <div className="container-custom py-16 md:py-20 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full bg-green-100 px-4 py-1.5 text-sm font-semibold text-green-700 mb-4">
+          <div className="inline-flex items-center gap-2 rounded-full bg-blue-100 px-4 py-1.5 text-sm font-semibold text-blue-700 mb-4">
             <BookOpen className="h-4 w-4" />
             المدونة
           </div>
-          <h1 className="text-3xl md:text-5xl font-black text-green-950 mb-4">مقالات ونصائح</h1>
+          <h1 className="text-3xl md:text-5xl font-black text-blue-950 mb-4">مقالات ونصائح</h1>
           <p className="text-slate-600 max-w-2xl mx-auto md:text-lg">
             نصائح عملية ومعلومات مفيدة تساعدك في نقل اثاثك بأمان.
           </p>
@@ -51,14 +51,14 @@ export default function BlogContent() {
               {blogPosts.map((post, i) => (
                 <motion.div key={post.id} custom={i} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
                   <Link href={`/blog/${post.slug}`}>
-                    <Card className="group h-full border-green-100/60 hover:shadow-lg hover:border-green-200 transition-all cursor-pointer overflow-hidden bg-white">
+                    <Card className="group h-full border-blue-100/60 hover:shadow-lg hover:border-blue-200 transition-all cursor-pointer overflow-hidden bg-white">
                       <div className="relative h-48 overflow-hidden">
                         <Image src={post.image} alt={post.title} fill className="object-cover group-hover:scale-110 transition-transform duration-500" sizes="(max-width: 768px) 100vw, 33vw" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-green-950/50 to-transparent" />
-                        <Badge className="absolute top-3 right-3 bg-green-600 text-white text-xs">{post.category}</Badge>
+                        <div className="absolute inset-0 bg-gradient-to-t from-blue-950/50 to-transparent" />
+                        <Badge className="absolute top-3 right-3 bg-blue-600 text-white text-xs">{post.category}</Badge>
                       </div>
                       <CardContent className="p-5">
-                        <h2 className="font-bold text-green-950 text-lg mb-2 group-hover:text-green-700 transition-colors line-clamp-2">
+                        <h2 className="font-bold text-blue-950 text-lg mb-2 group-hover:text-blue-700 transition-colors line-clamp-2">
                           {post.title}
                         </h2>
                         <p className="text-sm text-slate-500 line-clamp-2 mb-3">{post.excerpt}</p>
@@ -67,7 +67,7 @@ export default function BlogContent() {
                             <Clock className="w-3.5 h-3.5" />
                             <span>{post.readTime}</span>
                           </div>
-                          <div className="flex items-center gap-1 text-green-600 font-medium group-hover:gap-2 transition-all">
+                          <div className="flex items-center gap-1 text-blue-600 font-medium group-hover:gap-2 transition-all">
                             <span>اقرأ المقال</span>
                             <ArrowLeft className="w-3.5 h-3.5" />
                           </div>

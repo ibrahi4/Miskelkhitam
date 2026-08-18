@@ -134,8 +134,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#FAFDF7" },
-    { media: "(prefers-color-scheme: dark)", color: "#14532D" },
+    { media: "(prefers-color-scheme: light)", color: "#F8FAFF" },
+    { media: "(prefers-color-scheme: dark)", color: "#1E3A8A" },
   ],
   colorScheme: "light",
   width: "device-width",
@@ -198,7 +198,7 @@ export default function RootLayout({
             },
             success: {
               style: {
-                borderColor: "#15803D",
+                borderColor: "#1D4ED8",
               },
             },
             error: {

@@ -30,7 +30,7 @@ function FooterLinkGroup({
   return (
     <div>
       <h3 className="text-sm font-bold text-white mb-4 flex items-center gap-2">
-        <span className="w-1 h-4 bg-green-500 rounded-full" />
+        <span className="w-1 h-4 bg-blue-500 rounded-full" />
         {title}
       </h3>
       <ul className="space-y-2.5">
@@ -38,7 +38,7 @@ function FooterLinkGroup({
           <li key={link.href}>
             <Link
               href={link.href}
-              className="flex items-center gap-1.5 text-sm text-green-200/70 hover:text-white transition-colors group"
+              className="flex items-center gap-1.5 text-sm text-blue-200/70 hover:text-white transition-colors group"
             >
               <ChevronLeft className="w-3 h-3 opacity-0 group-hover:opacity-100 -mr-2 group-hover:mr-0 transition-all" />
               {link.label}
@@ -60,10 +60,10 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-green-950 text-green-100 no-print relative overflow-hidden">
+    <footer className="bg-blue-950 text-blue-100 no-print relative overflow-hidden">
       <div className="absolute inset-0 opacity-[0.03]">
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-green-400 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-green-500 rounded-full blur-3xl" />
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-blue-400 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-blue-500 rounded-full blur-3xl" />
       </div>
 
       <div className="container-custom py-12 lg:py-16 relative">
@@ -72,16 +72,16 @@ export function Footer() {
           <div className="sm:col-span-2 lg:col-span-1 space-y-5">
             <Logo size="lg" variant="light" />
 
-            <p className="text-sm text-green-200/70 leading-relaxed max-w-xs">
+            <p className="text-sm text-blue-200/70 leading-relaxed max-w-xs">
               نقلتك علينا من اولها لآخرها. نقل اثاث احترافي بمعايير عالية في التجمع الخامس، مدينتي، الشيخ زايد، وكل المدن الجديدة.
             </p>
 
             <div className="space-y-3 text-sm">
               <a
                 href={`tel:${siteConfig.phone}`}
-                className="flex items-center gap-2.5 text-green-200/80 hover:text-white transition-colors group"
+                className="flex items-center gap-2.5 text-blue-200/80 hover:text-white transition-colors group"
               >
-                <div className="w-8 h-8 bg-green-800/50 rounded-lg flex items-center justify-center group-hover:bg-green-600 transition-colors">
+                <div className="w-8 h-8 bg-blue-800/50 rounded-lg flex items-center justify-center group-hover:bg-blue-600 transition-colors">
                   <Phone className="w-4 h-4" />
                 </div>
                 <span dir="ltr">{siteConfig.phone}</span>
@@ -90,9 +90,9 @@ export function Footer() {
                 href={`https://wa.me/${siteConfig.whatsapp}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2.5 text-green-200/80 hover:text-white transition-colors group"
+                className="flex items-center gap-2.5 text-blue-200/80 hover:text-white transition-colors group"
               >
-                <div className="w-8 h-8 bg-green-800/50 rounded-lg flex items-center justify-center group-hover:bg-green-500 transition-colors">
+                <div className="w-8 h-8 bg-blue-800/50 rounded-lg flex items-center justify-center group-hover:bg-blue-500 transition-colors">
                   <MessageCircle className="w-4 h-4" />
                 </div>
                 <span>واتساب</span>
@@ -100,22 +100,22 @@ export function Footer() {
               {siteConfig.email && (
                 <a
                   href={`mailto:${siteConfig.email}`}
-                  className="flex items-center gap-2.5 text-green-200/80 hover:text-white transition-colors group"
+                  className="flex items-center gap-2.5 text-blue-200/80 hover:text-white transition-colors group"
                 >
-                  <div className="w-8 h-8 bg-green-800/50 rounded-lg flex items-center justify-center group-hover:bg-green-600 transition-colors">
+                  <div className="w-8 h-8 bg-blue-800/50 rounded-lg flex items-center justify-center group-hover:bg-blue-600 transition-colors">
                     <Mail className="w-4 h-4" />
                   </div>
                   <span dir="ltr">{siteConfig.email}</span>
                 </a>
               )}
-              <div className="flex items-center gap-2.5 text-green-200/80">
-                <div className="w-8 h-8 bg-green-800/50 rounded-lg flex items-center justify-center shrink-0">
+              <div className="flex items-center gap-2.5 text-blue-200/80">
+                <div className="w-8 h-8 bg-blue-800/50 rounded-lg flex items-center justify-center shrink-0">
                   <MapPin className="w-4 h-4" />
                 </div>
                 <span className="text-xs">{siteConfig.address}</span>
               </div>
-              <div className="flex items-center gap-2.5 text-green-200/80">
-                <div className="w-8 h-8 bg-green-800/50 rounded-lg flex items-center justify-center">
+              <div className="flex items-center gap-2.5 text-blue-200/80">
+                <div className="w-8 h-8 bg-blue-800/50 rounded-lg flex items-center justify-center">
                   <Clock className="w-4 h-4" />
                 </div>
                 <span>24 ساعة / 7 ايام</span>
@@ -129,9 +129,9 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-green-800/40">
+        <div className="mt-12 pt-8 border-t border-blue-800/40">
           <div className="flex flex-wrap items-center justify-between gap-6">
-            <div className="flex items-center gap-2 text-green-300">
+            <div className="flex items-center gap-2 text-blue-300">
               <Shield className="w-5 h-5" />
               <span className="text-sm font-medium">شركة موثوقة ومرخصة</span>
             </div>
@@ -141,14 +141,14 @@ export function Footer() {
                 href={`https://wa.me/${siteConfig.whatsapp}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 bg-green-800/40 hover:bg-green-500 rounded-lg flex items-center justify-center transition-colors"
+                className="w-9 h-9 bg-blue-800/40 hover:bg-blue-500 rounded-lg flex items-center justify-center transition-colors"
                 aria-label="واتساب"
               >
                 <MessageCircle className="w-4 h-4 text-white" />
               </a>
               <a
                 href={`tel:${siteConfig.phone}`}
-                className="w-9 h-9 bg-green-800/40 hover:bg-green-600 rounded-lg flex items-center justify-center transition-colors"
+                className="w-9 h-9 bg-blue-800/40 hover:bg-blue-600 rounded-lg flex items-center justify-center transition-colors"
                 aria-label="اتصل بنا"
               >
                 <Phone className="w-4 h-4 text-white" />
@@ -156,7 +156,7 @@ export function Footer() {
               {siteConfig.email && (
                 <a
                   href={`mailto:${siteConfig.email}`}
-                  className="w-9 h-9 bg-green-800/40 hover:bg-green-600 rounded-lg flex items-center justify-center transition-colors"
+                  className="w-9 h-9 bg-blue-800/40 hover:bg-blue-600 rounded-lg flex items-center justify-center transition-colors"
                   aria-label="راسلنا"
                 >
                   <Send className="w-4 h-4 text-white" />
@@ -165,7 +165,7 @@ export function Footer() {
               <button
                 type="button"
                 onClick={handleShare}
-                className="w-9 h-9 bg-green-800/40 hover:bg-green-600 rounded-lg flex items-center justify-center transition-colors"
+                className="w-9 h-9 bg-blue-800/40 hover:bg-blue-600 rounded-lg flex items-center justify-center transition-colors"
                 aria-label="شارك"
               >
                 <Share2 className="w-4 h-4 text-white" />
@@ -175,8 +175,8 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-green-800/40 relative">
-        <div className="container-custom py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-green-300/50">
+      <div className="border-t border-blue-800/40 relative">
+        <div className="container-custom py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-blue-300/50">
           <p>&copy; {currentYear} {siteConfig.name}. جميع الحقوق محفوظة.</p>
           <div className="flex items-center gap-4">
             <Link href="/privacy" className="hover:text-white transition-colors">سياسة الخصوصية</Link>

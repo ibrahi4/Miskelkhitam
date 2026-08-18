@@ -29,13 +29,13 @@ export default function AreasContent() {
 
   return (
     <>
-      <section className="bg-gradient-to-b from-green-50 via-white to-white">
+      <section className="bg-gradient-to-b from-blue-50 via-white to-white">
         <div className="container-custom py-16 md:py-20 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full bg-green-100 px-4 py-1.5 text-sm font-semibold text-green-700 mb-4">
+          <div className="inline-flex items-center gap-2 rounded-full bg-blue-100 px-4 py-1.5 text-sm font-semibold text-blue-700 mb-4">
             <MapPin className="h-4 w-4" />
             مناطق الخدمة
           </div>
-          <h1 className="text-3xl md:text-5xl font-black text-green-950 mb-4">
+          <h1 className="text-3xl md:text-5xl font-black text-blue-950 mb-4">
             نخدمك في كل مكان
           </h1>
           <p className="text-slate-600 max-w-2xl mx-auto md:text-lg">
@@ -45,12 +45,12 @@ export default function AreasContent() {
       </section>
 
       {areaGroups.map((group, gi) => (
-        <section key={group.id} className={`section-padding ${gi % 2 === 0 ? "bg-white" : "bg-green-50/30"}`}>
+        <section key={group.id} className={`section-padding ${gi % 2 === 0 ? "bg-white" : "bg-blue-50/30"}`}>
           <div className="container-custom">
             <div className="mb-8">
               <div className="flex items-center gap-2 mb-2">
-                <Building2 className="h-5 w-5 text-green-600" />
-                <h2 className="text-xl md:text-2xl font-bold text-green-950">{group.title}</h2>
+                <Building2 className="h-5 w-5 text-blue-600" />
+                <h2 className="text-xl md:text-2xl font-bold text-blue-950">{group.title}</h2>
               </div>
               <p className="text-slate-500">{group.description}</p>
             </div>
@@ -59,15 +59,15 @@ export default function AreasContent() {
               {group.areas.map((area, index) => (
                 <motion.div key={area.id} custom={index} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
                   <Link href={`/areas/${area.slug}`}>
-                    <Card className="group h-full border-green-100/60 hover:shadow-lg hover:border-green-200 transition-all cursor-pointer bg-white">
+                    <Card className="group h-full border-blue-100/60 hover:shadow-lg hover:border-blue-200 transition-all cursor-pointer bg-white">
                       <CardContent className="p-6">
                         <div className="flex items-start justify-between mb-4">
-                          <div className="h-12 w-12 rounded-2xl bg-green-50 text-green-600 flex items-center justify-center group-hover:bg-green-600 group-hover:text-white transition-colors">
+                          <div className="h-12 w-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
                             <MapPin className="h-6 w-6" />
                           </div>
-                          <ArrowLeft className="h-5 w-5 text-slate-300 group-hover:text-green-600 transition-colors" />
+                          <ArrowLeft className="h-5 w-5 text-slate-300 group-hover:text-blue-600 transition-colors" />
                         </div>
-                        <h3 className="text-lg font-bold text-green-950 mb-2 group-hover:text-green-700 transition-colors">
+                        <h3 className="text-lg font-bold text-blue-950 mb-2 group-hover:text-blue-700 transition-colors">
                           {area.name}
                         </h3>
                         <p className="text-sm text-slate-500 line-clamp-2 mb-4">
@@ -75,7 +75,7 @@ export default function AreasContent() {
                         </p>
                         <div className="flex flex-wrap gap-1.5">
                           {area.compounds.slice(0, 3).map((c) => (
-                            <span key={c} className="rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-medium text-green-700">
+                            <span key={c} className="rounded-full bg-blue-50 px-2.5 py-1 text-[11px] font-medium text-blue-700">
                               {c}
                             </span>
                           ))}
@@ -96,17 +96,17 @@ export default function AreasContent() {
       ))}
 
       {/* CTA */}
-      <section className="section-padding bg-green-950 text-white">
+      <section className="section-padding bg-blue-950 text-white">
         <div className="container-custom text-center space-y-6">
           <h2 className="text-2xl md:text-3xl font-bold">منطقتك مش في القائمة؟</h2>
-          <p className="text-green-200 max-w-md mx-auto">
+          <p className="text-blue-200 max-w-md mx-auto">
             كلمنا وهنوصلك في اي مكان. خدمتنا تغطي القاهرة الكبرى كلها.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
-            <Button size="lg" className="bg-white text-green-800 hover:bg-green-50 gap-2" asChild>
+            <Button size="lg" className="bg-white text-blue-800 hover:bg-blue-50 gap-2" asChild>
               <a href={`tel:${siteConfig.phone}`}><Phone className="h-5 w-5" />اتصل الآن</a>
             </Button>
-            <Button size="lg" className="bg-green-500 hover:bg-green-600 text-white gap-2" asChild>
+            <Button size="lg" className="bg-blue-500 hover:bg-blue-600 text-white gap-2" asChild>
               <a href={`https://wa.me/${siteConfig.whatsapp}`} target="_blank" rel="noopener noreferrer"><MessageCircle className="h-5 w-5" />واتساب</a>
             </Button>
           </div>

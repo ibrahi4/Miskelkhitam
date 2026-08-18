@@ -37,13 +37,13 @@ const sections = [
 export default function PrivacyPage() {
   return (
     <>
-      <section className="bg-gradient-to-b from-green-50 via-white to-white">
+      <section className="bg-gradient-to-b from-blue-50 via-white to-white">
         <div className="container-custom py-16 md:py-20 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full bg-green-100 px-4 py-1.5 text-sm font-semibold text-green-700 mb-4">
+          <div className="inline-flex items-center gap-2 rounded-full bg-blue-100 px-4 py-1.5 text-sm font-semibold text-blue-700 mb-4">
             <Shield className="h-4 w-4" />
             الخصوصية
           </div>
-          <h1 className="text-3xl md:text-4xl font-black text-green-950 mb-4">سياسة الخصوصية</h1>
+          <h1 className="text-3xl md:text-4xl font-black text-blue-950 mb-4">سياسة الخصوصية</h1>
           <p className="text-slate-600 max-w-2xl mx-auto">
             خصوصيتك مهمة لنا. هنا نوضح كيف نتعامل مع بياناتك.
           </p>
@@ -54,11 +54,11 @@ export default function PrivacyPage() {
         <div className="container-custom max-w-3xl space-y-8">
           {sections.map((s, i) => (
             <div key={i}>
-              <h2 className="text-lg font-bold text-green-950 mb-2">{s.title}</h2>
+              <h2 className="text-lg font-bold text-blue-950 mb-2">{s.title}</h2>
               <p className="text-slate-600 leading-relaxed text-sm">{s.content}</p>
             </div>
           ))}
-          <p className="text-xs text-slate-400 pt-4 border-t border-green-100">
+          <p className="text-xs text-slate-400 pt-4 border-t border-blue-100">
             آخر تحديث: يناير 2025
           </p>
         </div>

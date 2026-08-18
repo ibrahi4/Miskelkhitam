@@ -25,7 +25,7 @@ export function AnnouncementBar() {
   const duplicated = [...announcements, ...announcements, ...announcements];
 
   return (
-    <div className="relative bg-green-950 text-white overflow-hidden">
+    <div className="relative bg-blue-950 text-white overflow-hidden">
       <div className="flex items-center h-9">
         <div className="flex-1 overflow-hidden">
           <div className="flex animate-marquee whitespace-nowrap">
@@ -33,7 +33,7 @@ export function AnnouncementBar() {
               const Icon = item.icon;
               return (
                 <span key={i} className="inline-flex items-center gap-1.5 mx-6 text-xs font-medium">
-                  <Icon className="w-3.5 h-3.5 text-green-400 shrink-0" />
+                  <Icon className="w-3.5 h-3.5 text-blue-400 shrink-0" />
                   <span>{item.text}</span>
                 </span>
               );
@@ -42,7 +42,7 @@ export function AnnouncementBar() {
         </div>
         <button
           onClick={() => setVisible(false)}
-          className="shrink-0 px-2.5 h-full flex items-center justify-center hover:bg-green-900 transition-colors"
+          className="shrink-0 px-2.5 h-full flex items-center justify-center hover:bg-blue-900 transition-colors"
           aria-label="اغلاق الشريط"
         >
           <X className="w-3.5 h-3.5" />

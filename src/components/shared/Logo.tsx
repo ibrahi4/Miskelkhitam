@@ -34,7 +34,7 @@ export function Logo({
         className={`${s.box} relative overflow-hidden rounded-xl shrink-0 transition-transform duration-300 group-hover:scale-105 ${
           isLight
             ? "ring-2 ring-white/20 shadow-md"
-            : "ring-2 ring-green-100 shadow-md shadow-green-700/10"
+            : "ring-2 ring-blue-100 shadow-md shadow-blue-700/10"
         }`}
       >
         <Image
@@ -49,10 +49,10 @@ export function Logo({
 
       {showText ? (
         <div className="flex flex-col leading-tight">
-          <span className={`font-black ${s.text} ${isLight ? "text-white" : "text-green-950"}`}>
+          <span className={`font-black ${s.text} ${isLight ? "text-white" : "text-blue-950"}`}>
             {siteConfig.shortName}
           </span>
-          <span className={`${s.sub} font-semibold tracking-wide ${isLight ? "text-green-300" : "text-green-600"}`}>
+          <span className={`${s.sub} font-semibold tracking-wide ${isLight ? "text-blue-300" : "text-blue-600"}`}>
             لنقل الاثاث
           </span>
         </div>

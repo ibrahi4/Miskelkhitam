@@ -80,11 +80,11 @@ export function InlineQuoteForm() {
   };
 
   return (
-    <section className="section-padding bg-green-50/50">
+    <section className="section-padding bg-blue-50/50">
       <div className="container-custom">
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-8">
-            <h2 className="text-3xl md:text-4xl font-black text-green-950 mb-3">
+            <h2 className="text-3xl md:text-4xl font-black text-blue-950 mb-3">
               احصل على عرض سعر فوري
             </h2>
             <p className="text-slate-500 text-lg">
@@ -99,20 +99,20 @@ export function InlineQuoteForm() {
                 <div
                   className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all ${
                     step >= s
-                      ? "bg-green-700 text-white shadow-lg shadow-green-700/30"
-                      : "bg-green-100 text-green-600"
+                      ? "bg-blue-700 text-white shadow-lg shadow-blue-700/30"
+                      : "bg-blue-100 text-blue-600"
                   }`}
                 >
                   {step > s ? <CheckCircle2 className="w-5 h-5" /> : s}
                 </div>
                 {s < 3 && (
-                  <div className={`w-12 h-1 rounded-full transition-colors ${step > s ? "bg-green-700" : "bg-green-200"}`} />
+                  <div className={`w-12 h-1 rounded-full transition-colors ${step > s ? "bg-blue-700" : "bg-blue-200"}`} />
                 )}
               </div>
             ))}
           </div>
 
-          <Card className="border-green-100/60 shadow-xl bg-white overflow-hidden">
+          <Card className="border-blue-100/60 shadow-xl bg-white overflow-hidden">
             <CardContent className="p-6 md:p-8">
               <motion.div
                 key={step}
@@ -122,7 +122,7 @@ export function InlineQuoteForm() {
               >
                 {step === 1 && (
                   <div className="space-y-5">
-                    <div className="flex items-center gap-2 text-green-700 font-bold mb-2">
+                    <div className="flex items-center gap-2 text-blue-700 font-bold mb-2">
                       <User className="w-5 h-5" />
                       <span>بيانات التواصل</span>
                     </div>
@@ -155,7 +155,7 @@ export function InlineQuoteForm() {
 
                 {step === 2 && (
                   <div className="space-y-5">
-                    <div className="flex items-center gap-2 text-green-700 font-bold mb-2">
+                    <div className="flex items-center gap-2 text-blue-700 font-bold mb-2">
                       <MapPin className="w-5 h-5" />
                       <span>تفاصيل النقل</span>
                     </div>
@@ -186,7 +186,7 @@ export function InlineQuoteForm() {
 
                 {step === 3 && (
                   <div className="space-y-5">
-                    <div className="flex items-center gap-2 text-green-700 font-bold mb-2">
+                    <div className="flex items-center gap-2 text-blue-700 font-bold mb-2">
                       <FileText className="w-5 h-5" />
                       <span>تفاصيل اضافية</span>
                     </div>
@@ -212,7 +212,7 @@ export function InlineQuoteForm() {
                     type="button"
                     variant="outline"
                     onClick={prevStep}
-                    className="border-green-200 text-green-700 rounded-xl"
+                    className="border-blue-200 text-blue-700 rounded-xl"
                   >
                     رجوع
                   </Button>
@@ -224,7 +224,7 @@ export function InlineQuoteForm() {
                   <Button
                     type="button"
                     onClick={nextStep}
-                    className="bg-green-700 hover:bg-green-800 text-white rounded-xl gap-2 px-8"
+                    className="bg-blue-700 hover:bg-blue-800 text-white rounded-xl gap-2 px-8"
                   >
                     التالي
                   </Button>
@@ -233,7 +233,7 @@ export function InlineQuoteForm() {
                     type="button"
                     onClick={handleSubmit}
                     disabled={loading}
-                    className="bg-green-600 hover:bg-green-700 text-white rounded-xl gap-2 px-8 shadow-lg shadow-green-600/30"
+                    className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl gap-2 px-8 shadow-lg shadow-blue-600/30"
                   >
                     {loading ? (
                       <Loader2 className="h-5 w-5 animate-spin" />

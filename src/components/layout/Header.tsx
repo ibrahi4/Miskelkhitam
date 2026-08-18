@@ -69,8 +69,8 @@ export function Header() {
     <header
       className={`sticky top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-white/95 backdrop-blur-md shadow-sm border-b border-green-100"
-          : "bg-white border-b border-green-50"
+          ? "bg-white/95 backdrop-blur-md shadow-sm border-b border-blue-100"
+          : "bg-white border-b border-blue-50"
       }`}
     >
       <div className="container-custom">
@@ -84,8 +84,8 @@ export function Header() {
                 href={item.href}
                 className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                   isActive(item.href)
-                    ? "text-green-700 bg-green-50"
-                    : "text-slate-600 hover:text-green-700 hover:bg-green-50/60"
+                    ? "text-blue-700 bg-blue-50"
+                    : "text-slate-600 hover:text-blue-700 hover:bg-blue-50/60"
                 }`}
               >
                 {item.label}
@@ -101,8 +101,8 @@ export function Header() {
               <button
                 className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                   isActive("/services")
-                    ? "text-green-700 bg-green-50"
-                    : "text-slate-600 hover:text-green-700 hover:bg-green-50/60"
+                    ? "text-blue-700 bg-blue-50"
+                    : "text-slate-600 hover:text-blue-700 hover:bg-blue-50/60"
                 }`}
               >
                 خدماتنا
@@ -115,7 +115,7 @@ export function Header() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 8 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute top-full right-0 mt-1 w-[540px] bg-white rounded-2xl shadow-xl border border-green-100 p-4"
+                    className="absolute top-full right-0 mt-1 w-[540px] bg-white rounded-2xl shadow-xl border border-blue-100 p-4"
                   >
                     <div className="grid grid-cols-2 gap-1.5">
                       {services.map((s) => {
@@ -124,23 +124,23 @@ export function Header() {
                           <Link
                             key={s.id}
                             href={`/services/${s.slug}`}
-                            className="flex items-start gap-3 p-3 rounded-xl hover:bg-green-50 transition-colors group"
+                            className="flex items-start gap-3 p-3 rounded-xl hover:bg-blue-50 transition-colors group"
                           >
-                            <div className="w-9 h-9 bg-green-50 text-green-600 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-green-600 group-hover:text-white transition-colors">
+                            <div className="w-9 h-9 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-blue-600 group-hover:text-white transition-colors">
                               <Icon className="w-4 h-4" />
                             </div>
                             <div className="min-w-0">
-                              <div className="text-sm font-bold text-green-950">{s.shortTitle}</div>
+                              <div className="text-sm font-bold text-blue-950">{s.shortTitle}</div>
                               <div className="text-xs text-slate-500 line-clamp-1 mt-0.5">{s.description}</div>
                             </div>
                           </Link>
                         );
                       })}
                     </div>
-                    <div className="mt-3 pt-3 border-t border-green-100">
+                    <div className="mt-3 pt-3 border-t border-blue-100">
                       <Link
                         href="/services"
-                        className="flex items-center justify-between px-3 py-2 rounded-lg bg-green-50 hover:bg-green-100 transition-colors text-sm font-semibold text-green-700"
+                        className="flex items-center justify-between px-3 py-2 rounded-lg bg-blue-50 hover:bg-blue-100 transition-colors text-sm font-semibold text-blue-700"
                       >
                         <span>عرض كل الخدمات</span>
                         <ChevronLeft className="w-4 h-4" />
@@ -160,8 +160,8 @@ export function Header() {
               <button
                 className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                   isActive("/areas")
-                    ? "text-green-700 bg-green-50"
-                    : "text-slate-600 hover:text-green-700 hover:bg-green-50/60"
+                    ? "text-blue-700 bg-blue-50"
+                    : "text-slate-600 hover:text-blue-700 hover:bg-blue-50/60"
                 }`}
               >
                 المناطق
@@ -174,24 +174,24 @@ export function Header() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 8 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute top-full right-0 mt-1 w-64 bg-white rounded-2xl shadow-xl border border-green-100 p-3"
+                    className="absolute top-full right-0 mt-1 w-64 bg-white rounded-2xl shadow-xl border border-blue-100 p-3"
                   >
                     <div className="space-y-0.5">
                       {areas.map((area) => (
                         <Link
                           key={area.id}
                           href={`/areas/${area.slug}`}
-                          className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-green-50 transition-colors text-sm text-slate-600 hover:text-green-700"
+                          className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-blue-50 transition-colors text-sm text-slate-600 hover:text-blue-700"
                         >
-                          <MapPin className="w-3.5 h-3.5 text-green-500" />
+                          <MapPin className="w-3.5 h-3.5 text-blue-500" />
                           <span>{area.name}</span>
                         </Link>
                       ))}
                     </div>
-                    <div className="mt-2 pt-2 border-t border-green-100">
+                    <div className="mt-2 pt-2 border-t border-blue-100">
                       <Link
                         href="/areas"
-                        className="flex items-center justify-between px-3 py-2 rounded-lg bg-green-50 hover:bg-green-100 transition-colors text-sm font-semibold text-green-700"
+                        className="flex items-center justify-between px-3 py-2 rounded-lg bg-blue-50 hover:bg-blue-100 transition-colors text-sm font-semibold text-blue-700"
                       >
                         <span>كل المناطق</span>
                         <ChevronLeft className="w-4 h-4" />
@@ -211,8 +211,8 @@ export function Header() {
               <button
                 className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                   isActive("/testimonials") || isActive("/faq") || isActive("/blog") || isActive("/gallery")
-                    ? "text-green-700 bg-green-50"
-                    : "text-slate-600 hover:text-green-700 hover:bg-green-50/60"
+                    ? "text-blue-700 bg-blue-50"
+                    : "text-slate-600 hover:text-blue-700 hover:bg-blue-50/60"
                 }`}
               >
                 المزيد
@@ -225,7 +225,7 @@ export function Header() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 8 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute top-full right-0 mt-1 w-64 bg-white rounded-2xl shadow-xl border border-green-100 p-3"
+                    className="absolute top-full right-0 mt-1 w-64 bg-white rounded-2xl shadow-xl border border-blue-100 p-3"
                   >
                     {helpNav.map((item) => {
                       const Icon = item.icon;
@@ -233,13 +233,13 @@ export function Header() {
                         <Link
                           key={item.href}
                           href={item.href}
-                          className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-green-50 transition-colors group"
+                          className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-blue-50 transition-colors group"
                         >
-                          <div className="w-8 h-8 bg-green-50 text-green-600 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-green-600 group-hover:text-white transition-colors">
+                          <div className="w-8 h-8 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center shrink-0 group-hover:bg-blue-600 group-hover:text-white transition-colors">
                             <Icon className="w-4 h-4" />
                           </div>
                           <div>
-                            <div className="text-sm font-bold text-green-950">{item.label}</div>
+                            <div className="text-sm font-bold text-blue-950">{item.label}</div>
                             <div className="text-xs text-slate-500">{item.desc}</div>
                           </div>
                         </Link>
@@ -254,8 +254,8 @@ export function Header() {
               href="/contact"
               className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                 isActive("/contact")
-                  ? "text-green-700 bg-green-50"
-                  : "text-slate-600 hover:text-green-700 hover:bg-green-50/60"
+                  ? "text-blue-700 bg-blue-50"
+                  : "text-slate-600 hover:text-blue-700 hover:bg-blue-50/60"
               }`}
             >
               تواصل معنا
@@ -266,7 +266,7 @@ export function Header() {
           <div className="hidden lg:flex items-center gap-2 shrink-0">
             <a
               href={`tel:${siteConfig.phone}`}
-              className="flex items-center gap-1.5 px-3 h-9 rounded-lg border border-green-200 text-green-700 hover:bg-green-50 text-sm font-semibold transition-colors"
+              className="flex items-center gap-1.5 px-3 h-9 rounded-lg border border-blue-200 text-blue-700 hover:bg-blue-50 text-sm font-semibold transition-colors"
               dir="ltr"
             >
               <Phone className="w-4 h-4" />
@@ -276,7 +276,7 @@ export function Header() {
               href={`https://wa.me/${siteConfig.whatsapp}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 px-3 h-9 rounded-lg bg-green-600 hover:bg-green-700 text-white text-sm font-semibold transition-colors"
+              className="flex items-center gap-1.5 px-3 h-9 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold transition-colors"
             >
               <MessageCircle className="w-4 h-4" />
               <span>واتساب</span>
@@ -286,7 +286,7 @@ export function Header() {
           {/* Mobile Toggle */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden p-2 rounded-lg hover:bg-green-50 transition-colors"
+            className="lg:hidden p-2 rounded-lg hover:bg-blue-50 transition-colors"
             aria-label={mobileOpen ? "اغلاق القائمة" : "فتح القائمة"}
           >
             {mobileOpen ? <X className="w-6 h-6 text-slate-700" /> : <Menu className="w-6 h-6 text-slate-700" />}
@@ -302,7 +302,7 @@ export function Header() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25 }}
-            className="lg:hidden overflow-hidden border-t border-green-100 bg-white max-h-[calc(100vh-72px)] overflow-y-auto"
+            className="lg:hidden overflow-hidden border-t border-blue-100 bg-white max-h-[calc(100vh-72px)] overflow-y-auto"
           >
             <nav className="container-custom py-4 space-y-1">
               {[
@@ -322,7 +322,7 @@ export function Header() {
                     key={item.href}
                     href={item.href}
                     className={`flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium ${
-                      isActive(item.href) ? "bg-green-50 text-green-700" : "text-slate-600"
+                      isActive(item.href) ? "bg-blue-50 text-blue-700" : "text-slate-600"
                     }`}
                   >
                     <span className="flex items-center gap-3">
@@ -334,14 +334,14 @@ export function Header() {
                 );
               })}
 
-              <div className="pt-4 border-t border-green-100 space-y-2">
-                <Button className="w-full bg-green-700 hover:bg-green-800 text-white gap-2" asChild>
+              <div className="pt-4 border-t border-blue-100 space-y-2">
+                <Button className="w-full bg-blue-700 hover:bg-blue-800 text-white gap-2" asChild>
                   <a href={`tel:${siteConfig.phone}`}>
                     <Phone className="w-4 h-4" />
                     اتصل دلوقتي
                   </a>
                 </Button>
-                <Button className="w-full bg-green-500 hover:bg-green-600 text-white gap-2" asChild>
+                <Button className="w-full bg-blue-500 hover:bg-blue-600 text-white gap-2" asChild>
                   <a href={`https://wa.me/${siteConfig.whatsapp}`} target="_blank" rel="noopener noreferrer">
                     <MessageCircle className="w-4 h-4" />
                     واتساب

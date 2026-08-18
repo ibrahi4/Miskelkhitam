@@ -10,14 +10,14 @@ const badges = [
 
 export function TrustBadges() {
   return (
-    <div className="bg-white border-y border-green-100/60">
+    <div className="bg-white border-y border-blue-100/60">
       <div className="container-custom py-5">
         <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
           {badges.map((b) => {
             const Icon = b.icon;
             return (
               <div key={b.text} className="flex items-center gap-2 text-slate-600">
-                <Icon className="w-4.5 h-4.5 text-green-600" />
+                <Icon className="w-4.5 h-4.5 text-blue-600" />
                 <span className="text-sm font-semibold">{b.text}</span>
               </div>
             );
