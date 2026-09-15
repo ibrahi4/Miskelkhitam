@@ -2,44 +2,14 @@
 
 import Script from "next/script";
 
-const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_ID || "";
-const GADS_ID = process.env.NEXT_PUBLIC_GADS_ID || "";
-
-export function GoogleAnalytics() {
-  if (!GA_TRACKING_ID) return null;
-
-  return (
-    <>
-      <Script
-        strategy="afterInteractive"
-        src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
-      />
-      <Script
-        id="google-analytics"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${GA_TRACKING_ID}', {
-              page_path: window.location.pathname,
-            });
-            ${GADS_ID ? `gtag('config', '${GADS_ID}');` : ""}
-          `,
-        }}
-      />
-    </>
-  );
-}
+export const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || "GTM-MMKC5XS8";
 
 export function GoogleTagManager() {
-  const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || "";
   if (!GTM_ID) return null;
 
   return (
     <Script
-      id="google-tag-manager"
+      id="gtm-script"
       strategy="afterInteractive"
       dangerouslySetInnerHTML={{
         __html: `
@@ -54,5 +24,19 @@ export function GoogleTagManager() {
   );
 }
 
-// Re-export الدوال من الملف الجديد للتوافق مع الكود القديم
+export function GoogleTagManagerNoscript() {
+  if (!GTM_ID) return null;
+
+  return (
+    <noscript>
+      <iframe
+        src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+        height="0"
+        width="0"
+        style={{ display: "none", visibility: "hidden" }}
+      />
+    </noscript>
+  );
+}
+
 export { trackPhoneCall, trackWhatsApp, trackFormSubmit } from "@/lib/analytics/events";
