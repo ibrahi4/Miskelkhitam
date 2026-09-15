@@ -1,6 +1,5 @@
 "use client";
 
-// Helper to push to window.dataLayer safely
 const pushToDataLayer = (eventName: string, params: Record<string, any> = {}) => {
   if (typeof window !== "undefined") {
     (window as any).dataLayer = (window as any).dataLayer || [];
