@@ -3,14 +3,13 @@
 import Script from "next/script";
 
 const GADS_ID = process.env.NEXT_PUBLIC_GADS_ID || "AW-18393270385";
-const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || "GTM-MMKC5XS8";
+const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || "GTM-55X9XKQM";
 
 export function GoogleAnalytics() {
   if (!GADS_ID) return null;
 
   return (
     <>
-      {/* Google Ads Tag Direct Integration */}
       <Script
         strategy="afterInteractive"
         src={`https://www.googletagmanager.com/gtag/js?id=${GADS_ID}`}
