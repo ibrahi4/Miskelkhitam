@@ -38,6 +38,27 @@ import { GallerySection } from "@/components/features/GallerySection";
 import { QuoteDialog } from "@/components/shared/QuoteDialog";
 import { InlineQuoteForm } from "@/components/shared/InlineQuoteForm";
 
+/* ─────────────────────────────────────────────────────────────
+   CONVERSION TRACKING
+   استبدل AW-XXXXXXXXX/YYYYYYYY برقم التحويل الحقيقي بتاعك من
+   Google Ads (Conversions → Phone calls / Clicks). من غير السطر
+   ده، مكالمات وواتساب مش بتتسجل كتحويل في الحساب خالص.
+   ───────────────────────────────────────────────────────────── */
+function trackConversion(label: "call" | "whatsapp" | "quote_form") {
+  if (typeof window === "undefined") return;
+  // GA4 / dataLayer event — يوصل لأي وسم متربط بالـ dataLayer
+  (window as any).dataLayer = (window as any).dataLayer || [];
+  (window as any).dataLayer.push({ event: "generate_lead", lead_type: label });
+  // Google Ads conversion tag — فعّلها بعد ما تحط رقم التحويل الحقيقي
+  if (typeof (window as any).gtag === "function") {
+    (window as any).gtag("event", "conversion", {
+      send_to: `AW-XXXXXXXXX/${
+        label === "call" ? "CALL_LABEL" : label === "whatsapp" ? "WHATSAPP_LABEL" : "FORM_LABEL"
+      }`,
+    });
+  }
+}
+
 /* ───── Animated Counter ───── */
 function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: string }) {
   const [count, setCount] = useState(0);
@@ -47,7 +68,7 @@ function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: str
   useEffect(() => {
     if (!isInView) return;
     let start = 0;
-    const duration = 2000;
+    const duration = 1400;
     const step = target / (duration / 16);
     const timer = setInterval(() => {
       start += step;
@@ -63,7 +84,8 @@ function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: str
 
   return (
     <div ref={ref} className="text-4xl md:text-5xl font-black text-blue-700">
-      {count.toLocaleString()}{suffix}
+      {count.toLocaleString()}
+      {suffix}
     </div>
   );
 }
@@ -137,46 +159,61 @@ const fadeUp = {
   }),
 };
 
-const fadeIn = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.6 } },
-};
-
 export default function HomeContent() {
-  const [mounted, setMounted] = useState(false);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const [showStickyBar, setShowStickyBar] = useState(false);
 
+  // كاروسيل التقييمات — آمن من غير مانع رندر، لأن testimonials[0]
+  // نفس القيمة على السيرفر والعميل (مفيش hydration mismatch)
   useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!mounted) return;
     const interval = setInterval(() => {
       setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
     }, 6000);
     return () => clearInterval(interval);
-  }, [mounted]);
+  }, []);
 
-  if (!mounted) return null;
+  // شريط الاتصال الثابت يظهر بعد ما المستخدم ينزل تحت الـHero
+  useEffect(() => {
+    const onScroll = () => setShowStickyBar(window.scrollY > 480);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const currentTestimonial = testimonials[activeTestimonial];
 
   return (
     <>
+      {/* JSON-LD: بيانات منظّمة لشركة نقل أثاث — تساعد في نتائج البحث
+          المجانية والخرائط، ومنفصلة تمامًا عن أداء الإعلانات المدفوعة */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "MovingCompany",
+            name: siteConfig.name,
+            image: siteConfig.logo,
+            telephone: siteConfig.phone,
+            areaServed: areas.map((a) => a.name),
+            aggregateRating: {
+              "@type": "AggregateRating",
+              ratingValue: "4.9",
+              reviewCount: String(testimonials.length),
+            },
+          }),
+        }}
+      />
+
       {/* ═══════════════════════ HERO ═══════════════════════ */}
       <section className="relative min-h-[92vh] flex items-center overflow-hidden">
-        {/* Gradient Background */}
         <div className="absolute inset-0 bg-gradient-to-bl from-blue-950 via-blue-900 to-blue-800" />
 
-        {/* Soft glowing blobs */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-32 -right-32 w-[500px] h-[500px] bg-blue-500/20 rounded-full blur-[140px]" />
           <div className="absolute top-1/3 -left-40 w-[520px] h-[520px] bg-sky-400/15 rounded-full blur-[150px]" />
           <div className="absolute bottom-0 right-1/3 w-[420px] h-[420px] bg-blue-400/10 rounded-full blur-[130px]" />
         </div>
 
-        {/* Grid overlay */}
         <div
           className="absolute inset-0 opacity-[0.06] pointer-events-none"
           style={{
@@ -186,78 +223,78 @@ export default function HomeContent() {
           }}
         />
 
-        {/* Top shine */}
         <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-white/5 to-transparent pointer-events-none" />
 
         <div className="container-custom relative z-10 py-20">
           <div className="grid lg:grid-cols-12 gap-8 items-center">
-            {/* Text - takes 7 cols */}
+            {/* Text - takes 7 cols. مفيش framer-motion على العناصر دي —
+                دي أهم حاجة في الصفحة لمستخدم جاي من إعلان مدفوع، لازم
+                تترسم فورًا من غير ما تستنى تحميل JS (بيأثر على LCP) */}
             <div className="lg:col-span-7 space-y-7">
-              <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
-                <Badge className="bg-white/10 backdrop-blur-md text-white border-white/20 text-sm px-4 py-2 gap-2">
-                  <CircleCheckBig className="w-4 h-4 text-blue-400" />
-                  +{siteConfig.completedMoves} نقلة ناجحة في القاهرة الكبرى
-                </Badge>
-              </motion.div>
+              <Badge className="bg-white/10 backdrop-blur-md text-white border-white/20 text-sm px-4 py-2 gap-2">
+                <CircleCheckBig className="w-4 h-4 text-blue-400" />
+                +{siteConfig.completedMoves} نقلة ناجحة في القاهرة الكبرى
+              </Badge>
 
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.15 }}
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-[4rem] font-black text-white leading-[1.1] tracking-tight"
-              >
-                نقلتك
-                <span className="block text-blue-400 mt-1">في ايد امينة</span>
-              </motion.h1>
+              {/* H1 بيحمل الكلمة المفتاحية الأساسية + هوية البراند مع بعض */}
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[3.6rem] font-black text-white leading-[1.1] tracking-tight">
+                شركة نقل عفش وأثاث
+                <span className="block text-blue-400 mt-1">نقلتك في ايد امينة</span>
+              </h1>
 
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.3 }}
-                className="text-lg md:text-xl text-white/70 leading-relaxed max-w-xl"
-              >
-                فريق محترف بخبرة {siteConfig.yearsOfExperience} سنوات. تغليف عالمي، سيارات مجهزة، وضمان كامل. من الباب للباب.
-              </motion.p>
+              <p className="text-lg md:text-xl text-white/70 leading-relaxed max-w-xl">
+                فريق محترف بخبرة {siteConfig.yearsOfExperience} سنوات، وخدمة ونش لرفع
+                وتنزيل الأثاث للأدوار العالية. تغليف عالمي، سيارات مجهزة، وضمان
+                كامل من الباب للباب.
+              </p>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.45 }}
-                className="flex flex-wrap gap-3"
-              >
-                <Button size="lg" className="bg-blue-500 hover:bg-blue-600 text-white gap-2 text-base h-13 px-7 shadow-xl shadow-blue-500/25 rounded-2xl" asChild>
-                  <a href={`tel:${siteConfig.phone}`}>
+              <div className="flex flex-wrap gap-3">
+                <Button
+                  size="lg"
+                  className="bg-blue-500 hover:bg-blue-600 text-white gap-2 text-base h-13 px-7 shadow-xl shadow-blue-500/25 rounded-2xl"
+                  asChild
+                >
+                  <a href={`tel:${siteConfig.phone}`} onClick={() => trackConversion("call")}>
                     <Phone className="w-5 h-5" />
                     اتصل دلوقتي
                   </a>
                 </Button>
-                <Button size="lg" className="bg-white text-blue-900 hover:bg-blue-50 gap-2 text-base h-13 px-7 rounded-2xl font-bold" asChild>
-                  <a href={`https://wa.me/${siteConfig.whatsapp}`} target="_blank" rel="noopener noreferrer">
+                <Button
+                  size="lg"
+                  className="bg-white text-blue-900 hover:bg-blue-50 gap-2 text-base h-13 px-7 rounded-2xl font-bold"
+                  asChild
+                >
+                  <a
+                    href={`https://wa.me/${siteConfig.whatsapp}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => trackConversion("whatsapp")}
+                  >
                     <MessageCircle className="w-5 h-5" />
                     واتساب
                   </a>
                 </Button>
                 <QuoteDialog
                   trigger={
-                    <div className="inline-flex h-13 items-center justify-center gap-2 rounded-2xl border-2 border-white/30 bg-white/5 backdrop-blur-sm px-7 text-base font-medium text-white transition-all hover:bg-white/15 cursor-pointer">
+                    <div
+                      onClick={() => trackConversion("quote_form")}
+                      className="inline-flex h-13 items-center justify-center gap-2 rounded-2xl border-2 border-white/30 bg-white/5 backdrop-blur-sm px-7 text-base font-medium text-white transition-all hover:bg-white/15 cursor-pointer"
+                    >
                       <Send className="w-5 h-5" />
                       عرض سعر مجاني
                     </div>
                   }
                 />
-              </motion.div>
+              </div>
 
-              {/* Trust Ticker */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.6 }}
-                className="flex items-center gap-6 pt-4"
-              >
+              {/* Trust Ticker — الونش مضاف كتاچ واضح لأنه أفضل كلمة تحويل
+                  في حملة الإعلانات الحالية */}
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-4">
                 {[
                   { icon: Shield, text: "ضمان شامل" },
                   { icon: Clock, text: "24/7" },
                   { icon: PackageCheck, text: "تغليف عالمي" },
+                  { icon: CableCar, text: "ونش رفع أثاث" },
                 ].map((item, i) => {
                   const ItemIcon = item.icon;
                   return (
@@ -267,16 +304,16 @@ export default function HomeContent() {
                     </div>
                   );
                 })}
-              </motion.div>
+              </div>
             </div>
 
-            {/* Floating Cards - takes 5 cols */}
+            {/* Floating Cards - takes 5 cols. الأنيميشن هنا مقبول لأنها
+                عناصر ثانوية مش جزء من الـLCP */}
             <div className="hidden lg:flex lg:col-span-5 flex-col items-center gap-5 relative">
-              {/* Rating Card */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.8, y: -20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.5 }}
+                transition={{ delay: 0.3, duration: 0.5 }}
                 className="bg-white rounded-3xl shadow-2xl p-5 w-64 self-start"
               >
                 <div className="flex items-center gap-3">
@@ -295,11 +332,10 @@ export default function HomeContent() {
                 </div>
               </motion.div>
 
-              {/* Moves Counter Card */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.8, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ delay: 0.7, duration: 0.5 }}
+                transition={{ delay: 0.45, duration: 0.5 }}
                 className="bg-white rounded-3xl shadow-2xl p-5 w-64 self-end"
               >
                 <div className="flex items-center gap-3">
@@ -313,11 +349,10 @@ export default function HomeContent() {
                 </div>
               </motion.div>
 
-              {/* Experience Card */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.9, duration: 0.5 }}
+                transition={{ delay: 0.6, duration: 0.5 }}
                 className="bg-blue-600 text-white rounded-3xl shadow-2xl p-5 w-64 self-start"
               >
                 <div className="flex items-center gap-3">
@@ -334,7 +369,6 @@ export default function HomeContent() {
           </div>
         </div>
 
-        {/* Wave bottom */}
         <div className="absolute bottom-0 inset-x-0">
           <svg viewBox="0 0 1440 80" fill="none" className="w-full" preserveAspectRatio="none">
             <path d="M0,40 C360,80 720,0 1080,40 C1260,60 1380,50 1440,40 L1440,80 L0,80 Z" fill="#F8FBFF" />
@@ -380,16 +414,13 @@ export default function HomeContent() {
               <Wrench className="w-4 h-4 mr-1.5" />
               طريقة شغلنا
             </Badge>
-            <h2 className="text-3xl md:text-4xl font-black text-blue-950 mb-3">
-              4 خطوات وبس
-            </h2>
+            <h2 className="text-3xl md:text-4xl font-black text-blue-950 mb-3">4 خطوات وبس</h2>
             <p className="text-slate-500 max-w-lg mx-auto text-lg">
               من المعاينة للتسليم - كل حاجة منظمة ومحسوبة
             </p>
           </div>
 
           <div className="relative max-w-4xl mx-auto">
-            {/* Vertical Line */}
             <div className="hidden md:block absolute right-1/2 top-0 bottom-0 w-px bg-blue-200 translate-x-1/2" />
 
             <div className="space-y-12 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-20 md:gap-y-16">
@@ -406,8 +437,11 @@ export default function HomeContent() {
                     variants={fadeUp}
                     className={`relative ${isEven ? "md:text-left" : "md:col-start-2 md:text-right"}`}
                   >
-                    {/* Number circle on line (desktop) */}
-                    <div className={`hidden md:flex absolute top-2 ${isEven ? "-left-[62px]" : "-right-[62px]"} w-10 h-10 bg-blue-700 text-white rounded-full items-center justify-center text-sm font-black z-10 shadow-lg shadow-blue-700/30`}>
+                    <div
+                      className={`hidden md:flex absolute top-2 ${
+                        isEven ? "-left-[62px]" : "-right-[62px]"
+                      } w-10 h-10 bg-blue-700 text-white rounded-full items-center justify-center text-sm font-black z-10 shadow-lg shadow-blue-700/30`}
+                    >
                       {step.num}
                     </div>
 
@@ -418,7 +452,9 @@ export default function HomeContent() {
                             <StepIcon className="w-7 h-7 text-blue-700 group-hover:text-white transition-colors duration-300" />
                           </div>
                           <div>
-                            <span className="md:hidden text-xs font-bold text-blue-600 mb-1 block">خطوة {step.num}</span>
+                            <span className="md:hidden text-xs font-bold text-blue-600 mb-1 block">
+                              خطوة {step.num}
+                            </span>
                             <h3 className="text-lg font-bold text-blue-950 mb-1">{step.title}</h3>
                             <p className="text-sm text-slate-500 leading-relaxed">{step.desc}</p>
                           </div>
@@ -446,12 +482,8 @@ export default function HomeContent() {
               <Package className="w-4 h-4 mr-1.5" />
               خدماتنا
             </Badge>
-            <h2 className="text-3xl md:text-4xl font-black text-white mb-3">
-              كل اللي اثاثك محتاجه
-            </h2>
-            <p className="text-blue-200/70 max-w-lg mx-auto text-lg">
-              6 خدمات متكاملة تغطي كل احتياجاتك
-            </p>
+            <h2 className="text-3xl md:text-4xl font-black text-white mb-3">كل اللي اثاثك محتاجه</h2>
+            <p className="text-blue-200/70 max-w-lg mx-auto text-lg">6 خدمات متكاملة تغطي كل احتياجاتك</p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -489,7 +521,6 @@ export default function HomeContent() {
       <section className="section-padding bg-white">
         <div className="container-custom">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Text Side */}
             <div>
               <Badge className="bg-blue-50 text-blue-700 border-blue-200 mb-4 px-4 py-1.5 text-sm">
                 <CheckCircle2 className="w-4 h-4 mr-1.5" />
@@ -523,7 +554,6 @@ export default function HomeContent() {
               </div>
             </div>
 
-            {/* Image Side */}
             <motion.div
               initial={{ opacity: 0, x: 40 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -534,7 +564,7 @@ export default function HomeContent() {
               <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl">
                 <Image
                   src="/images/gallery/photo_1_2026-08-16_14-31-37.jpg"
-                  alt="فريق مسك الختام"
+                  alt="فريق مسك الختام أثناء نقل أثاث"
                   fill
                   className="object-cover"
                   sizes="50vw"
@@ -542,7 +572,6 @@ export default function HomeContent() {
                 <div className="absolute inset-0 bg-gradient-to-t from-blue-950/30 to-transparent" />
               </div>
 
-              {/* Floating badge */}
               <div className="absolute -bottom-5 -left-5 bg-blue-700 text-white rounded-2xl p-4 shadow-xl">
                 <div className="flex items-center gap-3">
                   <Shield className="w-8 h-8 text-blue-300" />
@@ -565,9 +594,7 @@ export default function HomeContent() {
               <MapPin className="w-4 h-4 mr-1.5" />
               مناطق الخدمة
             </Badge>
-            <h2 className="text-3xl md:text-4xl font-black text-blue-950 mb-3">
-              موجودين في منطقتك
-            </h2>
+            <h2 className="text-3xl md:text-4xl font-black text-blue-950 mb-3">موجودين في منطقتك</h2>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -579,7 +606,9 @@ export default function HomeContent() {
                       <MapPin className="w-5 h-5 text-blue-600 group-hover:text-white transition-colors" />
                     </div>
                     <div>
-                      <h3 className="font-bold text-blue-950 text-sm group-hover:text-blue-700 transition-colors">{area.name}</h3>
+                      <h3 className="font-bold text-blue-950 text-sm group-hover:text-blue-700 transition-colors">
+                        {area.name}
+                      </h3>
                       <span className="text-[11px] text-slate-400">{area.compounds.length} كمبوند</span>
                     </div>
                   </div>
@@ -590,7 +619,10 @@ export default function HomeContent() {
 
           <div className="text-center mt-8">
             <Button variant="outline" className="border-blue-200 text-blue-700 hover:bg-blue-50 gap-2 rounded-xl" asChild>
-              <Link href="/areas">كل المناطق<ArrowLeft className="w-4 h-4" /></Link>
+              <Link href="/areas">
+                كل المناطق
+                <ArrowLeft className="w-4 h-4" />
+              </Link>
             </Button>
           </div>
         </div>
@@ -604,18 +636,11 @@ export default function HomeContent() {
               <Star className="w-4 h-4 mr-1.5 fill-amber-400" />
               آراء العملاء
             </Badge>
-            <h2 className="text-3xl md:text-4xl font-black text-blue-950">
-              عملاؤنا بيتكلموا
-            </h2>
+            <h2 className="text-3xl md:text-4xl font-black text-blue-950">عملاؤنا بيتكلموا</h2>
           </div>
 
           <div className="max-w-3xl mx-auto">
-            <motion.div
-              key={activeTestimonial}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
+            <motion.div key={activeTestimonial} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
               <Card className="border-blue-100/60 shadow-lg bg-white overflow-hidden">
                 <CardContent className="p-8 md:p-10 text-center">
                   <StarRating rating={currentTestimonial.rating} />
@@ -635,7 +660,6 @@ export default function HomeContent() {
               </Card>
             </motion.div>
 
-            {/* Dots */}
             <div className="flex justify-center gap-2 mt-6">
               {testimonials.map((_, i) => (
                 <button
@@ -651,7 +675,10 @@ export default function HomeContent() {
 
             <div className="text-center mt-6">
               <Button variant="outline" className="border-blue-200 text-blue-700 hover:bg-blue-50 gap-2 rounded-xl" asChild>
-                <Link href="/testimonials">كل الآراء<ArrowLeft className="w-4 h-4" /></Link>
+                <Link href="/testimonials">
+                  كل الآراء
+                  <ArrowLeft className="w-4 h-4" />
+                </Link>
               </Button>
             </div>
           </div>
@@ -664,30 +691,27 @@ export default function HomeContent() {
       {/* ═══════════════════════ FINAL CTA ═══════════════════════ */}
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0">
-          <Image
-            src="/images/services/bg-taghleef.webp"
-            alt="تغليف احترافي"
-            fill
-            className="object-cover"
-            sizes="100vw"
-          />
+          <Image src="/images/services/bg-taghleef.webp" alt="تغليف احترافي للأثاث" fill className="object-cover" sizes="100vw" />
           <div className="absolute inset-0 bg-blue-950/90" />
         </div>
 
         <div className="container-custom text-center space-y-6 relative z-10">
           <h2 className="text-3xl md:text-5xl font-black text-white">جاهز تنقل؟</h2>
-          <p className="text-blue-200 max-w-md mx-auto text-lg">
-            كلمنا دلوقتي والمعاينة مجانية وعرض السعر فوري.
-          </p>
+          <p className="text-blue-200 max-w-md mx-auto text-lg">كلمنا دلوقتي والمعاينة مجانية وعرض السعر فوري.</p>
           <div className="flex flex-wrap justify-center gap-3">
             <Button size="lg" className="bg-white text-blue-900 hover:bg-blue-50 gap-2 text-base h-13 px-8 rounded-2xl font-bold shadow-xl" asChild>
-              <a href={`tel:${siteConfig.phone}`}>
+              <a href={`tel:${siteConfig.phone}`} onClick={() => trackConversion("call")}>
                 <Phone className="w-5 h-5" />
                 اتصل دلوقتي
               </a>
             </Button>
             <Button size="lg" className="bg-blue-500 hover:bg-blue-600 text-white gap-2 text-base h-13 px-8 rounded-2xl shadow-xl shadow-blue-500/25" asChild>
-              <a href={`https://wa.me/${siteConfig.whatsapp}`} target="_blank" rel="noopener noreferrer">
+              <a
+                href={`https://wa.me/${siteConfig.whatsapp}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackConversion("whatsapp")}
+              >
                 <MessageCircle className="w-5 h-5" />
                 واتساب
               </a>
@@ -695,6 +719,36 @@ export default function HomeContent() {
           </div>
         </div>
       </section>
+
+      {/* ═══════════════════════ STICKY MOBILE CALL BAR ═══════════════════════
+          أهم إضافة لتحويل الزيارة المدفوعة: طريقة اتصال دايمًا في متناول
+          اليد أثناء السكرول، مش بس في أول وآخر الصفحة */}
+      <div
+        className={`fixed bottom-0 inset-x-0 z-50 lg:hidden transition-transform duration-300 ${
+          showStickyBar ? "translate-y-0" : "translate-y-full"
+        }`}
+      >
+        <div className="grid grid-cols-2 shadow-[0_-4px_20px_rgba(0,0,0,0.15)]">
+          <a
+            href={`tel:${siteConfig.phone}`}
+            onClick={() => trackConversion("call")}
+            className="flex items-center justify-center gap-2 bg-blue-600 text-white py-4 font-bold text-base"
+          >
+            <Phone className="w-5 h-5" />
+            اتصل دلوقتي
+          </a>
+          <a
+            href={`https://wa.me/${siteConfig.whatsapp}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => trackConversion("whatsapp")}
+            className="flex items-center justify-center gap-2 bg-emerald-500 text-white py-4 font-bold text-base"
+          >
+            <MessageCircle className="w-5 h-5" />
+            واتساب
+          </a>
+        </div>
+      </div>
     </>
   );
 }
