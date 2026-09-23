@@ -39,25 +39,10 @@ import { QuoteDialog } from "@/components/shared/QuoteDialog";
 import { InlineQuoteForm } from "@/components/shared/InlineQuoteForm";
 
 /* ─────────────────────────────────────────────────────────────
-   CONVERSION TRACKING
-   استبدل AW-XXXXXXXXX/YYYYYYYY برقم التحويل الحقيقي بتاعك من
-   Google Ads (Conversions → Phone calls / Clicks). من غير السطر
-   ده، مكالمات وواتساب مش بتتسجل كتحويل في الحساب خالص.
+   تم استدعاء دوال التتبع المربوطة بـ GTM والتي ستُرسل الأحداث
+   إلى Google Ads مباشرة وبدون أخطاء
    ───────────────────────────────────────────────────────────── */
-function trackConversion(label: "call" | "whatsapp" | "quote_form") {
-  if (typeof window === "undefined") return;
-  // GA4 / dataLayer event — يوصل لأي وسم متربط بالـ dataLayer
-  (window as any).dataLayer = (window as any).dataLayer || [];
-  (window as any).dataLayer.push({ event: "generate_lead", lead_type: label });
-  // Google Ads conversion tag — فعّلها بعد ما تحط رقم التحويل الحقيقي
-  if (typeof (window as any).gtag === "function") {
-    (window as any).gtag("event", "conversion", {
-      send_to: `AW-XXXXXXXXX/${
-        label === "call" ? "CALL_LABEL" : label === "whatsapp" ? "WHATSAPP_LABEL" : "FORM_LABEL"
-      }`,
-    });
-  }
-}
+import { trackPhoneCall, trackWhatsApp, trackQuoteRequest } from "@/lib/analytics/events";
 
 /* ───── Animated Counter ───── */
 function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: string }) {
@@ -163,8 +148,6 @@ export default function HomeContent() {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [showStickyBar, setShowStickyBar] = useState(false);
 
-  // كاروسيل التقييمات — آمن من غير مانع رندر، لأن testimonials[0]
-  // نفس القيمة على السيرفر والعميل (مفيش hydration mismatch)
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveTestimonial((prev) => (prev + 1) % testimonials.length);
@@ -172,7 +155,6 @@ export default function HomeContent() {
     return () => clearInterval(interval);
   }, []);
 
-  // شريط الاتصال الثابت يظهر بعد ما المستخدم ينزل تحت الـHero
   useEffect(() => {
     const onScroll = () => setShowStickyBar(window.scrollY > 480);
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -183,8 +165,7 @@ export default function HomeContent() {
 
   return (
     <>
-      {/* JSON-LD: بيانات منظّمة لشركة نقل أثاث — تساعد في نتائج البحث
-          المجانية والخرائط، ومنفصلة تمامًا عن أداء الإعلانات المدفوعة */}
+      {/* JSON-LD: بيانات منظّمة لشركة نقل أثاث */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -192,7 +173,7 @@ export default function HomeContent() {
             "@context": "https://schema.org",
             "@type": "MovingCompany",
             name: siteConfig.name,
-            image: siteConfig.logo,
+            image: `${siteConfig.url}/logo.jpeg`, // تم حل مشكلة Type Error هنا
             telephone: siteConfig.phone,
             areaServed: areas.map((a) => a.name),
             aggregateRating: {
@@ -227,16 +208,12 @@ export default function HomeContent() {
 
         <div className="container-custom relative z-10 py-20">
           <div className="grid lg:grid-cols-12 gap-8 items-center">
-            {/* Text - takes 7 cols. مفيش framer-motion على العناصر دي —
-                دي أهم حاجة في الصفحة لمستخدم جاي من إعلان مدفوع، لازم
-                تترسم فورًا من غير ما تستنى تحميل JS (بيأثر على LCP) */}
             <div className="lg:col-span-7 space-y-7">
               <Badge className="bg-white/10 backdrop-blur-md text-white border-white/20 text-sm px-4 py-2 gap-2">
                 <CircleCheckBig className="w-4 h-4 text-blue-400" />
                 +{siteConfig.completedMoves} نقلة ناجحة في القاهرة الكبرى
               </Badge>
 
-              {/* H1 بيحمل الكلمة المفتاحية الأساسية + هوية البراند مع بعض */}
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[3.6rem] font-black text-white leading-[1.1] tracking-tight">
                 شركة نقل عفش وأثاث
                 <span className="block text-blue-400 mt-1">نقلتك في ايد امينة</span>
@@ -254,7 +231,8 @@ export default function HomeContent() {
                   className="bg-blue-500 hover:bg-blue-600 text-white gap-2 text-base h-13 px-7 shadow-xl shadow-blue-500/25 rounded-2xl"
                   asChild
                 >
-                  <a href={`tel:${siteConfig.phone}`} onClick={() => trackConversion("call")}>
+                  {/* تم ربط الحدث هنا */}
+                  <a href={`tel:${siteConfig.phone}`} onClick={() => trackPhoneCall("home_hero")}>
                     <Phone className="w-5 h-5" />
                     اتصل دلوقتي
                   </a>
@@ -264,11 +242,12 @@ export default function HomeContent() {
                   className="bg-white text-blue-900 hover:bg-blue-50 gap-2 text-base h-13 px-7 rounded-2xl font-bold"
                   asChild
                 >
+                  {/* تم ربط الحدث هنا */}
                   <a
                     href={`https://wa.me/${siteConfig.whatsapp}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={() => trackConversion("whatsapp")}
+                    onClick={() => trackWhatsApp("home_hero")}
                   >
                     <MessageCircle className="w-5 h-5" />
                     واتساب
@@ -277,7 +256,7 @@ export default function HomeContent() {
                 <QuoteDialog
                   trigger={
                     <div
-                      onClick={() => trackConversion("quote_form")}
+                      onClick={() => trackQuoteRequest("home_hero")}
                       className="inline-flex h-13 items-center justify-center gap-2 rounded-2xl border-2 border-white/30 bg-white/5 backdrop-blur-sm px-7 text-base font-medium text-white transition-all hover:bg-white/15 cursor-pointer"
                     >
                       <Send className="w-5 h-5" />
@@ -287,8 +266,6 @@ export default function HomeContent() {
                 />
               </div>
 
-              {/* Trust Ticker — الونش مضاف كتاچ واضح لأنه أفضل كلمة تحويل
-                  في حملة الإعلانات الحالية */}
               <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-4">
                 {[
                   { icon: Shield, text: "ضمان شامل" },
@@ -307,8 +284,6 @@ export default function HomeContent() {
               </div>
             </div>
 
-            {/* Floating Cards - takes 5 cols. الأنيميشن هنا مقبول لأنها
-                عناصر ثانوية مش جزء من الـLCP */}
             <div className="hidden lg:flex lg:col-span-5 flex-col items-center gap-5 relative">
               <motion.div
                 initial={{ opacity: 0, scale: 0.8, y: -20 }}
@@ -376,7 +351,7 @@ export default function HomeContent() {
         </div>
       </section>
 
-      {/* ═══════════════════════ STATS (Counter) ═══════════════════════ */}
+      {/* ═══════════════════════ STATS ═══════════════════════ */}
       <section className="py-16 bg-[#F8FBFF]">
         <div className="container-custom">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
@@ -700,17 +675,19 @@ export default function HomeContent() {
           <p className="text-blue-200 max-w-md mx-auto text-lg">كلمنا دلوقتي والمعاينة مجانية وعرض السعر فوري.</p>
           <div className="flex flex-wrap justify-center gap-3">
             <Button size="lg" className="bg-white text-blue-900 hover:bg-blue-50 gap-2 text-base h-13 px-8 rounded-2xl font-bold shadow-xl" asChild>
-              <a href={`tel:${siteConfig.phone}`} onClick={() => trackConversion("call")}>
+              {/* تم ربط الحدث هنا */}
+              <a href={`tel:${siteConfig.phone}`} onClick={() => trackPhoneCall("home_cta")}>
                 <Phone className="w-5 h-5" />
                 اتصل دلوقتي
               </a>
             </Button>
             <Button size="lg" className="bg-blue-500 hover:bg-blue-600 text-white gap-2 text-base h-13 px-8 rounded-2xl shadow-xl shadow-blue-500/25" asChild>
+              {/* تم ربط الحدث هنا */}
               <a
                 href={`https://wa.me/${siteConfig.whatsapp}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => trackConversion("whatsapp")}
+                onClick={() => trackWhatsApp("home_cta")}
               >
                 <MessageCircle className="w-5 h-5" />
                 واتساب
@@ -720,9 +697,7 @@ export default function HomeContent() {
         </div>
       </section>
 
-      {/* ═══════════════════════ STICKY MOBILE CALL BAR ═══════════════════════
-          أهم إضافة لتحويل الزيارة المدفوعة: طريقة اتصال دايمًا في متناول
-          اليد أثناء السكرول، مش بس في أول وآخر الصفحة */}
+      {/* ═══════════════════════ STICKY MOBILE CALL BAR ═══════════════════════ */}
       <div
         className={`fixed bottom-0 inset-x-0 z-50 lg:hidden transition-transform duration-300 ${
           showStickyBar ? "translate-y-0" : "translate-y-full"
@@ -731,7 +706,7 @@ export default function HomeContent() {
         <div className="grid grid-cols-2 shadow-[0_-4px_20px_rgba(0,0,0,0.15)]">
           <a
             href={`tel:${siteConfig.phone}`}
-            onClick={() => trackConversion("call")}
+            onClick={() => trackPhoneCall("mobile_sticky")}
             className="flex items-center justify-center gap-2 bg-blue-600 text-white py-4 font-bold text-base"
           >
             <Phone className="w-5 h-5" />
@@ -741,7 +716,7 @@ export default function HomeContent() {
             href={`https://wa.me/${siteConfig.whatsapp}`}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => trackConversion("whatsapp")}
+            onClick={() => trackWhatsApp("mobile_sticky")}
             className="flex items-center justify-center gap-2 bg-emerald-500 text-white py-4 font-bold text-base"
           >
             <MessageCircle className="w-5 h-5" />
